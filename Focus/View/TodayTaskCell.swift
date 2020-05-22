@@ -8,16 +8,17 @@
 
 import UIKit
 
-protocol NewTodayTaskCellDelegate {
-  func newTodayTask(_ cell: TodayTaskCell, newTaskCreated newTask: String)
-  func newBlankTodayTask(_ cell: TodayGoalCell)
-  func newTodayTaskCompleted(_ cell: TodayTaskCell, completionChanged completion: Bool)
+protocol TodayTaskCellDelegate {
+  func todayTask( _ cell: TodayTaskCell, newTaskCreated newTask: String)
+  func todayTask(_ cell: TodayTaskCell, completionChanged completion: Bool)
 }
 
 class TodayTaskCell: UITableViewCell, UITextFieldDelegate {
   
   //MARK: - Properties
-  var delegate: NewTodayTaskCellDelegate?
+  var delegate: TodayTaskCellDelegate?
+  public static let reuseIdentifier = "TodayTaskCell"
+
   
   //MARK: - IBOutlets
   @IBOutlet weak var todayTask: UITextField!
@@ -36,8 +37,9 @@ class TodayTaskCell: UITableViewCell, UITextFieldDelegate {
     
     todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
     todayTaskCompleted.tintColor = .lightGray
-//    todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .selected)
-//    todayTaskCompleted.tintColor = .systemOrange
+    let backgroundView = UIView()
+    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
+    self.selectedBackgroundView = backgroundView
   }
   
   //MARK: - Helper Functions
@@ -48,7 +50,8 @@ class TodayTaskCell: UITableViewCell, UITextFieldDelegate {
   
   func processInput() {
     if let todayText = fetchInput() {
-      delegate?.newTodayTask(self, newTaskCreated: todayText)
+      // call delegate method to update datamodel
+      delegate?.todayTask(self, newTaskCreated: todayText)
     }
     todayTask.text = ""
     todayTask.resignFirstResponder()
@@ -67,7 +70,6 @@ class TodayTaskCell: UITableViewCell, UITextFieldDelegate {
   }
   
   @IBAction func todayTaskTapped(_ sender: UIButton) {
-    // Tint color, etc should be handled by delegate method in the ViewController
     todayTaskCompleted.isSelected.toggle()
     if todayTaskCompleted.isSelected {
       todayTaskCompleted.tintColor = .systemOrange
@@ -75,6 +77,7 @@ class TodayTaskCell: UITableViewCell, UITextFieldDelegate {
     } else {
       todayTaskCompleted.tintColor = .systemGray6
     }
-    delegate?.newTodayTaskCompleted(self, completionChanged: todayTaskCompleted.isSelected)
+    // call delegate method to update datamodel
+    delegate?.todayTask(self, completionChanged: todayTaskCompleted.isSelected)
   }
 }

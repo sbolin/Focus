@@ -8,15 +8,16 @@
 
 import UIKit
 
-protocol NewTodayGoalCellDelegate {
-  func newTodayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String)
-  func goalCompleted(_ cell: TodayGoalCell, completionChanged completion: Bool)
+protocol TodayGoalCellDelegate {
+  func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String)
+  func todayGoal(_ cell: TodayGoalCell) -> Bool
 }
 
 class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   
   //MARK: - Properties
-  var delegate: NewTodayGoalCellDelegate?
+  var delegate: TodayGoalCellDelegate?
+  public static let reuseIdentifier = "TodayGoalCell"
   
   //MARK: - IBOutlets
   @IBOutlet weak var todayGoal: UITextField!
@@ -35,8 +36,10 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
     
     todayGoalCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
     todayGoalCompleted.tintColor = .systemGray6
-//    todayGoalCompleted.setImage(UIImage(named: "fav_star"), for: .selected)
-//    todayGoalCompleted.tintColor = .systemOrange
+    
+    let backgroundView = UIView()
+    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
+    self.selectedBackgroundView = backgroundView
   }
   
   //MARK: - Helper Functions
@@ -47,7 +50,8 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   
   func processInput() {
     if let todayGoal = fetchInput() {
-      delegate?.newTodayGoal(self, newGoalCreated: todayGoal)
+      // call cell delegate method to update datamodel
+      delegate?.todayGoal(self, newGoalCreated: todayGoal)
     }
     todayGoal.text = ""
     todayGoal.resignFirstResponder()
@@ -60,16 +64,16 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
     return nil
   }
   
-  // goalComplete() is just a placeholder - this delegate method should be called in the ViewController when all the associated tasks are completed.
-  
+  //Mark: Helper, call datamodel to check if all tasks are completed. If so, mark goal as completed and update UI
   func goalCompleted() {
-    // Tint color, etc should be handled by delegate method in the ViewController
-    todayGoalCompleted.isSelected.toggle()
-    if todayGoalCompleted.isSelected {
-      todayGoalCompleted.tintColor = .systemOrange
-      todayGoalCompleted.whirl()
+    // call delegate method, returns Bool for goal completion status
+    if let goalIsCompleted = delegate?.todayGoal(self) {
+      if goalIsCompleted {
+        todayGoalCompleted.isSelected.toggle()
+        todayGoalCompleted.tintColor = .systemOrange
+        todayGoalCompleted.whirl()
+      }
     }
-    delegate?.goalCompleted(self, completionChanged: todayGoalCompleted.isSelected)
   }
   
   //MARK:- IBActions

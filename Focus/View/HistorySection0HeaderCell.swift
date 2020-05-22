@@ -8,18 +8,22 @@
 
 import UIKit
 
-class HistorySection0HeaderCell: UITableViewCell {
+class HistorySection0HeaderCell: UITableViewHeaderFooterView {
+  
+  //MARK: - Properties
+  public static let reuseIdentifier = "HistorySection0HeaderCell"
 
+  //MARK: - IBOutlets
   @IBOutlet weak var historySection0Label: UILabel!
   @IBOutlet weak var historySection0Button: UIButton!
-  /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
+  
+  //MARK: - View Life Cycle
+  override func awakeFromNib() {
+    super.awakeFromNib()
+    
+  }
+  
+  //MARK: - IBActions
   @IBAction func historySection0ButtonTapped(_ sender: UIButton) {
   }
   

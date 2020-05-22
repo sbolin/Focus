@@ -100,13 +100,15 @@ class CoreDataStack {
     }
   }
   
-  func createTodo(todoName: String, for goal: Goal) -> ToDo? {
+  //TODO: should be:
+  //  func createTodo(todoName: String, for goal: Goal) -> ToDo?
+  func createTodo(todoName: String) -> ToDo? {
     let context = persistentContainer.viewContext
     
     // create todo
     let todoObject = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: context) as! ToDo
     
-    todoObject.goal = goal
+//    todoObject.goal = goal
     todoObject.todo = todoName
     todoObject.todoCompleted = false
     todoObject.todoDateCreated = Date()

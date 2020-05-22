@@ -9,20 +9,23 @@
 import UIKit
 
 class HistoryViewController: UIViewController {
-  
-  //MARK: - Properties
-  
-  let goals = [Goal]()
-
-  //MARK:- IBOutlets
-  @IBOutlet weak var historyTableView: UITableView!
-  
-  //MARK: - View Life Cycle
-  override func viewDidLoad() {
+    
+    //MARK: - Properties
+    let historyDataSource = HistoryViewDataSource()
+    let delegate = HistoryViewDelegate()
+    
+    
+    //MARK:- IBOutlets
+    @IBOutlet weak var historyTableView: UITableView!
+    
+    //MARK: - View Life Cycle
+    override func viewDidLoad() {
         super.viewDidLoad()
-
+        historyTableView.dataSource = historyDataSource
+        historyTableView.delegate = delegate
+        
         // Do any additional setup after loading the view.
     }
-
-
+    
+    
 }

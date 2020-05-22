@@ -8,16 +8,18 @@
 
 import UIKit
 
-class TodaySection0HeaderCell: UITableViewCell {
+class TodaySection0HeaderCell: UITableViewHeaderFooterView {
 
+  //MARK: - Properties
+  public static let reuseIdentifier = "TodaySection0HeaderCell"
+  
+  //MARK: - IBOutlets
   @IBOutlet weak var todaySection0Label: UILabel!
   
-  /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+  //MARK: - View Life Cycle
+  override func awakeFromNib() {
+    super.awakeFromNib()
+    
+  }
 
 }

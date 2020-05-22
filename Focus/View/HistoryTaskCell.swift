@@ -9,21 +9,17 @@
 import UIKit
 
 class HistoryTaskCell: UITableViewCell {
-
+  
+  //MARK: - Properties
+  public static let reuseIdentifier = "HistoryTaskCell"
+  
+  //MARK: - IBOutlets
   @IBOutlet weak var historyTask: UITextField!
   @IBOutlet weak var historyTaskCompleted: UIButton!
   
   override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    super.awakeFromNib()
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+  }
   
-  
-
 }

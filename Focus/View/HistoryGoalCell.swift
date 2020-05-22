@@ -9,19 +9,18 @@
 import UIKit
 
 class HistoryGoalCell: UITableViewCell {
-
+  
+  //MARK: - Properties
+  public static let reuseIdentifier = "HistoryGoalCell"
+  
+  //MARK: - IBOutlets
   @IBOutlet weak var historyGoal: UITextField!
   @IBOutlet weak var historyGoalCompleted: UIButton!
   
+  //MARK: - View Life Cycle
   override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
+    super.awakeFromNib()
+    
+  }
+  
 }

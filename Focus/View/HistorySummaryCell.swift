@@ -9,13 +9,17 @@
 import UIKit
 
 class HistorySummaryCell: UITableViewCell {
-
+  
+  //MARK: - Properties
+  public static let reuseIdentifier = "HistorySummaryCell"
+  
+  //MARK: - IBOutlets
   @IBOutlet weak var historySummaryCellLabel: UILabel!
   
+  //MARK: - View Life Cycle
   override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-
+    super.awakeFromNib()
+    
+  }
+  
 }
