@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class TodayViewDataSource: NSObject, UITableViewDataSource,  NSFetchedResultsControllerDelegate {
+class TodayViewDataSource: NSObject, UITableViewDataSource {
 
   lazy var coreDataStack = CoreDataStack(modelName: "Focus")
 //  let goals = [Goal]()
@@ -30,7 +30,7 @@ class TodayViewDataSource: NSObject, UITableViewDataSource,  NSFetchedResultsCon
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let section = indexPath.section
-    let goalObject = coreDataStack.fetchTodayTodoGoal().object(at: indexPath)
+    let goalObject = coreDataStack.fetchTodayTaskGoal().object(at: indexPath)
     let todos = goalObject.todos.allObjects as? [ToDo]
     if section == 0 {
       // section 0 is for Today's goal:
@@ -56,32 +56,54 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   
   //MARK: TodayGoalCellDelegate Methods
   func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String) {
-    
+    guard let tableViewContainer = cell.tableView else { return }
+    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
+    let newGoal = coreDataStack.createGoals(goalName: newGoal)
+    newGoal?.goalDateCreated = Date()
+    newGoal?.goalCompleted = false
+    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
+//    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
+    coreDataStack.saveContext()
   }
   
   func todayGoal(_ cell: TodayGoalCell) -> Bool {
-    return false
+    // check if all tasks completed or not
+    //TODO: returning false isn't correct, not sure what it should be?
+    guard let tableViewContainer = cell.tableView else { return false }
+    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return false }
+    let goalObject = coreDataStack.fetchTodayTaskGoal().object(at: indexPath)
+    guard let todos = goalObject.todos.allObjects as? [ToDo] else { return false }
+    
+    let todosCount = todos.count
+    let todosDoneCount = todos.filter { (task) -> Bool in
+      return task.todoCompleted == true
+    }.count
+    return todosDoneCount == todosCount
   }
   
   //MARK: TodayTaskCellDelegate Methods
   func todayTask(_ cell: TodayTaskCell, newTaskCreated newTask: String) {
+    //TODO: Check if tasks already exists, if so update task else create new task
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     let newTask = coreDataStack.createTodo(todoName: newTask)
     newTask?.todoDateCreated = Date()
     newTask?.todoCompleted = false
-    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
+    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
+//    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
     coreDataStack.saveContext()
   }
   
   func todayTask(_ cell: TodayTaskCell, completionChanged completion: Bool) {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    let goalObject = coreDataStack.fetchTodayTodoGoal().object(at: indexPath)
+    let goalObject = coreDataStack.fetchTodayTaskGoal().object(at: indexPath)
     guard let todos = goalObject.todos.allObjects as? [ToDo] else { return }
     let task = todos[indexPath.row]
     task.todoCompleted = completion
+    if completion {
     task.todoDateCompleted = Date()
+    }
     coreDataStack.saveContext()
   }
 }

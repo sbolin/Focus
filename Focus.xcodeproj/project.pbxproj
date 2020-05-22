@@ -19,6 +19,7 @@
 		1509A195246EAF1400FF01A1 /* HistoryFinalHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A194246EAF1400FF01A1 /* HistoryFinalHeaderCell.swift */; };
 		1509A197246F011C00FF01A1 /* TodayViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A196246F011C00FF01A1 /* TodayViewDataSource.swift */; };
 		157A9570247706E30010AD9C /* UITableViewCell+ReturnUITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A956F247706E30010AD9C /* UITableViewCell+ReturnUITableView.swift */; };
+		157A9572247849730010AD9C /* Time+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A9571247849730010AD9C /* Time+Date.swift */; };
 		15A76620246FB45B00B90B3B /* HistoryViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7661F246FB45B00B90B3B /* HistoryViewDataSource.swift */; };
 		15A76622247044B100B90B3B /* TodayViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A76621247044B100B90B3B /* TodayViewDelegate.swift */; };
 		15A7662424704B0500B90B3B /* HistoryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7662324704B0500B90B3B /* HistoryViewDelegate.swift */; };
@@ -64,6 +65,7 @@
 		1509A194246EAF1400FF01A1 /* HistoryFinalHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryFinalHeaderCell.swift; sourceTree = "<group>"; };
 		1509A196246F011C00FF01A1 /* TodayViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewDataSource.swift; sourceTree = "<group>"; };
 		157A956F247706E30010AD9C /* UITableViewCell+ReturnUITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+ReturnUITableView.swift"; sourceTree = "<group>"; };
+		157A9571247849730010AD9C /* Time+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Time+Date.swift"; sourceTree = "<group>"; };
 		15A7661F246FB45B00B90B3B /* HistoryViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewDataSource.swift; sourceTree = "<group>"; };
 		15A76621247044B100B90B3B /* TodayViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewDelegate.swift; sourceTree = "<group>"; };
 		15A7662324704B0500B90B3B /* HistoryViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewDelegate.swift; sourceTree = "<group>"; };
@@ -187,12 +189,13 @@
 				1509A196246F011C00FF01A1 /* TodayViewDataSource.swift */,
 				15A76621247044B100B90B3B /* TodayViewDelegate.swift */,
 				15F48AA4245AB4670012C415 /* HistoryViewController.swift */,
-				15A7662324704B0500B90B3B /* HistoryViewDelegate.swift */,
 				15A7661F246FB45B00B90B3B /* HistoryViewDataSource.swift */,
+				15A7662324704B0500B90B3B /* HistoryViewDelegate.swift */,
 				15F48AAE245AB8310012C415 /* ProgressViewController.swift */,
 				15F48AB8245ADBB20012C415 /* MainTabBarController.swift */,
 				15A76625247053E900B90B3B /* NotificationController.swift */,
 				157A956F247706E30010AD9C /* UITableViewCell+ReturnUITableView.swift */,
+				157A9571247849730010AD9C /* Time+Date.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				1509A193246EA7A800FF01A1 /* TodaySection1HeaderCell.swift in Sources */,
 				15F48AA3245AB4530012C415 /* TodayViewController.swift in Sources */,
 				15A7662424704B0500B90B3B /* HistoryViewDelegate.swift in Sources */,
+				157A9572247849730010AD9C /* Time+Date.swift in Sources */,
 				1509A18D246EA70700FF01A1 /* HistorySummaryCell.swift in Sources */,
 				15F48A9F245A7D5E0012C415 /* CoreDataStack.swift in Sources */,
 				1509A18B246EA6A500FF01A1 /* HistorySection0HeaderCell.swift in Sources */,

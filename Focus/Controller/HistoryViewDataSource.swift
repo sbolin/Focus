@@ -13,6 +13,7 @@ class HistoryViewDataSource: NSObject, UITableViewDataSource, NSFetchedResultsCo
   
   lazy var coreDataStack = CoreDataStack(modelName: "Focus")
   
+  
   func numberOfSections(in tableView: UITableView) -> Int {
     return 10 // hold for now
   }

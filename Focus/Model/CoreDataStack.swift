@@ -41,16 +41,17 @@ class CoreDataStack {
       print("Unresolved error \(error), \(error.localizedDescription)")
     }
   }
+  
   func fetchAllGoals() -> NSFetchedResultsController<Goal> {
     let context = persistentContainer.viewContext
-    let fetchRequest = NSFetchRequest<Goal>(entityName: "Goal")
+    let fetchRequest = Goal.fetchGoalRequest()
     
     fetchRequest.sortDescriptors = [NSSortDescriptor(key: "goalDateCompleted", ascending: false)]
     
     let fetchRequestController = NSFetchedResultsController(
       fetchRequest: fetchRequest,
       managedObjectContext: context,
-      sectionNameKeyPath: nil,
+      sectionNameKeyPath: nil,  // is this correct?
       cacheName: nil)
     
     do {
@@ -61,9 +62,39 @@ class CoreDataStack {
     return fetchRequestController
   }
   
-  func fetchTodayTodoGoal() -> NSFetchedResultsController<Goal> {
+  func fetchGoalsByMonth() -> NSFetchedResultsController<Goal> {
+    let context = persistentContainer.viewContext
+    let fetchRequest = Goal.fetchGoalRequest()
+    
+    fetchRequest.sortDescriptors = [NSSortDescriptor(key: "goalDateCompleted", ascending: false)]
+        
+    let fetchRequestController = NSFetchedResultsController(
+      fetchRequest: fetchRequest,
+      managedObjectContext: context,
+      sectionNameKeyPath: #keyPath(Goal.groupByMonth),
+      cacheName: nil)
+    
+    return fetchRequestController
+  }
+  
+  func fetchGoalsByWeek() -> NSFetchedResultsController<Goal> {
+    let context = persistentContainer.viewContext
+    let fetchRequest = Goal.fetchGoalRequest()
+    
+    fetchRequest.sortDescriptors = [NSSortDescriptor(key: "goalDateCompleted", ascending: false)]
+    
+    let fetchRequestController = NSFetchedResultsController(
+      fetchRequest: fetchRequest,
+      managedObjectContext: context,
+      sectionNameKeyPath: #keyPath(Goal.groupByWeek),
+      cacheName: nil)
+    
+    return fetchRequestController
+  }
+  
+  func fetchTodayTaskGoal() -> NSFetchedResultsController<Goal> {
    let context = persistentContainer.viewContext
-   let fetchRequest = NSFetchRequest<Goal>(entityName: "Goal")
+   let fetchRequest = Goal.fetchGoalRequest()
     
     fetchRequest.sortDescriptors = [NSSortDescriptor(key: "goalDateCompleted", ascending: false)]
     
@@ -90,6 +121,7 @@ class CoreDataStack {
     goalObject.goal = goalName
     goalObject.goalCompleted = false
     goalObject.goalDateCreated = Date()
+    goalObject.addToTodos(createTodo(todoName: "ToDo")!)
     
     do {
       try context.save()
@@ -100,7 +132,7 @@ class CoreDataStack {
     }
   }
   
-  //TODO: should be:
+  //TODO: should be?:
   //  func createTodo(todoName: String, for goal: Goal) -> ToDo?
   func createTodo(todoName: String) -> ToDo? {
     let context = persistentContainer.viewContext
