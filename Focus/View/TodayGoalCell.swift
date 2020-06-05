@@ -10,7 +10,6 @@ import UIKit
 
 protocol TodayGoalCellDelegate {
   func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String)
-  func todayGoal(_ cell: TodayGoalCell) -> Bool
 }
 
 class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
@@ -26,7 +25,6 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   //MARK: - View Life Cycle
   override func awakeFromNib() {
     super.awakeFromNib()
-    
     configure()
   }
   
@@ -36,10 +34,23 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
     
     todayGoalCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
     todayGoalCompleted.tintColor = .systemGray6
-    
     let backgroundView = UIView()
     backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
     self.selectedBackgroundView = backgroundView
+  }
+  
+  func configureTodayGoalCell(at indexPath: IndexPath, for goal: Goal) {
+    todayGoal.text = goal.goal
+    todayGoalCompleted.isSpringLoaded = goal.goalCompleted
+    if goal.goalCompleted {
+      todayGoalCompleted.whirl()
+    }
+    toggleButtonColor()
+  }
+  
+  func toggleButtonColor() {
+    todayGoalCompleted.isSelected ? (todayGoalCompleted.tintColor = .systemOrange) :
+      (todayGoalCompleted.tintColor = .systemGray6)
   }
   
   //MARK: - Helper Functions
@@ -62,18 +73,6 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
       return textCapture.count > 0 ? textCapture : nil
     }
     return nil
-  }
-  
-  //Mark: Helper, call datamodel to check if all tasks are completed. If so, mark goal as completed and update UI
-  func goalCompleted() {
-    // call delegate method, returns Bool for goal completion status
-    if let goalIsCompleted = delegate?.todayGoal(self) {
-      if goalIsCompleted {
-        todayGoalCompleted.isSelected.toggle()
-        todayGoalCompleted.tintColor = .systemOrange
-        todayGoalCompleted.whirl()
-      }
-    }
   }
   
   //MARK:- IBActions

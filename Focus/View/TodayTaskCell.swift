@@ -36,10 +36,23 @@ class TodayTaskCell: UITableViewCell, UITextFieldDelegate {
     todayTask.delegate = self
     
     todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
-    todayTaskCompleted.tintColor = .lightGray
+    todayTaskCompleted.tintColor = .systemGray6
     let backgroundView = UIView()
     backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
     self.selectedBackgroundView = backgroundView
+  }
+  
+  func configureTodayTaskCell(at indexPath: IndexPath, for todo: ToDo) {
+    let todoCount = todo.goal.todos.count
+    todayTask.text = todo.todo
+    todayTaskCompleted.isSelected = todo.todoCompleted
+    todayTaskNumber.image =  UIImage(systemName: "\(todoCount).circle.fill")
+    toggleButtonColor()
+  }
+  
+  func toggleButtonColor() {
+    todayTaskCompleted.isSelected ? (todayTaskCompleted.tintColor = .systemOrange) :
+      (todayTaskCompleted.tintColor = .systemGray6)
   }
   
   //MARK: - Helper Functions
@@ -71,11 +84,9 @@ class TodayTaskCell: UITableViewCell, UITextFieldDelegate {
   
   @IBAction func todayTaskTapped(_ sender: UIButton) {
     todayTaskCompleted.isSelected.toggle()
+    toggleButtonColor()
     if todayTaskCompleted.isSelected {
-      todayTaskCompleted.tintColor = .systemOrange
       todayTaskCompleted.wiggle()
-    } else {
-      todayTaskCompleted.tintColor = .systemGray6
     }
     // call delegate method to update datamodel
     delegate?.todayTask(self, completionChanged: todayTaskCompleted.isSelected)

@@ -13,7 +13,7 @@ import CoreData
 
 extension Goal {
 
-    @nonobjc public class func fetchGoalRequest() -> NSFetchRequest<Goal> {
+    @nonobjc public class func goalFetchRequest() -> NSFetchRequest<Goal> {
         return NSFetchRequest<Goal>(entityName: "Goal")
     }
 
@@ -22,7 +22,7 @@ extension Goal {
     @NSManaged public var goalDateCompleted: Date?
     @NSManaged public var goalDateCreated: Date
     @NSManaged public var goalID: Int32
-    @NSManaged public var todos: NSSet
+    @NSManaged public var todos: Set<ToDo>//NSSet
 
 }
 

@@ -7,24 +7,41 @@
 //
 
 import UIKit
+import CoreData
 
 class TodayViewController: UIViewController {
   
   //MARK: - Properties
-  let dataSource = TodayViewDataSource()
   let todayViewdelegate = TodayViewDelegate()
-  
-  fileprivate let dateFormatter = DateFormatter()
-  
+  var dataSource: TodayViewDataSource<ToDo, TodayViewController>!
+  var fetchedResultsController: NSFetchedResultsController<ToDo>!
+  var predicate: NSPredicate?
+    
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
   
   //MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    todayTableView.dataSource = dataSource
+    CoreDataController.shared.createToDosIfNeeded()
+    setupTableView()
     todayTableView.delegate = todayViewdelegate
     registerForKeyboardNotifications()
+    
+  }
+  
+  func setupTableView() {
+    if fetchedResultsController == nil {
+      fetchedResultsController = CoreDataController.shared.fetchedToDoResultsController
+    }
+    fetchedResultsController.fetchRequest.predicate = predicate
+    do {
+      try fetchedResultsController.performFetch()
+      todayTableView.reloadData()
+    } catch {
+      print("Fetch failed")
+    }
+    dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedResultsController, delegate: self)
   }
   
   //MARK:- Notification Functions for keyboard
@@ -47,7 +64,26 @@ class TodayViewController: UIViewController {
   }
   
   @IBAction func addTodayTask(_ sender: UIButton) {
-    
+    todayTableView.beginUpdates()
+    // add task to dataSource
+    let todo = dataSource.coreDataStack.createToDo(todoName: "New Task")
+    todo?.todoDateCreated = Date()
+    todo?.todoCompleted = false
+    // update the tableview UI
+    todayTableView.insertRows(at: [IndexPath(row: 0, section: 1)], with: .automatic)
+    todayTableView.endUpdates()
+  }
+}
+
+//MARK: - Delegate Methods
+extension TodayViewController: TodayViewDataSourceDelegate {
+  func configureTodayGoalCell(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal) {
+    cell.configure()
   }
   
+  func configureTodayToDoCell(at indexPath: IndexPath, _ cell: TodayTaskCell, for object: ToDo) {
+    cell.configureTodayTaskCell(at: indexPath, for: object)
+  }
+  
+
 }

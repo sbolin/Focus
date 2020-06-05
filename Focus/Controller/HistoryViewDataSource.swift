@@ -11,7 +11,6 @@ import CoreData
 
 class HistoryViewDataSource: NSObject, UITableViewDataSource, NSFetchedResultsControllerDelegate {
   
-  lazy var coreDataStack = CoreDataStack(modelName: "Focus")
   
   
   func numberOfSections(in tableView: UITableView) -> Int {
