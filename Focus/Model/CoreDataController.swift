@@ -10,13 +10,15 @@ import Foundation
 import CoreData
 
 class CoreDataController {
-
+  
+  //MARK: - Create CoreData Stack
   static let shared = CoreDataController() // singleton
   private init() {} // Prevent clients from creating another instance.
 
   lazy var managedContext: NSManagedObjectContext = {
     return self.persistentContainer.viewContext
   }()
+  
 
   private lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "Focus")
@@ -31,6 +33,23 @@ class CoreDataController {
   
   //MARK: - Fetch Properties
   // new fetches
+  
+  lazy var fetchedToDoResultsController: NSFetchedResultsController<ToDo> = {
+    let managedContext = persistentContainer.viewContext
+    let request = ToDo.todoFetchRequest()
+    let goalSort = NSSortDescriptor(keyPath: \ToDo.goal.goal, ascending: true)
+    let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+    request.sortDescriptors = [goalSort, createdSort]
+    
+    let fetchedResultsController = NSFetchedResultsController(
+      fetchRequest: request,
+      managedObjectContext: managedContext,
+      sectionNameKeyPath: "Goal.goal",
+      cacheName: nil)
+    
+    return fetchedResultsController
+  }()
+  
   lazy var fetchedGoalResultsController: NSFetchedResultsController<Goal> = {
     let managedContext = persistentContainer.viewContext
     let request = Goal.goalFetchRequest()
@@ -47,17 +66,31 @@ class CoreDataController {
     return fetchedResultsController
   }()
   
-  lazy var fetchedToDoResultsController: NSFetchedResultsController<ToDo> = {
-    let managedContext = persistentContainer.viewContext
+  lazy var fetchedToDoByMonthController: NSFetchedResultsController<ToDo> = {
+    let context = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
-    let goalSort = NSSortDescriptor(keyPath: \ToDo.goal.goal, ascending: true)
     let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
-    request.sortDescriptors = [goalSort, createdSort]
+    request.sortDescriptors = [createdSort]
     
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
-      managedObjectContext: managedContext,
-      sectionNameKeyPath: "Goal.goal",
+      managedObjectContext: context,
+      sectionNameKeyPath: "groupByMonth",
+      cacheName: nil)
+    
+    return fetchedResultsController
+  }()
+  
+  lazy var fetchedToDoByWeekController: NSFetchedResultsController<ToDo> = {
+    let context = persistentContainer.viewContext
+    let request = ToDo.todoFetchRequest()
+    let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+    request.sortDescriptors = [createdSort]
+    
+    let fetchedResultsController = NSFetchedResultsController(
+      fetchRequest: request,
+      managedObjectContext: context,
+      sectionNameKeyPath: "groupByWeek",
       cacheName: nil)
     
     return fetchedResultsController
@@ -80,83 +113,7 @@ class CoreDataController {
     return fetchedResultsController
   }()
   
-  // end new fetches
-  // Original Fetches:
-  
-  func fetchAllGoals() -> NSFetchedResultsController<ToDo> {
-    let fetchRequest = ToDo.todoFetchRequest()
-    let goalCreatedSort = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
-    let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
-    fetchRequest.sortDescriptors = [goalCreatedSort, todoCreatedSort]
-    let fetchRequestController = NSFetchedResultsController(
-      fetchRequest: fetchRequest,
-      managedObjectContext: managedContext,
-      sectionNameKeyPath: "Goal.goalDateCreated",
-      cacheName: nil)
-    
-//    do {
-//      try fetchRequestController.performFetch()
-//    } catch let fetchError {
-//      print("Failed to fetch Goals \(fetchError.localizedDescription)")
-//    }
-    return fetchRequestController
-  }
-  
-  func fetchGoalsByMonth() -> NSFetchedResultsController<ToDo> {
-    let fetchRequest = ToDo.todoFetchRequest()
-    let goalSortByMonth = NSSortDescriptor(keyPath: \ToDo.goal.groupByMonth, ascending: false)
-    fetchRequest.sortDescriptors = [goalSortByMonth]
-    let fetchRequestController = NSFetchedResultsController(
-      fetchRequest: fetchRequest,
-      managedObjectContext: managedContext,
-      sectionNameKeyPath: "Goal.groupByMonth",
-      cacheName: nil)
-    
-//    do {
-//      try fetchRequestController.performFetch()
-//    } catch let fetchError {
-//      print("Failed to fetch Goals \(fetchError.localizedDescription)")
-//    }
-    return fetchRequestController
-  }
-  
-  func fetchGoalsByWeek() -> NSFetchedResultsController<ToDo> {
-    let fetchRequest = ToDo.todoFetchRequest()
-    let goalSortByWeek = NSSortDescriptor(keyPath: \ToDo.goal.groupByWeek, ascending: false)
-    fetchRequest.sortDescriptors = [goalSortByWeek]
-    let fetchRequestController = NSFetchedResultsController(
-      fetchRequest: fetchRequest,
-      managedObjectContext: managedContext,
-      sectionNameKeyPath: "Goal.groupByWeek",
-      cacheName: nil)
-    
-//    do {
-//      try fetchRequestController.performFetch()
-//    } catch let fetchError {
-//      print("Failed to fetch Goals \(fetchError.localizedDescription)")
-//    }
-    return fetchRequestController
-  }
-  
-  func fetchTodayGoals() -> NSFetchedResultsController<ToDo> {
-    let fetchRequest = ToDo.todoFetchRequest()
-    let sortLatest = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
-    fetchRequest.sortDescriptors = [sortLatest]
-    fetchRequest.fetchLimit = 1
-    
-    let fetchRequestController = NSFetchedResultsController(
-      fetchRequest: fetchRequest,
-      managedObjectContext: managedContext,
-      sectionNameKeyPath: "todoDateCreated",
-      cacheName: nil)
-    
-//    do {
-//      try fetchRequestController.performFetch()
-//    } catch let error {
-//      print("Error fetching TodoGoal \(error.localizedDescription)")
-//    }
-    return fetchRequestController
-  }
+
   
   //MARK: - SaveContext
   func saveContext () {
@@ -169,7 +126,7 @@ class CoreDataController {
   }
   
   //MARK: - Creation Methods
-  func addToDo(text: String, at indexPath: IndexPath) {
+  func addToDo(text: String, at indexPath: IndexPath) -> ToDo {
     print("addToDo")
     let todo = fetchedToDoResultsController.object(at: indexPath)
     let goal = todo.goal
@@ -178,6 +135,8 @@ class CoreDataController {
     newToDo.todoDateCreated = Date()
     newToDo.todoCompleted = false
     newToDo.goal = goal
+    saveContext()
+    return newToDo
   }
   
   //Add new Goal
@@ -255,8 +214,7 @@ class CoreDataController {
     saveContext()
   }
   
-  
-  //MaRK: - create todos
+  //MARK: - create todos
   func createToDosIfNeeded() {
     
     // check if todos exist, if so return
@@ -464,5 +422,4 @@ class CoreDataController {
     
     saveContext()
   }
-  
 }

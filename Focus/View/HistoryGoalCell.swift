@@ -20,7 +20,17 @@ class HistoryGoalCell: UITableViewCell {
   //MARK: - View Life Cycle
   override func awakeFromNib() {
     super.awakeFromNib()
-    
+    historyGoalCompleted.isEnabled = false
   }
   
+  func configureHistoryGoalCell(at indexPath: IndexPath, for goal: Goal) {
+    historyGoal.text = goal.goal
+    historyGoalCompleted.isSelected = goal.goalCompleted
+    toggleButtonColor()
+  }
+  
+  func toggleButtonColor() {
+    historyGoalCompleted.isSelected ? (historyGoalCompleted.tintColor = .systemOrange) :
+      (historyGoalCompleted.tintColor = .systemGray6)
+  }
 }

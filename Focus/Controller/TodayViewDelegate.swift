@@ -9,6 +9,14 @@
 import UIKit
 
 class TodayViewDelegate: NSObject, UITableViewDelegate {
+  
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    if indexPath.row == 0 {
+      return 90
+    } else {
+      return 48
+    }
+  }
 
 //  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     

@@ -22,4 +22,15 @@ class HistoryTaskCell: UITableViewCell {
 
   }
   
+  func configureHistoryTaskCell(at indexPath: IndexPath, for todo: ToDo) {
+    historyTask.text = todo.todo
+    historyTaskCompleted.isSelected = todo.todoCompleted
+    toggleButtonColor()
+  }
+  
+  func toggleButtonColor() {
+    historyTaskCompleted.isSelected ? (historyTaskCompleted.tintColor = .systemOrange) :
+      (historyTaskCompleted.tintColor = .systemGray6)
+  }
+  
 }

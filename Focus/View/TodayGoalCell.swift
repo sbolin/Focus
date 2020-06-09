@@ -15,8 +15,8 @@ protocol TodayGoalCellDelegate {
 class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   
   //MARK: - Properties
-  var delegate: TodayGoalCellDelegate?
   public static let reuseIdentifier = "TodayGoalCell"
+  var delegate: TodayGoalCellDelegate?
   
   //MARK: - IBOutlets
   @IBOutlet weak var todayGoal: UITextField!
@@ -30,6 +30,7 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   
   //MARK: - Configure
   func configure() {
+    
     todayGoal.delegate = self
     
     todayGoalCompleted.setImage(UIImage(named: "fav_star"), for: .normal)

@@ -10,11 +10,11 @@ import UIKit
 import CoreData
 
 protocol TodayViewDataSourceDelegate: class {
-  func configureTodayToDoCell(at indexPath: IndexPath, _ cell: TodayTaskCell, for object: ToDo)
+  func configureTodayToDoCell(at indexPath: IndexPath, _ cell: TodayToDoCell, for object: ToDo)
   func configureTodayGoalCell(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal)
 }
 
-class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataSourceDelegate>: NSObject, UITableViewDataSource {
+class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataSourceDelegate>: NSObject, UITableViewDataSource, NSFetchedResultsControllerDelegate {
 
   // MARK:- Private Parameters
   fileprivate let tableView: UITableView
@@ -61,41 +61,14 @@ class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataS
       let goalObject = todoObject.goal
       let goalCell = tableView.dequeueReusableCell(withIdentifier: TodayGoalCell.reuseIdentifier , for: indexPath) as! TodayGoalCell
       delegate?.configureTodayGoalCell(at: indexPath, goalCell, for: goalObject)
+      
       return goalCell
     }
     let previousIndex = IndexPath(row: indexPath.row - 1, section: indexPath.section)
     let todoObject = self.fetchedResultsController.object(at: previousIndex) as! ToDo
-    let todoCell = tableView.dequeueReusableCell(withIdentifier: TodayTaskCell.reuseIdentifier, for: indexPath) as! TodayTaskCell
+    let todoCell = tableView.dequeueReusableCell(withIdentifier: TodayToDoCell.reuseIdentifier, for: indexPath) as! TodayToDoCell
     delegate?.configureTodayToDoCell(at: indexPath, todoCell, for: todoObject)
     return todoCell
-    
-//    let section = indexPath.section
-//    let goalObjectController = coreDataStack.fetchAllGoals()
-//    do {
-//      try goalObjectController.performFetch()
-//    } catch {
-//      print("Cannot fetch goals")
-//      fatalError()
-//    }
-//    let goalObject = goalObjectController.object(at: indexPath)
-//
-//    let todos = goalObject.todos.allObjects as? [ToDo]
-//    if section == 0 {
-//      // section 0 is for Today's goal:
-//      guard let cell = tableView.dequeueReusableCell(withIdentifier: TodayGoalCell.reuseIdentifier, for: indexPath) as? TodayGoalCell else {
-//        fatalError("Wrong cell type dequeued")
-//      }
-//      cell.todayGoal.text = goalObject.goal
-//      return cell
-//    } else {
-//      // section 1 is for Today's tasks:
-//      let cell = tableView.dequeueReusableCell(withIdentifier: TodayTaskCell.reuseIdentifier, for: indexPath) as! TodayTaskCell
-//      guard let todoObject = todos?[indexPath.row] else {
-//        fatalError("Attempt to configure cell without a managed object")
-//      }
-//      cell.todayTask.text = todoObject.todo
-//      return cell
-//    }
   }
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -106,7 +79,7 @@ class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataS
       CoreDataController.shared.saveContext()
     // delete data
     case .insert:
-      CoreDataController.shared.addToDo(text: "New ToDo", at: indexPath)
+      let _ = CoreDataController.shared.addToDo(text: "New ToDo", at: indexPath)
       tableView.beginUpdates()
       let rowToInsertAt = IndexPath.init(row: indexPath.row - 1, section: indexPath.section)
       tableView.insertRows(at: [rowToInsertAt], with: .automatic)
@@ -184,61 +157,41 @@ class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataS
   }
 }
 
-/*
+
 //MARK: - Cell delegate methods
 extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
+  
+  //MARK: TodayTaskCellDelegate Methods
+  func todayToDo(_ cell: TodayToDoCell, newToDoCreated newToDo: String) {
+    //TODO: Check if tasks already exists, if so update task else create new task
+    guard let tableViewContainer = cell.tableView else { return }
+    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
+    let newTask = CoreDataController.shared.addToDo(text: newToDo, at: indexPath)
+    newTask.todoDateCreated = Date()
+    newTask.todoCompleted = false
+    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
+    //    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
+    CoreDataController.shared.saveContext()
+  }
+  
+  func todayTask(_ cell: TodayToDoCell, completionChanged completion: Bool) {
+    guard let indexPath = tableView.indexPath(for: cell) else { return }
+    let note = CoreDataController.shared.fetchedToDoResultsController.object(at: indexPath)
+    
+    CoreDataController.shared.markToDoCompleted(completed: completion, todo: note)
+    CoreDataController.shared.saveContext()
+  }
   
   //MARK: TodayGoalCellDelegate Methods
   func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String) {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    let newGoal = coreDataStack.createGoals(goalName: newGoal)
-    newGoal?.goalDateCreated = Date()
-    newGoal?.goalCompleted = false
+    let goal = CoreDataController.shared.addGoal(title: newGoal, todo: "New To Do")
+    goal?.goalDateCreated = Date()
+    goal?.goalCompleted = false
     tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
-//    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
-    coreDataStack.saveContext()
+    //    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
+    CoreDataController.shared.saveContext()
   }
   
-  func todayGoal(_ cell: TodayGoalCell) -> Bool {
-    // check if all tasks completed or not
-    //TODO: returning false isn't correct, not sure what it should be?
-    guard let tableViewContainer = cell.tableView else { return false }
-    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return false }
-    let goalObject = coreDataStack.fetchTodayGoals().object(at: indexPath)
-    guard let todos = goalObject.todos.allObjects as? [ToDo] else { return false }
-    
-    let todosCount = todos.count
-    let todosDoneCount = todos.filter { (task) -> Bool in
-      return task.todoCompleted == true
-    }.count
-    return todosDoneCount == todosCount
-  }
-  
-  //MARK: TodayTaskCellDelegate Methods
-  func todayTask(_ cell: TodayTaskCell, newTaskCreated newTask: String) {
-    //TODO: Check if tasks already exists, if so update task else create new task
-    guard let tableViewContainer = cell.tableView else { return }
-    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    let newTask = coreDataStack.createToDo(todoName: newTask)
-    newTask?.todoDateCreated = Date()
-    newTask?.todoCompleted = false
-    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
-//    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
-    coreDataStack.saveContext()
-  }
-  
-  func todayTask(_ cell: TodayTaskCell, completionChanged completion: Bool) {
-    guard let tableViewContainer = cell.tableView else { return }
-    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    let goalObject = coreDataStack.fetchTodayGoals().object(at: indexPath)
-    guard let todos = goalObject.todos.allObjects as? [ToDo] else { return }
-    let task = todos[indexPath.row]
-    task.todoCompleted = completion
-    if completion {
-    task.todoDateCompleted = Date()
-    }
-    coreDataStack.saveContext()
-  }
 }
-*/

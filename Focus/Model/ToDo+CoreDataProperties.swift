@@ -2,7 +2,7 @@
 //  ToDo+CoreDataProperties.swift
 //  Focus
 //
-//  Created by Scott Bolin on 5/23/20.
+//  Created by Scott Bolin on 6/10/20.
 //  Copyright © 2020 Scott Bolin. All rights reserved.
 //
 //
@@ -22,5 +22,20 @@ extension ToDo {
     @NSManaged public var todoDateCompleted: Date?
     @NSManaged public var todoDateCreated: Date
     @NSManaged public var goal: Goal
-
+  
+  @objc var groupByMonth: String {
+    get {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "MMM yyyy"
+      return dateFormatter.string(from: todoDateCreated)
+    }
+  }
+  
+  @objc var groupByWeek: String {
+    get {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "w Y"
+      return dateFormatter.string(from: todoDateCreated)
+    }
+  }
 }

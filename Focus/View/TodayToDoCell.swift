@@ -1,5 +1,5 @@
 //
-//  TodayTaskCell.swift
+//  TodayToDoCell.swift
 //  Focus
 //
 //  Created by Scott Bolin on 4/30/20.
@@ -9,15 +9,15 @@
 import UIKit
 
 protocol TodayTaskCellDelegate {
-  func todayTask( _ cell: TodayTaskCell, newTaskCreated newTask: String)
-  func todayTask(_ cell: TodayTaskCell, completionChanged completion: Bool)
+  func todayToDo( _ cell: TodayToDoCell, newToDoCreated newToDo: String)
+  func todayTask(_ cell: TodayToDoCell, completionChanged completion: Bool)
 }
 
-class TodayTaskCell: UITableViewCell, UITextFieldDelegate {
+class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   
   //MARK: - Properties
-  var delegate: TodayTaskCellDelegate?
   public static let reuseIdentifier = "TodayTaskCell"
+  var delegate: TodayTaskCellDelegate?
 
   
   //MARK: - IBOutlets
@@ -27,26 +27,25 @@ class TodayTaskCell: UITableViewCell, UITextFieldDelegate {
   
   override func awakeFromNib() {
     super.awakeFromNib()
-    configure()
+//    configure()
     
     // Initialization code
   }
   //MARK: - Configuration
   func configure() {
-    todayTask.delegate = self
-    
-    todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
-    todayTaskCompleted.tintColor = .systemGray6
-    let backgroundView = UIView()
-    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
-    self.selectedBackgroundView = backgroundView
+//    todayTask.delegate = self
+//    todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
+//    todayTaskCompleted.tintColor = .systemGray6
+//    let backgroundView = UIView()
+//    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
+//    self.selectedBackgroundView = backgroundView
   }
   
   func configureTodayTaskCell(at indexPath: IndexPath, for todo: ToDo) {
-    let todoCount = todo.goal.todos.count
+    let todoCount = indexPath.row
     todayTask.text = todo.todo
-    todayTaskCompleted.isSelected = todo.todoCompleted
     todayTaskNumber.image =  UIImage(systemName: "\(todoCount).circle.fill")
+    todayTaskCompleted.isSelected = todo.todoCompleted
     toggleButtonColor()
   }
   
@@ -64,9 +63,9 @@ class TodayTaskCell: UITableViewCell, UITextFieldDelegate {
   func processInput() {
     if let todayText = fetchInput() {
       // call delegate method to update datamodel
-      delegate?.todayTask(self, newTaskCreated: todayText)
+      delegate?.todayToDo(self, newToDoCreated: todayText)
     }
-    todayTask.text = ""
+//    todayTask.text = ""
     todayTask.resignFirstResponder()
   }
   

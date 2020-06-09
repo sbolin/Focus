@@ -33,7 +33,7 @@
 		15F48AA3245AB4530012C415 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AA2245AB4530012C415 /* TodayViewController.swift */; };
 		15F48AA5245AB4670012C415 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AA4245AB4670012C415 /* HistoryViewController.swift */; };
 		15F48AAF245AB8310012C415 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AAE245AB8310012C415 /* ProgressViewController.swift */; };
-		15F48AB1245ADB140012C415 /* TodayTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AB0245ADB140012C415 /* TodayTaskCell.swift */; };
+		15F48AB1245ADB140012C415 /* TodayToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AB0245ADB140012C415 /* TodayToDoCell.swift */; };
 		15F48AB3245ADB2B0012C415 /* TodayGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AB2245ADB2B0012C415 /* TodayGoalCell.swift */; };
 		15F48AB5245ADB3F0012C415 /* HistoryGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AB4245ADB3F0012C415 /* HistoryGoalCell.swift */; };
 		15F48AB7245ADB520012C415 /* HistoryTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AB6245ADB520012C415 /* HistoryTaskCell.swift */; };
@@ -81,7 +81,7 @@
 		15F48AA2245AB4530012C415 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		15F48AA4245AB4670012C415 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		15F48AAE245AB8310012C415 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
-		15F48AB0245ADB140012C415 /* TodayTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayTaskCell.swift; sourceTree = "<group>"; };
+		15F48AB0245ADB140012C415 /* TodayToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayToDoCell.swift; sourceTree = "<group>"; };
 		15F48AB2245ADB2B0012C415 /* TodayGoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayGoalCell.swift; sourceTree = "<group>"; };
 		15F48AB4245ADB3F0012C415 /* HistoryGoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryGoalCell.swift; sourceTree = "<group>"; };
 		15F48AB6245ADB520012C415 /* HistoryTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTaskCell.swift; sourceTree = "<group>"; };
@@ -163,11 +163,11 @@
 			isa = PBXGroup;
 			children = (
 				15F48AB2245ADB2B0012C415 /* TodayGoalCell.swift */,
-				15F48AB0245ADB140012C415 /* TodayTaskCell.swift */,
+				15F48AB0245ADB140012C415 /* TodayToDoCell.swift */,
 				1509A18A246EA6A500FF01A1 /* HistorySection0HeaderCell.swift */,
 				1509A18C246EA70700FF01A1 /* HistorySummaryCell.swift */,
-				15F48AB4245ADB3F0012C415 /* HistoryGoalCell.swift */,
 				1509A194246EAF1400FF01A1 /* HistoryFinalHeaderCell.swift */,
+				15F48AB4245ADB3F0012C415 /* HistoryGoalCell.swift */,
 				15F48AB6245ADB520012C415 /* HistoryTaskCell.swift */,
 				1509A1542466700400FF01A1 /* UIButton+Actions.swift */,
 				15F48A7B245A7CAB0012C415 /* Main.storyboard */,
@@ -324,7 +324,7 @@
 				15F48A76245A7CAB0012C415 /* AppDelegate.swift in Sources */,
 				15F48A80245A7CAB0012C415 /* Focus.xcdatamodeld in Sources */,
 				15F48A78245A7CAB0012C415 /* SceneDelegate.swift in Sources */,
-				15F48AB1245ADB140012C415 /* TodayTaskCell.swift in Sources */,
+				15F48AB1245ADB140012C415 /* TodayToDoCell.swift in Sources */,
 				1509A1532465F8AD00FF01A1 /* ToDo+CoreDataProperties.swift in Sources */,
 				1509A195246EAF1400FF01A1 /* HistoryFinalHeaderCell.swift in Sources */,
 				15A76620246FB45B00B90B3B /* HistoryViewDataSource.swift in Sources */,

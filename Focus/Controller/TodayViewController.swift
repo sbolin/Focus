@@ -15,7 +15,6 @@ class TodayViewController: UIViewController {
   let todayViewdelegate = TodayViewDelegate()
   var dataSource: TodayViewDataSource<ToDo, TodayViewController>!
   var fetchedResultsController: NSFetchedResultsController<ToDo>!
-  var predicate: NSPredicate?
     
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
@@ -24,17 +23,22 @@ class TodayViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     CoreDataController.shared.createToDosIfNeeded()
-    setupTableView()
     todayTableView.delegate = todayViewdelegate
+    setupTableView()
     registerForKeyboardNotifications()
-    
   }
   
+  //MARK: - Setup tableview to show last note
   func setupTableView() {
+    // setup fetchrequest
     if fetchedResultsController == nil {
       fetchedResultsController = CoreDataController.shared.fetchedToDoResultsController
     }
-    fetchedResultsController.fetchRequest.predicate = predicate
+    fetchedResultsController.fetchRequest.fetchLimit = 0
+    let createdAtDescriptor = NSSortDescriptor(key: "todoDateCreated", ascending: false)
+    fetchedResultsController.fetchRequest.sortDescriptors = [createdAtDescriptor]
+    fetchedResultsController.fetchRequest.fetchLimit = 1
+    
     do {
       try fetchedResultsController.performFetch()
       todayTableView.reloadData()
@@ -65,13 +69,17 @@ class TodayViewController: UIViewController {
   
   @IBAction func addTodayTask(_ sender: UIButton) {
     todayTableView.beginUpdates()
+    
     // add task to dataSource
-    let todo = dataSource.coreDataStack.createToDo(todoName: "New Task")
-    todo?.todoDateCreated = Date()
-    todo?.todoCompleted = false
+    let context = CoreDataController.shared.managedContext
+    let todo = ToDo(context: context)
+    todo.todo = "New Todo"
+    todo.todoDateCreated = Date()
+    todo.todoCompleted = false
     // update the tableview UI
     todayTableView.insertRows(at: [IndexPath(row: 0, section: 1)], with: .automatic)
     todayTableView.endUpdates()
+    CoreDataController.shared.saveContext()
   }
 }
 
@@ -81,7 +89,7 @@ extension TodayViewController: TodayViewDataSourceDelegate {
     cell.configure()
   }
   
-  func configureTodayToDoCell(at indexPath: IndexPath, _ cell: TodayTaskCell, for object: ToDo) {
+  func configureTodayToDoCell(at indexPath: IndexPath, _ cell: TodayToDoCell, for object: ToDo) {
     cell.configureTodayTaskCell(at: indexPath, for: object)
   }
   
