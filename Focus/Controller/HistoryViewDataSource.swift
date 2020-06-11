@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol HistoryViewDataSourceDelegate: class {
-  func configureHistoryToDoCell(at indexPath: IndexPath, _ cell: HistoryTaskCell, for object: ToDo)
+  func configureHistoryTaskCell(at indexPath: IndexPath, _ cell: HistoryTaskCell, for object: ToDo)
   func configureHistoryGoalCell(at indexPath: IndexPath, _ cell: HistoryGoalCell, for object: Goal)
 }
 
@@ -40,6 +40,21 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
     return fetchedResultsController.sections?.count ?? 0
   }
   
+  // Title of section
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    guard let sectionInfo = self.fetchedResultsController.sections?[section] else {
+      return nil
+    }
+    
+    let dateFormatterGet = DateFormatter()
+    dateFormatterGet.dateFormat =  "yyyy-MM-dd HH:mm:ss Z"
+    let dateFormatterPrint = DateFormatter()
+    dateFormatterPrint.dateFormat = "MMM-yyyy"
+    guard let date = dateFormatterGet.date(from: sectionInfo.name) else { return "No Date" }
+    let sectionTitle = dateFormatterPrint.string(from: date)
+    return sectionTitle
+  }
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     guard let fetchedSection = self.fetchedResultsController.sections?[section] else { return 0 }
     let numberOfRows = fetchedSection.numberOfObjects + 1 // account for added goal cell
@@ -49,8 +64,8 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
     if indexPath.row == 0 {
-      let noteObject = self.fetchedResultsController.object(at: indexPath) as! ToDo
-      let goalObject = noteObject.goal
+      let todoObject = self.fetchedResultsController.object(at: indexPath) as! ToDo
+      let goalObject = todoObject.goal
       let goalCell = tableView.dequeueReusableCell(withIdentifier: HistoryGoalCell.reuseIdentifier, for: indexPath) as! HistoryGoalCell
       delegate?.configureHistoryGoalCell(at: indexPath, goalCell, for: goalObject)
       return goalCell
@@ -58,7 +73,7 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
     let previousIndex = IndexPath(row: indexPath.row - 1, section: indexPath.section)
     let noteObject = self.fetchedResultsController.object(at: previousIndex) as! ToDo
     let noteCell = tableView.dequeueReusableCell(withIdentifier: HistoryTaskCell.reuseIdentifier, for: indexPath) as! HistoryTaskCell
-    delegate?.configureHistoryToDoCell(at: indexPath, noteCell, for: noteObject)
+    delegate?.configureHistoryTaskCell(at: indexPath, noteCell, for: noteObject)
     return noteCell
 
   }

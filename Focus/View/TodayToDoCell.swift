@@ -27,18 +27,18 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   
   override func awakeFromNib() {
     super.awakeFromNib()
-//    configure()
+    configure()
     
     // Initialization code
   }
   //MARK: - Configuration
   func configure() {
-//    todayTask.delegate = self
+    todayTask.delegate = self
 //    todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
 //    todayTaskCompleted.tintColor = .systemGray6
-//    let backgroundView = UIView()
-//    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
-//    self.selectedBackgroundView = backgroundView
+    let backgroundView = UIView()
+    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
+    self.selectedBackgroundView = backgroundView
   }
   
   func configureTodayTaskCell(at indexPath: IndexPath, for todo: ToDo) {

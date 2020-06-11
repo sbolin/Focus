@@ -36,14 +36,9 @@ class HistoryViewController: UIViewController {
   
   func setupTableView() {
     if fetchedResultsController == nil {
-      fetchedResultsController = CoreDataController.shared.fetchedToDoGoalResultsController
+      fetchedResultsController = CoreDataController.shared.fetchedToDoByMonthController
     }
-    
-    
-    
-    
-    
-    fetchedResultsController.fetchRequest.predicate = predicate
+//    fetchedResultsController.fetchRequest.predicate = predicate
     do {
       try fetchedResultsController.performFetch()
       historyTableView.reloadData()
@@ -55,9 +50,8 @@ class HistoryViewController: UIViewController {
 }
 
 extension HistoryViewController: HistoryViewDataSourceDelegate {
-  func configureHistoryToDoCell(at indexPath: IndexPath, _ cell: HistoryTaskCell, for object: ToDo) {
+  func configureHistoryTaskCell(at indexPath: IndexPath, _ cell: HistoryTaskCell, for object: ToDo) {
     cell.configureHistoryTaskCell(at: indexPath, for: object)
-
   }
   
   func configureHistoryGoalCell(at indexPath: IndexPath, _ cell: HistoryGoalCell, for object: Goal) {

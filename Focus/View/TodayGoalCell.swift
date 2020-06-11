@@ -42,7 +42,7 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   
   func configureTodayGoalCell(at indexPath: IndexPath, for goal: Goal) {
     todayGoal.text = goal.goal
-    todayGoalCompleted.isSpringLoaded = goal.goalCompleted
+    todayGoalCompleted.isSelected = goal.goalCompleted
     if goal.goalCompleted {
       todayGoalCompleted.whirl()
     }
@@ -65,7 +65,7 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
       // call cell delegate method to update datamodel
       delegate?.todayGoal(self, newGoalCreated: todayGoal)
     }
-    todayGoal.text = ""
+//    todayGoal.text = ""
     todayGoal.resignFirstResponder()
   }
   

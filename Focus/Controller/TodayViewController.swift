@@ -71,15 +71,15 @@ class TodayViewController: UIViewController {
     todayTableView.beginUpdates()
     
     // add task to dataSource
-    let context = CoreDataController.shared.managedContext
-    let todo = ToDo(context: context)
-    todo.todo = "New Todo"
-    todo.todoDateCreated = Date()
-    todo.todoCompleted = false
+//    let context = CoreDataController.shared.managedContext
+//    let todo = ToDo(context: context)
+//    todo.todo = "New Todo"
+//    todo.todoDateCreated = Date()
+//    todo.todoCompleted = false
     // update the tableview UI
     todayTableView.insertRows(at: [IndexPath(row: 0, section: 1)], with: .automatic)
     todayTableView.endUpdates()
-    CoreDataController.shared.saveContext()
+//   CoreDataController.shared.saveContext()
   }
 }
 

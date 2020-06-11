@@ -166,12 +166,10 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
     //TODO: Check if tasks already exists, if so update task else create new task
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    let newTask = CoreDataController.shared.addToDo(text: newToDo, at: indexPath)
-    newTask.todoDateCreated = Date()
-    newTask.todoCompleted = false
-    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
-    //    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
-    CoreDataController.shared.saveContext()
+    CoreDataController.shared.addToDo(text: newToDo, at: indexPath)
+//    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
+    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
+//    CoreDataController.shared.saveContext()
   }
   
   func todayTask(_ cell: TodayToDoCell, completionChanged completion: Bool) {
@@ -186,12 +184,10 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String) {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    let goal = CoreDataController.shared.addGoal(title: newGoal, todo: "New To Do")
-    goal?.goalDateCreated = Date()
-    goal?.goalCompleted = false
+    CoreDataController.shared.addGoal(title: newGoal, todo: "New To Do")
     tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
     //    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
-    CoreDataController.shared.saveContext()
+//    CoreDataController.shared.saveContext()
   }
   
 }

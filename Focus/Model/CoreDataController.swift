@@ -97,7 +97,7 @@ class CoreDataController {
   }()
   
   lazy var fetchedToDoGoalResultsController: NSFetchedResultsController<ToDo> = {
-    let managedContext = persistentContainer.viewContext
+    let context = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
     let goalCreatedSort = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
     let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
@@ -106,7 +106,7 @@ class CoreDataController {
     
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
-      managedObjectContext: managedContext,
+      managedObjectContext: context,
       sectionNameKeyPath: "goal.goalDateCreated",
       cacheName: nil)
     
@@ -126,24 +126,25 @@ class CoreDataController {
   }
   
   //MARK: - Creation Methods
-  func addToDo(text: String, at indexPath: IndexPath) -> ToDo {
+  func addToDo(text: String, at indexPath: IndexPath) {
     print("addToDo")
+    let context = persistentContainer.viewContext
     let todo = fetchedToDoResultsController.object(at: indexPath)
     let goal = todo.goal
-    let newToDo = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
+    let newToDo = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: context) as! ToDo
     newToDo.todo = text
     newToDo.todoDateCreated = Date()
     newToDo.todoCompleted = false
     newToDo.goal = goal
     saveContext()
-    return newToDo
   }
   
   //Add new Goal
-  func addGoal(title: String, todo: String) -> Goal? {
+  func addGoal(title: String, todo: String) {
     print("addGoal")
-    let newgoal = Goal(context: managedContext)
-    let newtodo = ToDo(context: managedContext)
+    let context = persistentContainer.viewContext
+    let newgoal = Goal(context: context)
+    let newtodo = ToDo(context: context)
     
     newgoal.goal = title
     newgoal.goalDateCreated = Date()
@@ -154,7 +155,7 @@ class CoreDataController {
     newgoal.addToTodos(newtodo)
 //    newtodo.goal = newgoal
     saveContext()
-    return newgoal
+//    return newgoal
   }
   
   func updateGoal(updatedGoalTitle: String, updatedToDoText: String, at indexPath: IndexPath) {
@@ -183,7 +184,7 @@ class CoreDataController {
     let todoCount = todos.count
     var count = 0
     for todo in todos {
-      if todo.todoCompleted == true { count += 1}
+      if todo.todoCompleted == true { count += 1 }
     }
     if todoCount == count {
       goalToCheck.goalCompleted = true
