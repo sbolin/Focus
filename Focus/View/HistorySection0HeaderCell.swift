@@ -11,7 +11,7 @@ import UIKit
 class HistorySection0HeaderCell: UITableViewHeaderFooterView {
   
   //MARK: - Properties
-  public static let reuseIdentifier = "HistorySection0HeaderCell"
+  public static let HistorySection0HeaderCellReuseIdentifier = "HistorySection0HeaderCell"
 
   //MARK: - IBOutlets
   @IBOutlet weak var historySection0Label: UILabel!
@@ -22,6 +22,8 @@ class HistorySection0HeaderCell: UITableViewHeaderFooterView {
     super.awakeFromNib()
     
   }
+  
+  
   
   //MARK: - IBActions
   @IBAction func historySection0ButtonTapped(_ sender: UIButton) {

@@ -18,21 +18,25 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     return 36
   }
+  
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
   }
   
-  
 //  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//
-//    if section == 0 {
-//      let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: HistorySection0HeaderCell.reuseIdentifier) as! HistorySection0HeaderCell  //
-//      view.historySection0Label.text = "Month"
-//      return view
-//    } else {
-//      let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: HistoryFinalHeaderCell.reuseIdentifier) as! HistoryFinalHeaderCell //
-//      view.historyFinalHeaderCellLabel.text = "Today"
-//      return view
+//    
+//    guard let sectionInfo = fetchedResultsController.sections?[section] else {
+//      return nil
+//      
+//      if section == 0 {
+//        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: HistorySection0HeaderCell.HistorySection0HeaderCellReuseIdentifier) as! HistorySection0HeaderCell  //
+//        view.historySection0Label.text = "Month"
+//        return view
+//      } else {
+//        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: HistoryFinalHeaderCell.reuseIdentifier) as! HistoryFinalHeaderCell //
+//        view.historyFinalHeaderCellLabel.text = "Today"
+//        return view
+//      }
 //    }
 //  }
 }

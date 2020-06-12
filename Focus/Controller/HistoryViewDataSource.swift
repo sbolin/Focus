@@ -45,14 +45,7 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
     guard let sectionInfo = self.fetchedResultsController.sections?[section] else {
       return nil
     }
-    
-    let dateFormatterGet = DateFormatter()
-    dateFormatterGet.dateFormat =  "yyyy-MM-dd HH:mm:ss Z"
-    let dateFormatterPrint = DateFormatter()
-    dateFormatterPrint.dateFormat = "MMM-yyyy"
-    guard let date = dateFormatterGet.date(from: sectionInfo.name) else { return "No Date" }
-    let sectionTitle = dateFormatterPrint.string(from: date)
-    return sectionTitle
+    return sectionInfo.name
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

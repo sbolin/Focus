@@ -21,7 +21,7 @@ class TodayViewDelegate: NSObject, UITableViewDelegate {
 //  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     
 //    if section == 0 {
-//    let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: TodaySection0HeaderCell.reuseIdentifier) as! TodaySection0HeaderCell
+//    let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: TodaySection0HeaderCell.HistorySection0HeaderCellReuseIdentifier) as! TodaySection0HeaderCell
 //      view.todaySection0Label.text = "Goal for the day to focus on:"
 //      return view
 //    } else {
