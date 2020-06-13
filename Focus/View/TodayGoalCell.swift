@@ -32,12 +32,11 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   func configure() {
     
     todayGoal.delegate = self
-    
     todayGoalCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
-    todayGoalCompleted.tintColor = .systemGray6
-    let backgroundView = UIView()
-    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
-    self.selectedBackgroundView = backgroundView
+    toggleButtonColor()
+//    let backgroundView = UIView()
+//    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
+//    self.selectedBackgroundView = backgroundView
   }
   
   func configureTodayGoalCell(at indexPath: IndexPath, for goal: Goal) {

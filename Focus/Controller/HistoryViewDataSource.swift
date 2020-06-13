@@ -12,6 +12,7 @@ import CoreData
 protocol HistoryViewDataSourceDelegate: class {
   func configureHistoryTaskCell(at indexPath: IndexPath, _ cell: HistoryTaskCell, for object: ToDo)
   func configureHistoryGoalCell(at indexPath: IndexPath, _ cell: HistoryGoalCell, for object: Goal)
+  func configureHistorySummaryCell(at indexPath: IndexPath, _ cell: HistorySummaryCell, undoneGoalCount: Int, doneGoalCount: Int, undoneToDoCount: Int, doneToDoCount: Int)
 }
 
 class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewDataSourceDelegate>: NSObject, UITableViewDataSource, NSFetchedResultsControllerDelegate {
@@ -20,6 +21,11 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   fileprivate let tableView: UITableView
   fileprivate var fetchedResultsController: NSFetchedResultsController<Result>
   fileprivate weak var delegate: Delegate!
+  
+  var undoneGoalCount = 0
+  var doneGoalCount = 0
+  var undoneToDoCount = 0
+  var doneToDoCount = 0
   
   //MARK: - Initializer
   required init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController<Result>, delegate: Delegate) {
@@ -41,16 +47,16 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   }
   
   // Title of section
-  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    guard let sectionInfo = self.fetchedResultsController.sections?[section] else {
-      return nil
-    }
-    return sectionInfo.name
-  }
+  //  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+  //    guard let sectionInfo = self.fetchedResultsController.sections?[section] else {
+  //      return nil
+  //    }
+  //    return sectionInfo.name
+  //  }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     guard let fetchedSection = self.fetchedResultsController.sections?[section] else { return 0 }
-    let numberOfRows = fetchedSection.numberOfObjects + 1 // account for added goal cell
+    let numberOfRows = fetchedSection.numberOfObjects + 1 // account for added history summary and goal cell
     return numberOfRows
   }
   
@@ -68,6 +74,36 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
     let noteCell = tableView.dequeueReusableCell(withIdentifier: HistoryTaskCell.reuseIdentifier, for: indexPath) as! HistoryTaskCell
     delegate?.configureHistoryTaskCell(at: indexPath, noteCell, for: noteObject)
     return noteCell
-
+    
+/*
+     if indexPath.row == 0 {
+     let todoObject = self.fetchedResultsController.object(at: indexPath) as! ToDo
+     let goalObject = todoObject.goal
+     let summaryCell = tableView.dequeueReusableCell(withIdentifier: HistorySummaryCell.reuseIdentifier, for: indexPath) as! HistorySummaryCell
+     delegate?.configureHistorySummaryCell(at: indexPath, summaryCell, undoneGoalCount: undoneGoalCount, doneGoalCount: doneGoalCount, undoneToDoCount: undoneToDoCount, doneToDoCount: doneToDoCount)
+     return summaryCell
+     
+     } else if indexPath.row == 1 {
+     let historyGoalCellIndex = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+     let todoObject = self.fetchedResultsController.object(at: historyGoalCellIndex) as! ToDo
+     let goalObject = todoObject.goal
+     let goalCell = tableView.dequeueReusableCell(withIdentifier: HistoryGoalCell.reuseIdentifier, for: indexPath) as! HistoryGoalCell
+     delegate?.configureHistoryGoalCell(at: indexPath, goalCell, for: goalObject)
+     }
+     let historyTaskCellIndex = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+     let todoObject = self.fetchedResultsController.object(at: historyTaskCellIndex) as! ToDo
+     let todoCell = tableView.dequeueReusableCell(withIdentifier: HistoryTaskCell.reuseIdentifier, for: indexPath) as! HistoryTaskCell
+     delegate?.configureHistoryTaskCell(at: indexPath, todoCell, for: todoObject)
+     return todoCell
+*/
+  }
+  
+  
+  func getSummaryCounts() {
+    // get summary counts
+    undoneGoalCount = 0
+    doneGoalCount = 0
+    undoneToDoCount = 0
+    doneToDoCount = 0
   }
 }

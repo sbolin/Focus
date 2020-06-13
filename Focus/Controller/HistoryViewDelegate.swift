@@ -12,32 +12,32 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
   
   //MARK: - UITableViewDelegate Methods
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 56
+    let row = indexPath.row
+    switch row {
+    case 0:
+      return 60
+    default:
+      return 48
+    }
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return 36
+    return 30
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
   }
   
-//  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//    
-//    guard let sectionInfo = fetchedResultsController.sections?[section] else {
-//      return nil
-//      
-//      if section == 0 {
-//        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: HistorySection0HeaderCell.HistorySection0HeaderCellReuseIdentifier) as! HistorySection0HeaderCell  //
-//        view.historySection0Label.text = "Month"
-//        return view
-//      } else {
-//        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: HistoryFinalHeaderCell.reuseIdentifier) as! HistoryFinalHeaderCell //
-//        view.historyFinalHeaderCellLabel.text = "Today"
-//        return view
-//      }
-//    }
-//  }
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    
+    let view = UITableViewHeaderFooterView()
+    view.textLabel?.textColor = UIColor.systemOrange
+    view.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+    view.textLabel?.frame = view.frame
+    view.textLabel?.textAlignment = .center
+    view.textLabel?.text = CoreDataController.shared.fetchedToDoByMonthController.sections?[section].name
+    return view
+  }
 }
 

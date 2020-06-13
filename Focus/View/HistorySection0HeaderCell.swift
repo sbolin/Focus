@@ -11,7 +11,7 @@ import UIKit
 class HistorySection0HeaderCell: UITableViewHeaderFooterView {
   
   //MARK: - Properties
-  public static let HistorySection0HeaderCellReuseIdentifier = "HistorySection0HeaderCell"
+  public static let reuseIdentifier = "HistorySection0HeaderCell"
 
   //MARK: - IBOutlets
   @IBOutlet weak var historySection0Label: UILabel!

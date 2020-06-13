@@ -50,12 +50,15 @@ class HistoryViewController: UIViewController {
 }
 
 extension HistoryViewController: HistoryViewDataSourceDelegate {
+  func configureHistorySummaryCell(at indexPath: IndexPath, _ cell: HistorySummaryCell, undoneGoalCount: Int, doneGoalCount: Int, undoneToDoCount: Int, doneToDoCount: Int) {
+    cell.configureHistorySummaryCell(at: indexPath, undoneGoalCount: undoneGoalCount, doneGoalCount: doneGoalCount, undoneToDoCount: undoneToDoCount, doneToDoCount: doneToDoCount)
+  }
+  
   func configureHistoryTaskCell(at indexPath: IndexPath, _ cell: HistoryTaskCell, for object: ToDo) {
     cell.configureHistoryTaskCell(at: indexPath, for: object)
   }
   
   func configureHistoryGoalCell(at indexPath: IndexPath, _ cell: HistoryGoalCell, for object: Goal) {
     cell.configureHistoryGoalCell(at: indexPath, for: object)
-
   }
 }

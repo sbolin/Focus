@@ -15,11 +15,21 @@ class HistorySummaryCell: UITableViewCell {
   
   //MARK: - IBOutlets
   @IBOutlet weak var historySummaryCellLabel: UILabel!
+  @IBOutlet weak var historySummaryCellToDoLabel: UILabel!
   
   //MARK: - View Life Cycle
   override func awakeFromNib() {
     super.awakeFromNib()
+    configure()
     
   }
+  func configure() {
+    historySummaryCellLabel.text = "Goal Count per Month"
+    historySummaryCellToDoLabel.text = "Todo Count per Month"
+  }
   
+  func configureHistorySummaryCell(at indexPath: IndexPath, undoneGoalCount: Int, doneGoalCount: Int, undoneToDoCount: Int, doneToDoCount: Int) {
+    historySummaryCellLabel.text = "\(undoneGoalCount) out of \(doneGoalCount) goals completed"
+    historySummaryCellToDoLabel.text = "\(undoneToDoCount) out of \(doneToDoCount) tasks completed"
+  }
 }

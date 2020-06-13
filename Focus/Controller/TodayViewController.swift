@@ -32,12 +32,13 @@ class TodayViewController: UIViewController {
   func setupTableView() {
     // setup fetchrequest
     if fetchedResultsController == nil {
+//      fetchedResultsController = CoreDataController.shared.fetchedToDoGoalResultsController
       fetchedResultsController = CoreDataController.shared.fetchedToDoResultsController
     }
     fetchedResultsController.fetchRequest.fetchLimit = 0
     let createdAtDescriptor = NSSortDescriptor(key: "todoDateCreated", ascending: false)
     fetchedResultsController.fetchRequest.sortDescriptors = [createdAtDescriptor]
-    fetchedResultsController.fetchRequest.fetchLimit = 1
+    fetchedResultsController.fetchRequest.fetchLimit = 3
     
     do {
       try fetchedResultsController.performFetch()
@@ -69,13 +70,13 @@ class TodayViewController: UIViewController {
   
   @IBAction func addTodayTask(_ sender: UIButton) {
     todayTableView.beginUpdates()
-    
+    print("Adding task")
     // add task to dataSource
-//    let context = CoreDataController.shared.managedContext
-//    let todo = ToDo(context: context)
-//    todo.todo = "New Todo"
-//    todo.todoDateCreated = Date()
-//    todo.todoCompleted = false
+    let context = CoreDataController.shared.managedContext
+    let todo = ToDo(context: context)
+    todo.todo = "New Todo"
+    todo.todoDateCreated = Date()
+    todo.todoCompleted = false
     // update the tableview UI
     todayTableView.insertRows(at: [IndexPath(row: 0, section: 1)], with: .automatic)
     todayTableView.endUpdates()
@@ -85,13 +86,15 @@ class TodayViewController: UIViewController {
 
 //MARK: - Delegate Methods
 extension TodayViewController: TodayViewDataSourceDelegate {
-  func configureTodayGoalCell(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal) {
-    cell.configure()
-  }
-  
-  func configureTodayToDoCell(at indexPath: IndexPath, _ cell: TodayToDoCell, for object: ToDo) {
+  func configureTodayTask(at indexPath: IndexPath, _ cell: TodayToDoCell, for object: ToDo) {
     cell.configureTodayTaskCell(at: indexPath, for: object)
   }
+  
+  func configureTodayGoal(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal) {
+    cell.configureTodayGoalCell(at: indexPath, for: object)
+  }
+  
+
   
 
 }

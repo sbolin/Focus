@@ -66,6 +66,38 @@ class CoreDataController {
     return fetchedResultsController
   }()
   
+  lazy var fetchedToDoGoalResultsController: NSFetchedResultsController<ToDo> = {
+    let context = persistentContainer.viewContext
+    let request = ToDo.todoFetchRequest()
+    let goalCreatedSort = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
+    let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+    
+    request.sortDescriptors = [goalCreatedSort, todoCreatedSort]
+    
+    let fetchedResultsController = NSFetchedResultsController(
+      fetchRequest: request,
+      managedObjectContext: context,
+      sectionNameKeyPath: "goal.goalDateCreated",
+      cacheName: nil)
+    
+    return fetchedResultsController
+  }()
+  
+  lazy var fetchedToDoByYearController: NSFetchedResultsController<ToDo> = {
+    let context = persistentContainer.viewContext
+    let request = ToDo.todoFetchRequest()
+    let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+    request.sortDescriptors = [createdSort]
+    
+    let fetchedResultsController = NSFetchedResultsController(
+      fetchRequest: request,
+      managedObjectContext: context,
+      sectionNameKeyPath: "groupByYear",
+      cacheName: nil)
+    
+    return fetchedResultsController
+  }()
+  
   lazy var fetchedToDoByMonthController: NSFetchedResultsController<ToDo> = {
     let context = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
@@ -95,25 +127,6 @@ class CoreDataController {
     
     return fetchedResultsController
   }()
-  
-  lazy var fetchedToDoGoalResultsController: NSFetchedResultsController<ToDo> = {
-    let context = persistentContainer.viewContext
-    let request = ToDo.todoFetchRequest()
-    let goalCreatedSort = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
-    let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
-    
-    request.sortDescriptors = [goalCreatedSort, todoCreatedSort]
-    
-    let fetchedResultsController = NSFetchedResultsController(
-      fetchRequest: request,
-      managedObjectContext: context,
-      sectionNameKeyPath: "goal.goalDateCreated",
-      cacheName: nil)
-    
-    return fetchedResultsController
-  }()
-  
-
   
   //MARK: - SaveContext
   func saveContext () {
@@ -399,25 +412,25 @@ class CoreDataController {
     // Goal 1
     let goal1 = NSEntityDescription.insertNewObject(forEntityName: "Goal", into: managedContext) as! Goal
     goal1.goal = "First Goal"
-    goal1.goalDateCreated = Date(timeIntervalSinceNow: -60*60*24*4)
+    goal1.goalDateCreated = Date(timeIntervalSinceNow: -60*60*24*1)
     goal1.goalCompleted = false
     
     let todo10 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo10.todo = "Goal 1, ToDo 1"
-    todo10.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*5)
+    todo10.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*1)
     todo10.todoCompleted = true
-    todo10.todoDateCompleted = Date(timeIntervalSinceNow: -60*60*24*4)
+    todo10.todoDateCompleted = Date(timeIntervalSinceNow: -60*60*24*2)
     todo10.goal = goal1
     
     let todo11 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo11.todo = "Goal 1, ToDo 2"
-    todo11.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*6)
+    todo11.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*2)
     todo11.todoCompleted = false
     todo11.goal = goal1
     
     let todo12 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo12.todo = "Goal 1, ToDo 3"
-    todo12.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*7)
+    todo12.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*3)
     todo12.todoCompleted = false
     todo12.goal = goal1
     

@@ -10,8 +10,8 @@ import UIKit
 import CoreData
 
 protocol TodayViewDataSourceDelegate: class {
-  func configureTodayToDoCell(at indexPath: IndexPath, _ cell: TodayToDoCell, for object: ToDo)
-  func configureTodayGoalCell(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal)
+  func configureTodayTask(at indexPath: IndexPath, _ cell: TodayToDoCell, for object: ToDo)
+  func configureTodayGoal(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal)
 }
 
 class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataSourceDelegate>: NSObject, UITableViewDataSource, NSFetchedResultsControllerDelegate {
@@ -39,35 +39,25 @@ class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataS
   func numberOfSections(in tableView: UITableView) -> Int {
     return fetchedResultsController.sections?.count ?? 0
   }
-  
-  // no section titles
-  
+    
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     guard let fetchedSection = self.fetchedResultsController.sections?[section] else { return 0 }
     let numberOfRows = fetchedSection.numberOfObjects + 1 // account for added goal cell
     return numberOfRows
-    
-//    if section == 0 {
-//      return 1
-//    } else {
-//      return 3
-//    }
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    
     if indexPath.row == 0 {
       let todoObject = self.fetchedResultsController.object(at: indexPath) as! ToDo
       let goalObject = todoObject.goal
       let goalCell = tableView.dequeueReusableCell(withIdentifier: TodayGoalCell.reuseIdentifier , for: indexPath) as! TodayGoalCell
-      delegate?.configureTodayGoalCell(at: indexPath, goalCell, for: goalObject)
-      
+      delegate?.configureTodayGoal(at: indexPath, goalCell, for: goalObject)
       return goalCell
     }
     let previousIndex = IndexPath(row: indexPath.row - 1, section: indexPath.section)
     let todoObject = self.fetchedResultsController.object(at: previousIndex) as! ToDo
     let todoCell = tableView.dequeueReusableCell(withIdentifier: TodayToDoCell.reuseIdentifier, for: indexPath) as! TodayToDoCell
-    delegate?.configureTodayToDoCell(at: indexPath, todoCell, for: todoObject)
+    delegate?.configureTodayTask(at: indexPath, todoCell, for: todoObject)
     return todoCell
   }
   
@@ -162,8 +152,9 @@ class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataS
 extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   
   //MARK: TodayTaskCellDelegate Methods
-  func todayToDo(_ cell: TodayToDoCell, newToDoCreated newToDo: String) {
+  func todayToDoCreated(_ cell: TodayToDoCell, newToDoCreated newToDo: String) {
     //TODO: Check if tasks already exists, if so update task else create new task
+    print("TodayTaskCellDelegate newToDoCreated")
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     CoreDataController.shared.addToDo(text: newToDo, at: indexPath)
@@ -172,7 +163,8 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
 //    CoreDataController.shared.saveContext()
   }
   
-  func todayTask(_ cell: TodayToDoCell, completionChanged completion: Bool) {
+  func todayTaskCompletion(_ cell: TodayToDoCell, completionChanged completion: Bool) {
+    print("TodayTaskCellDelegate completionChanged")
     guard let indexPath = tableView.indexPath(for: cell) else { return }
     let note = CoreDataController.shared.fetchedToDoResultsController.object(at: indexPath)
     
@@ -182,6 +174,7 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   
   //MARK: TodayGoalCellDelegate Methods
   func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String) {
+    print("TodayGoalCellDelegate newGoalCreated")
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     CoreDataController.shared.addGoal(title: newGoal, todo: "New To Do")

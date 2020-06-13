@@ -67,34 +67,43 @@
                                                 <constraint firstAttribute="trailing" secondItem="mCn-pe-yDV" secondAttribute="trailing" constant="18" id="wkd-K8-qh7"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="historySection0Button" destination="mCn-pe-yDV" id="8FJ-ya-t4f"/>
                                             <outlet property="historySection0Label" destination="pPl-ZU-qHs" id="C5m-zu-3Nq"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="HistorySummaryCell" id="Kxj-Vw-OqU" customClass="HistorySummaryCell" customModule="Focus" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="HistorySummaryCell" rowHeight="44" id="Kxj-Vw-OqU" customClass="HistorySummaryCell" customModule="Focus" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="52" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Kxj-Vw-OqU" id="zWf-qe-jwA">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18 out of 22 goals achieved" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4n-Qg-mDa">
-                                                    <rect key="frame" x="88" y="12.333333333333334" width="199" height="19.333333333333329"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18 out of 22 goals completed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4n-Qg-mDa">
+                                                    <rect key="frame" x="81.666666666666686" y="4" width="212" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="54 out of 66 tasks completed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Il8-VU-fpG">
+                                                    <rect key="frame" x="92" y="26" width="191" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="W4n-Qg-mDa" firstAttribute="centerY" secondItem="zWf-qe-jwA" secondAttribute="centerY" id="5fJ-rS-ykq"/>
+                                                <constraint firstItem="Il8-VU-fpG" firstAttribute="centerX" secondItem="zWf-qe-jwA" secondAttribute="centerX" id="G5M-DF-Agx"/>
+                                                <constraint firstItem="Il8-VU-fpG" firstAttribute="top" secondItem="W4n-Qg-mDa" secondAttribute="bottom" constant="2" id="buu-Nq-Aqo"/>
                                                 <constraint firstItem="W4n-Qg-mDa" firstAttribute="centerX" secondItem="zWf-qe-jwA" secondAttribute="centerX" id="nt4-Z2-GlG"/>
+                                                <constraint firstItem="W4n-Qg-mDa" firstAttribute="top" secondItem="zWf-qe-jwA" secondAttribute="top" constant="4" id="xxG-QO-G0Z"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.95999999999999996" alpha="0.75" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="historySummaryCellLabel" destination="W4n-Qg-mDa" id="DFu-qB-m0A"/>
+                                            <outlet property="historySummaryCellToDoLabel" destination="Il8-VU-fpG" id="srg-IG-275"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="HistoryFinalHeaderCell" rowHeight="24" id="0u9-vE-ABc" customClass="HistoryFinalHeaderCell" customModule="Focus" customModuleProvider="target">
@@ -116,7 +125,7 @@
                                                 <constraint firstItem="JEH-6w-MHD" firstAttribute="centerY" secondItem="0kX-xw-Hlo" secondAttribute="centerY" id="noN-Vc-rcZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="historyFinalHeaderCellLabel" destination="JEH-6w-MHD" id="uwu-bE-KLB"/>
                                         </connections>
@@ -155,6 +164,7 @@
                                                 <constraint firstItem="kRL-OA-d62" firstAttribute="leading" secondItem="DK9-60-XEP" secondAttribute="trailing" constant="8" id="nnM-Jw-3s0"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="historyGoal" destination="kRL-OA-d62" id="y7D-bh-6vg"/>
                                             <outlet property="historyGoalCompleted" destination="DK9-60-XEP" id="3Nc-pf-A0n"/>

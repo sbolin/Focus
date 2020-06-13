@@ -9,8 +9,8 @@
 import UIKit
 
 protocol TodayTaskCellDelegate {
-  func todayToDo( _ cell: TodayToDoCell, newToDoCreated newToDo: String)
-  func todayTask(_ cell: TodayToDoCell, completionChanged completion: Bool)
+  func todayToDoCreated( _ cell: TodayToDoCell, newToDoCreated newToDo: String)
+  func todayTaskCompletion(_ cell: TodayToDoCell, completionChanged completion: Bool)
 }
 
 class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
@@ -34,8 +34,8 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   //MARK: - Configuration
   func configure() {
     todayTask.delegate = self
-//    todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
-//    todayTaskCompleted.tintColor = .systemGray6
+    todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
+    toggleButtonColor()
     let backgroundView = UIView()
     backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
     self.selectedBackgroundView = backgroundView
@@ -63,7 +63,7 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   func processInput() {
     if let todayText = fetchInput() {
       // call delegate method to update datamodel
-      delegate?.todayToDo(self, newToDoCreated: todayText)
+      delegate?.todayToDoCreated(self, newToDoCreated: todayText)
     }
 //    todayTask.text = ""
     todayTask.resignFirstResponder()
@@ -82,12 +82,14 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   }
   
   @IBAction func todayTaskTapped(_ sender: UIButton) {
+    print("Tapped task completed button")
     todayTaskCompleted.isSelected.toggle()
     toggleButtonColor()
     if todayTaskCompleted.isSelected {
       todayTaskCompleted.wiggle()
     }
     // call delegate method to update datamodel
-    delegate?.todayTask(self, completionChanged: todayTaskCompleted.isSelected)
+    print("todayTaskTapped delegate to be called")
+    delegate?.todayTaskCompletion(self, completionChanged: todayTaskCompleted.isSelected)
   }
 }

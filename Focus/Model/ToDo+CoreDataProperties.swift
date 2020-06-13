@@ -23,6 +23,14 @@ extension ToDo {
     @NSManaged public var todoDateCreated: Date
     @NSManaged public var goal: Goal
   
+  @objc var groupByYear: String {
+    get {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy"
+      return dateFormatter.string(from: todoDateCreated)
+    }
+  }
+  
   @objc var groupByMonth: String {
     get {
       let dateFormatter = DateFormatter()
