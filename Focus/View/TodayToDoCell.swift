@@ -34,11 +34,11 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   //MARK: - Configuration
   func configure() {
     todayTask.delegate = self
-    todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
-    toggleButtonColor()
-    let backgroundView = UIView()
-    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
-    self.selectedBackgroundView = backgroundView
+//    todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
+//    toggleButtonColor()
+//    let backgroundView = UIView()
+//    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
+//    self.selectedBackgroundView = backgroundView
   }
   
   func configureTodayTaskCell(at indexPath: IndexPath, for todo: ToDo) {

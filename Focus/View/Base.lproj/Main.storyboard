@@ -150,7 +150,7 @@
                                                     </constraints>
                                                     <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" image="fav_star">
-                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24" scale="large" weight="semibold"/>
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="semibold"/>
                                                     </state>
                                                 </button>
                                             </subviews>
@@ -362,18 +362,16 @@
                                                         <action selector="todayTaskEditingEnded:" destination="doA-us-eUT" eventType="editingDidEnd" id="Ac9-iN-D8m"/>
                                                     </connections>
                                                 </textField>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0H0-gd-X0j">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0H0-gd-X0j">
                                                     <rect key="frame" x="331" y="8" width="32" height="32"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="32" id="4QD-Th-Xg7"/>
                                                         <constraint firstAttribute="height" constant="32" id="Nbk-RK-fNM"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" image="fav_star">
-                                                        <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small" weight="regular"/>
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="light"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="todayTaskTapped:" destination="doA-us-eUT" eventType="touchUpInside" id="4Kb-TR-VVD"/>
