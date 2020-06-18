@@ -189,12 +189,15 @@ class CoreDataController {
   //Mark ToDo Completed
   func markToDoCompleted(completed: Bool, todo: ToDo) {
     print("markToDoCompleted")
+    print("todo: \(todo)")
     todo.todoCompleted = completed
     todo.todoDateCompleted = Date()
     
     let goalToCheck = todo.goal
+    goalToCheck.goalCompleted = false
     let todos = goalToCheck.todos
     let todoCount = todos.count
+    print("todoCount: \(todoCount)")
     var count = 0
     for todo in todos {
       if todo.todoCompleted == true { count += 1 }

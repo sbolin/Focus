@@ -25,20 +25,10 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   //MARK: - View Life Cycle
   override func awakeFromNib() {
     super.awakeFromNib()
-    configure()
+    todayGoal.delegate = self
   }
   
   //MARK: - Configure
-  func configure() {
-    
-    todayGoal.delegate = self
-//    todayGoalCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
-//    toggleButtonColor()
-//    let backgroundView = UIView()
-//    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
-//    self.selectedBackgroundView = backgroundView
-  }
-  
   func configureTodayGoalCell(at indexPath: IndexPath, for goal: Goal) {
     todayGoal.text = goal.goal
     todayGoalCompleted.isSelected = goal.goalCompleted
@@ -64,7 +54,7 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
       // call cell delegate method to update datamodel
       delegate?.todayGoal(self, newGoalCreated: todayGoal)
     }
-//    todayGoal.text = ""
+    //    todayGoal.text = ""
     todayGoal.resignFirstResponder()
   }
   

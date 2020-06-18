@@ -18,7 +18,7 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   //MARK: - Properties
   public static let reuseIdentifier = "TodayTaskCell"
   var delegate: TodayTaskCellDelegate?
-
+  
   
   //MARK: - IBOutlets
   @IBOutlet weak var todayTask: UITextField!
@@ -27,26 +27,23 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   
   override func awakeFromNib() {
     super.awakeFromNib()
-    configure()
+    todayTask.delegate = self
+    
     
     // Initialization code
   }
   //MARK: - Configuration
-  func configure() {
-    todayTask.delegate = self
-//    todayTaskCompleted.setImage(UIImage(named: "fav_star"), for: .normal)
-//    toggleButtonColor()
-//    let backgroundView = UIView()
-//    backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.85, blue: 0.7, alpha: 1)
-//    self.selectedBackgroundView = backgroundView
-  }
-  
   func configureTodayTaskCell(at indexPath: IndexPath, for todo: ToDo) {
     let todoCount = indexPath.row
     todayTask.text = todo.todo
     todayTaskNumber.image =  UIImage(systemName: "\(todoCount).circle.fill")
     todayTaskCompleted.isSelected = todo.todoCompleted
+    print("in configureTodayTaskCell \(todo.todoCompleted)")
     toggleButtonColor()
+    if todayTaskCompleted.isSelected {
+      todayTaskCompleted.wiggle()
+    }
+    
   }
   
   func toggleButtonColor() {
@@ -65,7 +62,7 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
       // call delegate method to update datamodel
       delegate?.todayToDoCreated(self, newToDoCreated: todayText)
     }
-//    todayTask.text = ""
+    //    todayTask.text = ""
     todayTask.resignFirstResponder()
   }
   
@@ -83,13 +80,10 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   
   @IBAction func todayTaskTapped(_ sender: UIButton) {
     print("Tapped task completed button")
+    print("taskcompleted before toggle: \(todayTaskCompleted.isSelected)")
     todayTaskCompleted.isSelected.toggle()
-    toggleButtonColor()
-    if todayTaskCompleted.isSelected {
-      todayTaskCompleted.wiggle()
-    }
     // call delegate method to update datamodel
-    print("todayTaskTapped delegate to be called")
     delegate?.todayTaskCompletion(self, completionChanged: todayTaskCompleted.isSelected)
+    print("taskcompleted after delegate called: \(todayTaskCompleted.isSelected)")
   }
 }

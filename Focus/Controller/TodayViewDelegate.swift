@@ -19,6 +19,7 @@ class TodayViewDelegate: NSObject, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    print("didSelectRowAt: \(indexPath): \(indexPath.section), \(indexPath.row)")
     tableView.deselectRow(at: indexPath, animated: true)
   }
 

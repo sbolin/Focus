@@ -14,8 +14,9 @@ class TodayViewController: UIViewController {
   //MARK: - Properties
   let todayViewdelegate = TodayViewDelegate()
   var dataSource: TodayViewDataSource<ToDo, TodayViewController>!
-  var fetchedResultsController: NSFetchedResultsController<ToDo>!
-    
+  var fetchedToDoResultsController: NSFetchedResultsController<ToDo>!
+
+  
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
   
@@ -24,30 +25,31 @@ class TodayViewController: UIViewController {
     super.viewDidLoad()
     CoreDataController.shared.createToDosIfNeeded()
     todayTableView.delegate = todayViewdelegate
-    setupTableView()
+    setupToDoTableView()
     registerForKeyboardNotifications()
   }
   
   //MARK: - Setup tableview to show last note
-  func setupTableView() {
+
+  func setupToDoTableView() {
     // setup fetchrequest
-    if fetchedResultsController == nil {
-//      fetchedResultsController = CoreDataController.shared.fetchedToDoGoalResultsController
-      fetchedResultsController = CoreDataController.shared.fetchedToDoResultsController
+    if fetchedToDoResultsController == nil {
+      fetchedToDoResultsController = CoreDataController.shared.fetchedToDoResultsController
     }
-    fetchedResultsController.fetchRequest.fetchLimit = 0
-    let createdAtDescriptor = NSSortDescriptor(key: "todoDateCreated", ascending: false)
-    fetchedResultsController.fetchRequest.sortDescriptors = [createdAtDescriptor]
-    fetchedResultsController.fetchRequest.fetchLimit = 3
+    fetchedToDoResultsController.fetchRequest.fetchLimit = 0
+    let createdAtDescriptor = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
+    fetchedToDoResultsController.fetchRequest.sortDescriptors = [createdAtDescriptor]
+    fetchedToDoResultsController.fetchRequest.fetchLimit = 3
     
     do {
-      try fetchedResultsController.performFetch()
+      try fetchedToDoResultsController.performFetch()
       todayTableView.reloadData()
     } catch {
       print("Fetch failed")
     }
-    dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedResultsController, delegate: self)
+    dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedToDoResultsController, delegate: self)
   }
+  
   
   //MARK:- Notification Functions for keyboard
   func registerForKeyboardNotifications() {

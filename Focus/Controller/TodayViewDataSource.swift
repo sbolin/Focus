@@ -51,12 +51,14 @@ class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataS
       let todoObject = self.fetchedResultsController.object(at: indexPath) as! ToDo
       let goalObject = todoObject.goal
       let goalCell = tableView.dequeueReusableCell(withIdentifier: TodayGoalCell.reuseIdentifier , for: indexPath) as! TodayGoalCell
+      goalCell.delegate = self
       delegate?.configureTodayGoal(at: indexPath, goalCell, for: goalObject)
       return goalCell
     }
     let previousIndex = IndexPath(row: indexPath.row - 1, section: indexPath.section)
     let todoObject = self.fetchedResultsController.object(at: previousIndex) as! ToDo
     let todoCell = tableView.dequeueReusableCell(withIdentifier: TodayToDoCell.reuseIdentifier, for: indexPath) as! TodayToDoCell
+    todoCell.delegate = self
     delegate?.configureTodayTask(at: indexPath, todoCell, for: todoObject)
     return todoCell
   }
@@ -154,7 +156,7 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   //MARK: TodayTaskCellDelegate Methods
   func todayToDoCreated(_ cell: TodayToDoCell, newToDoCreated newToDo: String) {
     //TODO: Check if tasks already exists, if so update task else create new task
-    print("TodayTaskCellDelegate newToDoCreated")
+    print("In TodayTaskCellDelegate newToDoCreated method")
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     CoreDataController.shared.addToDo(text: newToDo, at: indexPath)
@@ -164,17 +166,21 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   }
   
   func todayTaskCompletion(_ cell: TodayToDoCell, completionChanged completion: Bool) {
-    print("TodayTaskCellDelegate completionChanged")
+    print("In TodayTaskCellDelegate completionChanged method")
     guard let indexPath = tableView.indexPath(for: cell) else { return }
-    let note = CoreDataController.shared.fetchedToDoResultsController.object(at: indexPath)
+    print("indexPath : \(indexPath.section), \(indexPath.row)")
+    let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+    print("previousIndexPath : \(previousIndexPath.section), \(previousIndexPath.row)")
+    let note = CoreDataController.shared.fetchedToDoResultsController.object(at: previousIndexPath)
     
     CoreDataController.shared.markToDoCompleted(completed: completion, todo: note)
-    CoreDataController.shared.saveContext()
+    tableView.reloadData()
+//    CoreDataController.shared.saveContext()
   }
   
   //MARK: TodayGoalCellDelegate Methods
   func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String) {
-    print("TodayGoalCellDelegate newGoalCreated")
+    print("In TodayGoalCellDelegate newGoalCreated method")
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     CoreDataController.shared.addGoal(title: newGoal, todo: "New To Do")
