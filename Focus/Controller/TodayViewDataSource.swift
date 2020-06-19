@@ -156,37 +156,28 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   //MARK: TodayTaskCellDelegate Methods
   func todayToDoCreated(_ cell: TodayToDoCell, newToDoCreated newToDo: String) {
     //TODO: Check if tasks already exists, if so update task else create new task
-    print("In TodayTaskCellDelegate newToDoCreated method")
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     CoreDataController.shared.addToDo(text: newToDo, at: indexPath)
 //    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
     tableViewContainer.insertRows(at: [indexPath], with: .automatic)
-//    CoreDataController.shared.saveContext()
   }
   
   func todayTaskCompletion(_ cell: TodayToDoCell, completionChanged completion: Bool) {
-    print("In TodayTaskCellDelegate completionChanged method")
     guard let indexPath = tableView.indexPath(for: cell) else { return }
-    print("indexPath : \(indexPath.section), \(indexPath.row)")
     let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-    print("previousIndexPath : \(previousIndexPath.section), \(previousIndexPath.row)")
     let note = CoreDataController.shared.fetchedToDoResultsController.object(at: previousIndexPath)
-    
     CoreDataController.shared.markToDoCompleted(completed: completion, todo: note)
-    tableView.reloadData()
-//    CoreDataController.shared.saveContext()
+    tableView.reloadRows(at: [indexPath], with: .none)
   }
   
   //MARK: TodayGoalCellDelegate Methods
   func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String) {
-    print("In TodayGoalCellDelegate newGoalCreated method")
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     CoreDataController.shared.addGoal(title: newGoal, todo: "New To Do")
-    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
-    //    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
-//    CoreDataController.shared.saveContext()
+//    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
+    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
   }
   
 }

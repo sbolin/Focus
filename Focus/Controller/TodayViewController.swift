@@ -72,7 +72,6 @@ class TodayViewController: UIViewController {
   
   @IBAction func addTodayTask(_ sender: UIButton) {
     todayTableView.beginUpdates()
-    print("Adding task")
     // add task to dataSource
     let context = CoreDataController.shared.managedContext
     let todo = ToDo(context: context)

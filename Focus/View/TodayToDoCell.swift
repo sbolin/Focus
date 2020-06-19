@@ -19,26 +19,23 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   public static let reuseIdentifier = "TodayTaskCell"
   var delegate: TodayTaskCellDelegate?
   
-  
   //MARK: - IBOutlets
   @IBOutlet weak var todayTask: UITextField!
   @IBOutlet weak var todayTaskNumber: UIImageView!
   @IBOutlet weak var todayTaskCompleted: UIButton!
   
+  //MARK: - View Life Cycle
   override func awakeFromNib() {
     super.awakeFromNib()
     todayTask.delegate = self
-    
-    
-    // Initialization code
   }
+  
   //MARK: - Configuration
   func configureTodayTaskCell(at indexPath: IndexPath, for todo: ToDo) {
     let todoCount = indexPath.row
     todayTask.text = todo.todo
     todayTaskNumber.image =  UIImage(systemName: "\(todoCount).circle.fill")
     todayTaskCompleted.isSelected = todo.todoCompleted
-    print("in configureTodayTaskCell \(todo.todoCompleted)")
     toggleButtonColor()
     if todayTaskCompleted.isSelected {
       todayTaskCompleted.wiggle()
@@ -79,11 +76,8 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   }
   
   @IBAction func todayTaskTapped(_ sender: UIButton) {
-    print("Tapped task completed button")
-    print("taskcompleted before toggle: \(todayTaskCompleted.isSelected)")
     todayTaskCompleted.isSelected.toggle()
     // call delegate method to update datamodel
     delegate?.todayTaskCompletion(self, completionChanged: todayTaskCompleted.isSelected)
-    print("taskcompleted after delegate called: \(todayTaskCompleted.isSelected)")
   }
 }

@@ -10,6 +10,7 @@ import UIKit
 
 protocol TodayGoalCellDelegate {
   func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String)
+
 }
 
 class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
@@ -28,7 +29,7 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
     todayGoal.delegate = self
   }
   
-  //MARK: - Configure
+  //MARK: - Configuration
   func configureTodayGoalCell(at indexPath: IndexPath, for goal: Goal) {
     todayGoal.text = goal.goal
     todayGoalCompleted.isSelected = goal.goalCompleted

@@ -98,6 +98,35 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
 */
   }
   
+  func setupSubSections() {
+    let countGoalsDateAdded = NSExpressionDescription()
+    countGoalsDateAdded.name = "countGoalsAtDate"
+    countGoalsDateAdded.expression = NSExpression(format: "count:(ToDo.goal.goalDateCreated)")
+    countGoalsDateAdded.expressionResultType = .integer32AttributeType
+    let sortDateDesc = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
+    
+    let fetch = NSFetchRequest<ToDo>(entityName: "ToDo")
+    fetch.sortDescriptors = [sortDateDesc]
+    fetch.resultType = .dictionaryResultType
+    fetch.propertiesToFetch = [countGoalsDateAdded, "ToDo.goal.goalDateCreated", "ToDo.todoDateCreated"]
+    fetch.propertiesToGroupBy = ["groupByMonth", "ToDo.goal", "Todo.todo"]
+  }
+  
+  /*
+   let countJulianDateAdded = NSExpressionDescription()
+   countJulianDateAdded.name = "countItemsAtDate"
+   countJulianDateAdded.expression = NSExpression(format: "count:(julianDateAdded)")
+   countJulianDateAdded.expressionResultType = .Integer32AttributeType
+   
+   let sortDateDesc = NSSortDescriptor(key: "julianDateAdded", ascending: false)
+   
+   let fetch = NSFetchRequest(entityName: "Item")
+   fetch.sortDescriptors = [sortDateDesc]
+   fetch.resultType = .DictionaryResultType
+   fetch.propertiesToFetch = [countJulianDateAdded,"julianDateAdded","timeAdded"]
+   fetch.propertiesToGroupBy = ["julianDateAdded","timeAdded"]
+   */
+  
   
   func getSummaryCounts() {
     // get summary counts
