@@ -22,6 +22,8 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   fileprivate var fetchedResultsController: NSFetchedResultsController<Result>
   fileprivate weak var delegate: Delegate!
   
+  var goalFetch = [ToDo]()
+  
   var undoneGoalCount = 0
   var doneGoalCount = 0
   var undoneToDoCount = 0
@@ -110,24 +112,15 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
     fetch.resultType = .dictionaryResultType
     fetch.propertiesToFetch = [countGoalsDateAdded, "ToDo.goal.goalDateCreated", "ToDo.todoDateCreated"]
     fetch.propertiesToGroupBy = ["groupByMonth", "ToDo.goal", "Todo.todo"]
+    
+    do {
+      goalFetch = try CoreDataController.shared.managedContext.fetch(fetch)
+      print(goalFetch)
+      tableView.reloadData()
+    } catch {
+      print("Fetch failed")
+    }
   }
-  
-  /*
-   let countJulianDateAdded = NSExpressionDescription()
-   countJulianDateAdded.name = "countItemsAtDate"
-   countJulianDateAdded.expression = NSExpression(format: "count:(julianDateAdded)")
-   countJulianDateAdded.expressionResultType = .Integer32AttributeType
-   
-   let sortDateDesc = NSSortDescriptor(key: "julianDateAdded", ascending: false)
-   
-   let fetch = NSFetchRequest(entityName: "Item")
-   fetch.sortDescriptors = [sortDateDesc]
-   fetch.resultType = .DictionaryResultType
-   fetch.propertiesToFetch = [countJulianDateAdded,"julianDateAdded","timeAdded"]
-   fetch.propertiesToGroupBy = ["julianDateAdded","timeAdded"]
-   */
-  
-  
   func getSummaryCounts() {
     // get summary counts
     undoneGoalCount = 0

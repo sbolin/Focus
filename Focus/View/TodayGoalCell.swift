@@ -33,15 +33,13 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   func configureTodayGoalCell(at indexPath: IndexPath, for goal: Goal) {
     todayGoal.text = goal.goal
     todayGoalCompleted.isSelected = goal.goalCompleted
-    if goal.goalCompleted {
-      todayGoalCompleted.whirl()
-    }
-    toggleButtonColor()
+    toggleButton()
   }
   
-  func toggleButtonColor() {
-    todayGoalCompleted.isSelected ? (todayGoalCompleted.tintColor = .systemOrange) :
+  func toggleButton() {
+    todayGoalCompleted.isSelected ? (todayGoalCompleted.tintColor = .systemRed) :
       (todayGoalCompleted.tintColor = .systemGray6)
+    todayGoalCompleted.isSelected ? todayGoalCompleted.whirl() : nil
   }
   
   //MARK: - Helper Functions

@@ -2,7 +2,7 @@
 //  Goal+CoreDataProperties.swift
 //  Focus
 //
-//  Created by Scott Bolin on 6/10/20.
+//  Created by Scott Bolin on 6/26/20.
 //  Copyright © 2020 Scott Bolin. All rights reserved.
 //
 //

@@ -37,8 +37,8 @@ class CoreDataController {
     let managedContext = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
     let goalSort = NSSortDescriptor(keyPath: \ToDo.goal.goal, ascending: true)
-    let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
-    request.sortDescriptors = [goalSort, createdSort]
+    let noteSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+    request.sortDescriptors = [goalSort, noteSort]
     
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
@@ -191,20 +191,31 @@ class CoreDataController {
   //Mark ToDo Completed
   func markToDoCompleted(completed: Bool, todo: ToDo) {
     print("markToDoCompleted")
-    print("todo: \(todo)")
+    print("todo to change: \(todo)")
+    print("prior to updated todo status: \(todo.todoCompleted)")
     todo.todoCompleted = completed
-    todo.todoDateCompleted = Date()
-    
+    print("after updated todo status: \(todo.todoCompleted)")
     let goalToCheck = todo.goal
+    print("goal to check: \(goalToCheck)")
+    print("Initial goalToCheck.goalCompleted = \(goalToCheck.goalCompleted)")
     goalToCheck.goalCompleted = false
+    goalToCheck.goalDateCompleted = nil
     let todos = goalToCheck.todos
-    let todoCount = todos.count
-    print("todoCount: \(todoCount)")
-    var count = 0
-    for todo in todos {
-      if todo.todoCompleted == true { count += 1 }
+//    let todoCount = todos.count
+    let todosContainsFalseToDo = todos.contains { (todo) -> Bool in
+      todo.todoCompleted == false
     }
-    if todoCount == count {
+//    print("todos.contains: \(todosContainsFalseToDo)")
+//    var count = 0
+//    for todo in todos {
+//      if todo.todoCompleted == true { count += 1 }
+//      print("todo: \(todo)")
+//      print("todo is completed: \(todo.todoCompleted)")
+//      print("todo completed count check: \(count)")
+//    }
+//    if todoCount == count {
+    if !todosContainsFalseToDo {
+      todo.todoDateCompleted = Date()
       goalToCheck.goalCompleted = true
       goalToCheck.goalDateCompleted = Date()
     }

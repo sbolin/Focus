@@ -35,6 +35,7 @@ class HistoryViewController: UIViewController {
     
   
   func setupTableView() {
+    print("setupTableView")
     if fetchedResultsController == nil {
       fetchedResultsController = CoreDataController.shared.fetchedToDoByMonthController
     }
