@@ -158,13 +158,8 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-    print("Indexpath: \(indexPath.section), \(indexPath.row)")
-    print("PreviousIndexpath: \(previousIndexPath.section), \(previousIndexPath.row)")
-//    CoreDataController.shared.addToDo(text: updatedToDo, at: indexPath)
     CoreDataController.shared.modifyToDo(updatedToDoText: updatedToDo, at: previousIndexPath)
     tableView.reloadData()
- //   tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
-//    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
   }
   
   func todayTaskCompletion(_ cell: TodayToDoCell, completionChanged completion: Bool) {
@@ -172,7 +167,6 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
     let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
     let note = CoreDataController.shared.fetchedToDoResultsController.object(at: previousIndexPath)
     CoreDataController.shared.markToDoCompleted(completed: completion, todo: note)
-//    tableView.reloadRows(at: [indexPath], with: .none)
     tableView.reloadData()
   }
   
@@ -181,8 +175,6 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     CoreDataController.shared.addModifyGoal(title: goalText, at: indexPath)
-//    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
-//    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
     tableView.reloadData()
   }
   

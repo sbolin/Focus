@@ -37,7 +37,7 @@ class CoreDataController {
     let managedContext = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
     let goalSort = NSSortDescriptor(keyPath: \ToDo.goal.goal, ascending: true)
-    let noteSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+    let noteSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: false)
     request.sortDescriptors = [goalSort, noteSort]
     
     let fetchedResultsController = NSFetchedResultsController(
@@ -53,7 +53,7 @@ class CoreDataController {
     let managedContext = persistentContainer.viewContext
     let request = Goal.goalFetchRequest()
     let goalCreatedSort = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: false)
-    let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+    let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: false)
     request.sortDescriptors = [todoCreatedSort, goalCreatedSort ]
 
     let fetchedResultsController = NSFetchedResultsController(
@@ -170,7 +170,9 @@ class CoreDataController {
   func addModifyGoal(title: String, at indexPath: IndexPath) {
     print("addModifyGoal")
     let context = persistentContainer.viewContext
-    let goal = fetchedGoalResultsController.object(at: indexPath)
+    let todo = fetchedToDoResultsController.object(at: indexPath)
+//    let goal = fetchedGoalResultsController.object(at: indexPath)
+    let goal = todo.goal
     if goal.goal.isEmpty {
       // new goal
       let newgoal = Goal(context: context)
@@ -186,6 +188,7 @@ class CoreDataController {
   
   //Mark ToDo Completed
   func markToDoCompleted(completed: Bool, todo: ToDo) {
+    print("markToDoCompleted")
     todo.todoCompleted = completed
     let goalToCheck = todo.goal
     goalToCheck.goalCompleted = false
@@ -242,20 +245,26 @@ class CoreDataController {
     todo28.todo = "Goal 10, To Do 1"
     todo28.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*375)
     todo28.todoCompleted = false
+    todo28.id = UUID()
     todo28.goal = goal10
+
     
     let todo29 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo29.todo = "Goal 10, To Do 2"
     todo29.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*376)
     todo29.todoCompleted = false
+    todo29.id = UUID()
     todo29.goal = goal10
+
     
     let todo30 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo30.todo = "Goal 10, To Do 3"
     todo30.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*377)
     todo30.todoCompleted = true
     todo30.todoDateCompleted = Date(timeIntervalSinceNow: -60*60*24*376)
+    todo30.id = UUID()
     todo30.goal = goal10
+    
     
     
     // Goal 9
@@ -268,19 +277,22 @@ class CoreDataController {
     todo25.todo = "Goal 9, To Do 1"
     todo25.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*371)
     todo25.todoCompleted = false
+    todo25.id = UUID()
     todo25.goal = goal9
     
     let todo26 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo26.todo = "Goal 9, To Do 2"
     todo26.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*372)
     todo26.todoCompleted = true
-    todo26.goal = goal9
     todo26.todoDateCompleted = Date(timeIntervalSinceNow: -60*60*24*371)
+    todo26.id = UUID()
+    todo26.goal = goal9
     
     let todo27 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo27.todo = "Goal 9, To Do 3"
     todo27.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*373)
     todo27.todoCompleted = false
+    todo27.id = UUID()
     todo27.goal = goal9
     
     // Goal 8
@@ -293,18 +305,21 @@ class CoreDataController {
     todo22.todo = "Goal 8, To Do 1"
     todo22.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*367)
     todo22.todoCompleted = false
+    todo22.id = UUID()
     todo22.goal = goal8
     
     let todo23 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo23.todo = "Goal 8, To Do 2"
     todo23.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*368)
     todo23.todoCompleted = false
+    todo23.id = UUID()
     todo23.goal = goal8
     
     let todo24 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo24.todo = "Goal 8, To Do 3"
     todo24.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*369)
     todo24.todoCompleted = false
+    todo24.id = UUID()
     todo24.goal = goal8
     
     // Goal 7
@@ -317,18 +332,21 @@ class CoreDataController {
     todo19.todo = "Goal 7, To Do 1"
     todo19.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*182)
     todo19.todoCompleted = false
+    todo19.id = UUID()
     todo19.goal = goal7
     
     let todo20 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo20.todo = "Goal 7, To Do 2"
     todo20.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*183)
     todo20.todoCompleted = false
+    todo20.id = UUID()
     todo20.goal = goal7
     
     let todo21 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo21.todo = "Goal 7, To Do 3"
     todo21.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*184)
     todo21.todoCompleted = false
+    todo21.id = UUID()
     todo21.goal = goal7
     
     // Goal 6
@@ -341,18 +359,21 @@ class CoreDataController {
     todo16.todo = "Goal 6, To Do 1"
     todo16.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*91)
     todo16.todoCompleted = false
+    todo16.id = UUID()
     todo16.goal = goal6
     
     let todo17 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo17.todo = "Goal 6, To Do 2"
     todo17.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*92)
     todo17.todoCompleted = false
+    todo17.id = UUID()
     todo17.goal = goal6
     
     let todo18 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo18.todo = "Goal 6, To Do 3"
     todo18.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*93)
     todo18.todoCompleted = false
+    todo18.id = UUID()
     todo18.goal = goal6
     
     // Goal 5
@@ -365,18 +386,21 @@ class CoreDataController {
     todo13.todo = "Goal 5, To Do 1"
     todo13.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*33)
     todo13.todoCompleted = false
+    todo13.id = UUID()
     todo13.goal = goal5
     
     let todo14 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo14.todo = "Goal 5, To Do 2"
     todo14.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*34)
     todo14.todoCompleted = false
+    todo14.id = UUID()
     todo14.goal = goal5
     
     let todo15 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo15.todo = "Goal 5, To Do 3"
     todo15.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*35)
     todo15.todoCompleted = false
+    todo15.id = UUID()
     todo15.goal = goal5
     
     // Goal 4
@@ -389,18 +413,21 @@ class CoreDataController {
     todo1.todo = "Goal 4, To Do 1"
     todo1.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*17)
     todo1.todoCompleted = false
+    todo1.id = UUID()
     todo1.goal = goal4
     
     let todo2 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo2.todo = "Goal 4, To Do 2"
     todo2.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*18)
     todo2.todoCompleted = false
+    todo2.id = UUID()
     todo2.goal = goal4
     
     let todo3 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo3.todo = "Goal 4, To Do 3"
     todo3.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*19)
     todo3.todoCompleted = false
+    todo3.id = UUID()
     todo3.goal = goal4
     
     // Goal 3
@@ -413,18 +440,21 @@ class CoreDataController {
     todo4.todo = "Goal 3, To Do 1"
     todo4.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*13)
     todo4.todoCompleted = false
+    todo4.id = UUID()
     todo4.goal = goal3
     
     let todo5 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo5.todo = "Goal 3, To Do 2"
     todo5.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*14)
     todo5.todoCompleted = true
+    todo5.id = UUID()
     todo5.goal = goal3
     
     let todo6 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo6.todo = "Goal 3, To Do 3"
     todo6.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*15)
     todo6.todoCompleted = false
+    todo6.id = UUID()
     todo6.goal = goal3
     
     // Goal 2
@@ -439,6 +469,7 @@ class CoreDataController {
     todo7.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*9)
     todo7.todoCompleted = true
     todo7.todoDateCompleted = Date(timeIntervalSinceNow: -60*60*24*8)
+    todo7.id = UUID()
     todo7.goal = goal2
     
     let todo8 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
@@ -446,6 +477,7 @@ class CoreDataController {
     todo8.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*10)
     todo8.todoCompleted = true
     todo8.todoDateCompleted = Date(timeIntervalSinceNow: -60*60*24*9)
+    todo8.id = UUID()
     todo8.goal = goal2
     
     let todo9 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
@@ -453,6 +485,7 @@ class CoreDataController {
     todo9.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*11)
     todo9.todoCompleted = true
     todo9.todoDateCompleted = Date(timeIntervalSinceNow: -60*60*24*8)
+    todo9.id = UUID()
     todo9.goal = goal2
     
     // Goal 1
@@ -466,18 +499,21 @@ class CoreDataController {
     todo10.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*1)
     todo10.todoCompleted = true
     todo10.todoDateCompleted = Date(timeIntervalSinceNow: -60*60*24*2)
+    todo10.id = UUID()
     todo10.goal = goal1
     
     let todo11 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo11.todo = "Goal 1, To Do 2"
     todo11.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*2)
     todo11.todoCompleted = false
+    todo11.id = UUID()
     todo11.goal = goal1
     
     let todo12 = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
     todo12.todo = "Goal 1, To Do 3"
     todo12.todoDateCreated = Date(timeIntervalSinceNow: -60*60*24*3)
     todo12.todoCompleted = false
+    todo12.id = UUID()
     todo12.goal = goal1
     
     saveContext()

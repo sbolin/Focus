@@ -8,6 +8,7 @@
         <relationship name="todos" toMany="YES" deletionRule="Cascade" destinationEntity="ToDo" inverseName="goal" inverseEntity="ToDo"/>
     </entity>
     <entity name="ToDo" representedClassName=".ToDo" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="todo" attributeType="String"/>
         <attribute name="todoCompleted" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="todoDateCompleted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -16,6 +17,6 @@
     </entity>
     <elements>
         <element name="Goal" positionX="1593.43359375" positionY="-434.625" width="128" height="118"/>
-        <element name="ToDo" positionX="1781.91796875" positionY="-405.8984375" width="128" height="118"/>
+        <element name="ToDo" positionX="1781.91796875" positionY="-405.8984375" width="128" height="133"/>
     </elements>
 </model>
