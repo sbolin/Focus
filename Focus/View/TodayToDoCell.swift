@@ -9,7 +9,7 @@
 import UIKit
 
 protocol TodayTaskCellDelegate {
-  func todayToDoCreated( _ cell: TodayToDoCell, newToDoCreated newToDo: String)
+  func todayToDoUpdated( _ cell: TodayToDoCell, toDoUpdated newToDo: String)
   func todayTaskCompletion(_ cell: TodayToDoCell, completionChanged completion: Bool)
 }
 
@@ -57,7 +57,7 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   func processInput() {
     if let todayText = fetchInput() {
       // call delegate method to update datamodel
-      delegate?.todayToDoCreated(self, newToDoCreated: todayText)
+      delegate?.todayToDoUpdated(self, toDoUpdated: todayText)
     }
     //    todayTask.text = ""
     todayTask.resignFirstResponder()

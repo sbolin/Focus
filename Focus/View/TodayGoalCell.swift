@@ -9,8 +9,7 @@
 import UIKit
 
 protocol TodayGoalCellDelegate {
-  func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String)
-
+  func todayGoal(_ cell: TodayGoalCell, todayGoalText goalText: String)
 }
 
 class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
@@ -49,9 +48,9 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   }
   
   func processInput() {
-    if let todayGoal = fetchInput() {
+    if let goalText = fetchInput() {
       // call cell delegate method to update datamodel
-      delegate?.todayGoal(self, newGoalCreated: todayGoal)
+      delegate?.todayGoal(self, todayGoalText: goalText)
     }
     //    todayGoal.text = ""
     todayGoal.resignFirstResponder()

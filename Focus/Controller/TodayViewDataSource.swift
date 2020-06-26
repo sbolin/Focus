@@ -154,13 +154,17 @@ class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataS
 extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   
   //MARK: TodayTaskCellDelegate Methods
-  func todayToDoCreated(_ cell: TodayToDoCell, newToDoCreated newToDo: String) {
-    //TODO: Check if tasks already exists, if so update task else create new task
+  func todayToDoUpdated(_ cell: TodayToDoCell, toDoUpdated updatedToDo: String) {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    CoreDataController.shared.addToDo(text: newToDo, at: indexPath)
-//    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
-    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
+    let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+    print("Indexpath: \(indexPath.section), \(indexPath.row)")
+    print("PreviousIndexpath: \(previousIndexPath.section), \(previousIndexPath.row)")
+//    CoreDataController.shared.addToDo(text: updatedToDo, at: indexPath)
+    CoreDataController.shared.modifyToDo(updatedToDoText: updatedToDo, at: previousIndexPath)
+    tableView.reloadData()
+ //   tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
+//    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
   }
   
   func todayTaskCompletion(_ cell: TodayToDoCell, completionChanged completion: Bool) {
@@ -168,16 +172,18 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
     let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
     let note = CoreDataController.shared.fetchedToDoResultsController.object(at: previousIndexPath)
     CoreDataController.shared.markToDoCompleted(completed: completion, todo: note)
-    tableView.reloadRows(at: [indexPath], with: .none)
+//    tableView.reloadRows(at: [indexPath], with: .none)
+    tableView.reloadData()
   }
   
   //MARK: TodayGoalCellDelegate Methods
-  func todayGoal(_ cell: TodayGoalCell, newGoalCreated newGoal: String) {
+  func todayGoal(_ cell: TodayGoalCell, todayGoalText goalText: String) {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    CoreDataController.shared.addGoal(title: newGoal, todo: "New To Do")
+    CoreDataController.shared.addModifyGoal(title: goalText, at: indexPath)
 //    tableViewContainer.reloadRows(at: [indexPath], with: .automatic)
-    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
+//    tableViewContainer.insertRows(at: [indexPath], with: .automatic)
+    tableView.reloadData()
   }
   
 }
