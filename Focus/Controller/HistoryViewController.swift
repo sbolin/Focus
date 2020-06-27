@@ -30,6 +30,7 @@ class HistoryViewController: UIViewController {
         super.viewDidLoad()
         historyTableView.delegate = delegate
         setupTableView()
+      CoreDataController.shared.setupSubSections()
         // Do any additional setup after loading the view.
     }
     

@@ -99,33 +99,4 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
      return todoCell
 */
   }
-  
-  func setupSubSections() {
-    let countGoalsDateAdded = NSExpressionDescription()
-    countGoalsDateAdded.name = "countGoalsAtDate"
-    countGoalsDateAdded.expression = NSExpression(format: "count:(ToDo.goal.goalDateCreated)")
-    countGoalsDateAdded.expressionResultType = .integer32AttributeType
-    let sortDateDesc = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
-    
-    let fetch = NSFetchRequest<ToDo>(entityName: "ToDo")
-    fetch.sortDescriptors = [sortDateDesc]
-    fetch.resultType = .dictionaryResultType
-    fetch.propertiesToFetch = [countGoalsDateAdded, "ToDo.goal.goalDateCreated", "ToDo.todoDateCreated"]
-    fetch.propertiesToGroupBy = ["groupByMonth", "ToDo.goal", "Todo.todo"]
-    
-    do {
-      goalFetch = try CoreDataController.shared.managedContext.fetch(fetch)
-      print(goalFetch)
-      tableView.reloadData()
-    } catch {
-      print("Fetch failed")
-    }
-  }
-  func getSummaryCounts() {
-    // get summary counts
-    undoneGoalCount = 0
-    doneGoalCount = 0
-    undoneToDoCount = 0
-    doneToDoCount = 0
-  }
 }

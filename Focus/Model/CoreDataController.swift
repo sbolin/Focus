@@ -49,38 +49,21 @@ class CoreDataController {
     return fetchedResultsController
   }()
   
-  lazy var fetchedGoalResultsController: NSFetchedResultsController<Goal> = {
+  // used in progress view for yearly results
+  lazy var fetchedToDoByYearController: NSFetchedResultsController<ToDo> = {
     let managedContext = persistentContainer.viewContext
-    let request = Goal.goalFetchRequest()
-    let goalCreatedSort = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: false)
-    let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: false)
-    request.sortDescriptors = [todoCreatedSort, goalCreatedSort ]
-
+    let request = ToDo.todoFetchRequest()
+    let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+    request.sortDescriptors = [createdSort]
+    
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: managedContext,
-      sectionNameKeyPath: "goalDateCreated",
+      sectionNameKeyPath: "groupByYear",
       cacheName: nil)
-
+    
     return fetchedResultsController
   }()
-  
-//  lazy var fetchedToDoGoalResultsController: NSFetchedResultsController<ToDo> = {
-//    let context = persistentContainer.viewContext
-//    let request = ToDo.todoFetchRequest()
-//    let goalCreatedSort = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
-//    let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
-//
-//    request.sortDescriptors = [goalCreatedSort, todoCreatedSort]
-//
-//    let fetchedResultsController = NSFetchedResultsController(
-//      fetchRequest: request,
-//      managedObjectContext: context,
-//      sectionNameKeyPath: "goal.goalDateCreated",
-//      cacheName: nil)
-//
-//    return fetchedResultsController
-//  }()
   
   // used in HistoryView for main results, and progressView for monthly results
   lazy var fetchedToDoByMonthController: NSFetchedResultsController<ToDo> = {
@@ -93,22 +76,6 @@ class CoreDataController {
       fetchRequest: request,
       managedObjectContext: context,
       sectionNameKeyPath: "groupByMonth",
-      cacheName: nil)
-    
-    return fetchedResultsController
-  }()
-  
-  // used in progress view for yearly results
-  lazy var fetchedToDoByYearController: NSFetchedResultsController<ToDo> = {
-    let context = persistentContainer.viewContext
-    let request = ToDo.todoFetchRequest()
-    let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
-    request.sortDescriptors = [createdSort]
-    
-    let fetchedResultsController = NSFetchedResultsController(
-      fetchRequest: request,
-      managedObjectContext: context,
-      sectionNameKeyPath: "groupByYear",
       cacheName: nil)
     
     return fetchedResultsController
@@ -129,6 +96,49 @@ class CoreDataController {
     
     return fetchedResultsController
   }()
+  
+  func setupSubSections() {
+    let goalExp = NSExpression(forKeyPath: "Goal.goalDateCreated")
+    let goalCountExp = NSExpression(forFunction: "count:", arguments: [goalExp])
+    let todoExp = NSExpression(forKeyPath: "ToDo.todoDateCreated")
+    let todoCountExp = NSExpression(forFunction: "count:", arguments: [todoExp])
+    let countGoalsDateAdded = NSExpressionDescription()
+    countGoalsDateAdded.name = "countGoalsAtDate"
+    countGoalsDateAdded.expression = NSExpression(format: "count:(Goal.goalDateCreated)")
+//    countGoalsDateAdded.expression = NSExpression(format: "count:(ToDo.goal.goalDateCreated)")
+    countGoalsDateAdded.expressionResultType = .integer32AttributeType
+    let sortDateDesc = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: false)
+//    let sortDateDesc = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
+    
+//    let context = persistentContainer.viewContext
+//    let request = ToDo.todoFetchRequest()
+    let request = Goal.goalFetchRequest()
+//    let request = NSFetchRequest<ToDo>(entityName: "ToDo")
+    request.sortDescriptors = [sortDateDesc]
+    request.resultType = .dictionaryResultType
+    request.propertiesToFetch = [countGoalsDateAdded, \Goal.goalDateCreated, \ToDo.todoDateCreated]
+//    request.propertiesToFetch = [countGoalsDateAdded, \ToDo.goal.goalDateCreated, \ToDo.todoDateCreated]
+    request.propertiesToGroupBy = ["groupByMonth", "Goal", "ToDo"]
+ 
+    
+//    let fetchedResultsController = NSFetchedResultsController(
+//      fetchRequest: request,
+//      managedObjectContext: context,
+//      sectionNameKeyPath: "groupByMonth",
+//      cacheName: nil)
+    
+    
+    
+    do {
+      let goalFetch = try CoreDataController.shared.managedContext.fetch(request)
+      print(goalFetch)
+    } catch {
+      print("Fetch failed")
+    }
+  }
+  
+  
+  
   
   //MARK: - SaveContext
   func saveContext () {
