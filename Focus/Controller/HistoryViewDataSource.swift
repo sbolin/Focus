@@ -64,14 +64,16 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
-    if indexPath.row == 0 {
+//    if indexPath.row == 0 {
+    if (indexPath.row % 4) == 0 {
       let todoObject = self.fetchedResultsController.object(at: indexPath) as! ToDo
       let goalObject = todoObject.goal
       let goalCell = tableView.dequeueReusableCell(withIdentifier: HistoryGoalCell.reuseIdentifier, for: indexPath) as! HistoryGoalCell
       delegate?.configureHistoryGoalCell(at: indexPath, goalCell, for: goalObject)
       return goalCell
     }
-    let previousIndex = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+    let offset: Int = indexPath.row / 4 + 1
+    let previousIndex = IndexPath(row: indexPath.row - offset, section: indexPath.section)
     let noteObject = self.fetchedResultsController.object(at: previousIndex) as! ToDo
     let noteCell = tableView.dequeueReusableCell(withIdentifier: HistoryTaskCell.reuseIdentifier, for: indexPath) as! HistoryTaskCell
     delegate?.configureHistoryTaskCell(at: indexPath, noteCell, for: noteObject)

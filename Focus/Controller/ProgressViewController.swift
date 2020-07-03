@@ -45,17 +45,13 @@ class ProgressViewController: UIViewController {
     return NSPredicate(format: "%K = %d", #keyPath(ToDo.todoCompleted), true)
   }()
   
-  
-  
-  
-  
+  //MARK: - View Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     let request: NSFetchRequest<ToDo> = ToDo.todoFetchRequest()
     let defaultTime = weekMonthSwitch.titleForSegment(at: 0)!
     
     
-    // Do any additional setup after loading the view.
   }
   
   

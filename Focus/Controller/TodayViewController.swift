@@ -38,7 +38,8 @@ class TodayViewController: UIViewController {
     }
     fetchedToDoResultsController.fetchRequest.fetchLimit = 0
     let createdAtDescriptor = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
-    fetchedToDoResultsController.fetchRequest.sortDescriptors = [createdAtDescriptor]
+    let todoCreatedAtDescriptor = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+    fetchedToDoResultsController.fetchRequest.sortDescriptors = [createdAtDescriptor, todoCreatedAtDescriptor]
     fetchedToDoResultsController.fetchRequest.fetchLimit = 3
     
     do {

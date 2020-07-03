@@ -12,17 +12,17 @@ import CoreData
 
 
 extension ToDo {
-
-    @nonobjc public class func todoFetchRequest() -> NSFetchRequest<ToDo> {
-        return NSFetchRequest<ToDo>(entityName: "ToDo")
-    }
-
-    @NSManaged public var todo: String
-    @NSManaged public var todoCompleted: Bool
-    @NSManaged public var todoDateCompleted: Date?
-    @NSManaged public var todoDateCreated: Date
-    @NSManaged public var id: UUID
-    @NSManaged public var goal: Goal
+  
+  @nonobjc public class func todoFetchRequest() -> NSFetchRequest<ToDo> {
+    return NSFetchRequest<ToDo>(entityName: "ToDo")
+  }
+  
+  @NSManaged public var id: UUID
+  @NSManaged public var todo: String
+  @NSManaged public var todoCompleted: Bool
+  @NSManaged public var todoDateCreated: Date
+  @NSManaged public var todoDateCompleted: Date?
+  @NSManaged public var goal: Goal
   
   @objc var groupByYear: String {
     get {
@@ -47,5 +47,4 @@ extension ToDo {
       return dateFormatter.string(from: todoDateCreated)
     }
   }
-
 }
