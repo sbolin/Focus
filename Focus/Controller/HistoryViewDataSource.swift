@@ -22,6 +22,12 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   fileprivate var fetchedResultsController: NSFetchedResultsController<Result>
   fileprivate weak var delegate: Delegate!
   
+  fileprivate var todoRowsInSection: Int?
+  fileprivate var goalRowsInSection: Int?
+  
+  fileprivate var todoObject: ToDo?
+  fileprivate var goalObject: Goal?
+  
   var goalFetch = [ToDo]()
   
   var undoneGoalCount = 0
@@ -57,13 +63,29 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   //  }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    // working
+    /*
+    print("section: \(section)")
+    todoRowsInSection = fetchedResultsController.sections?[section].numberOfObjects
+    print("todoRowsInSection: \(todoRowsInSection)")
+    if var numberOfRows = todoRowsInSection {
+      goalRowsInSection = (numberOfRows - 1) / 3 + 1
+      print("goalRowsInSection: \(goalRowsInSection)")
+      numberOfRows += goalRowsInSection ?? 1
+      return numberOfRows
+    } else {
+      return 0
+    }
+    */
+    // old working:
+
     guard let fetchedSection = self.fetchedResultsController.sections?[section] else { return 0 }
     let numberOfRows = fetchedSection.numberOfObjects + 1 // account for added history summary and goal cell
     return numberOfRows
+
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    
 //    if indexPath.row == 0 {
     if (indexPath.row % 4) == 0 {
       let todoObject = self.fetchedResultsController.object(at: indexPath) as! ToDo
@@ -73,32 +95,34 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
       return goalCell
     }
     let offset: Int = indexPath.row / 4 + 1
+//    let offset: Int = 1
     let previousIndex = IndexPath(row: indexPath.row - offset, section: indexPath.section)
     let noteObject = self.fetchedResultsController.object(at: previousIndex) as! ToDo
     let noteCell = tableView.dequeueReusableCell(withIdentifier: HistoryTaskCell.reuseIdentifier, for: indexPath) as! HistoryTaskCell
     delegate?.configureHistoryTaskCell(at: indexPath, noteCell, for: noteObject)
     return noteCell
-    
 /*
-     if indexPath.row == 0 {
-     let todoObject = self.fetchedResultsController.object(at: indexPath) as! ToDo
-     let goalObject = todoObject.goal
-     let summaryCell = tableView.dequeueReusableCell(withIdentifier: HistorySummaryCell.reuseIdentifier, for: indexPath) as! HistorySummaryCell
-     delegate?.configureHistorySummaryCell(at: indexPath, summaryCell, undoneGoalCount: undoneGoalCount, doneGoalCount: doneGoalCount, undoneToDoCount: undoneToDoCount, doneToDoCount: doneToDoCount)
-     return summaryCell
-     
-     } else if indexPath.row == 1 {
-     let historyGoalCellIndex = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-     let todoObject = self.fetchedResultsController.object(at: historyGoalCellIndex) as! ToDo
-     let goalObject = todoObject.goal
-     let goalCell = tableView.dequeueReusableCell(withIdentifier: HistoryGoalCell.reuseIdentifier, for: indexPath) as! HistoryGoalCell
-     delegate?.configureHistoryGoalCell(at: indexPath, goalCell, for: goalObject)
-     }
-     let historyTaskCellIndex = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-     let todoObject = self.fetchedResultsController.object(at: historyTaskCellIndex) as! ToDo
-     let todoCell = tableView.dequeueReusableCell(withIdentifier: HistoryTaskCell.reuseIdentifier, for: indexPath) as! HistoryTaskCell
-     delegate?.configureHistoryTaskCell(at: indexPath, todoCell, for: todoObject)
-     return todoCell
+// get counts from search
+    let counts = getResultsCounts(indexPath: indexPath)
+    let totalGoalCount = counts[0]
+    let doneGoalCount = counts[1]
+    let undoneGoalCount = totalGoalCount - doneGoalCount
+    let totalToDoCount = counts[2]
+    let doneToDoCount = counts[4]
+    let undoneToDoCount = totalToDoCount - doneToDoCount
+    
+    print("\(doneGoalCount) out of \(totalGoalCount) goals completed")
+    let summaryCell = tableView.dequeueReusableCell(withIdentifier: HistorySummaryCell.reuseIdentifier, for: indexPath) as! HistorySummaryCell
+    delegate?.configureHistorySummaryCell(at: indexPath, summaryCell, undoneGoalCount: undoneGoalCount, doneGoalCount: doneGoalCount, undoneToDoCount: undoneToDoCount, doneToDoCount: doneToDoCount)
+    return summaryCell
 */
+  }
+  
+  func getResultsCounts(indexPath: IndexPath) -> [Int] {
+    let todos = self.fetchedResultsController.fetchedObjects as! [ToDo]
+    let counts = [3,2,3,2]
+    
+    
+    return counts
   }
 }
