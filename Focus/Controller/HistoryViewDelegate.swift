@@ -11,6 +11,10 @@ import UIKit
 class HistoryViewDelegate: NSObject, UITableViewDelegate {
   
   //MARK: - UITableViewDelegate Methods
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
+  }
+  
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     let row = indexPath.row
     switch row {
@@ -22,15 +26,10 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return 30
-  }
-  
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    tableView.deselectRow(at: indexPath, animated: true)
+    return 32
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    
     let view = UITableViewHeaderFooterView()
     view.textLabel?.textColor = UIColor.systemOrange
     view.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
