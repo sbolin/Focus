@@ -23,8 +23,7 @@ class HistoryTaskCell: UITableViewCell {
   }
   
   func configureHistoryTaskCell(at indexPath: IndexPath, for todo: ToDo) {
-    historyTask.text = "\(todo.todo) + \(indexPath.section) + \(indexPath.row)"
-//    historyTask.text = todo.todo
+    historyTask.text = todo.todo
     historyTaskCompleted.isSelected = todo.todoCompleted
     toggleButtonColor()
   }

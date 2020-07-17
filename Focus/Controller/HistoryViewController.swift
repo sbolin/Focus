@@ -16,10 +16,12 @@ class HistoryViewController: UIViewController {
   var dataSource: HistoryViewDataSource<ToDo, HistoryViewController>!
   var fetchedResultsController: NSFetchedResultsController<ToDo>!
   var predicate: NSPredicate?
+  var statistics = Statistics()
+
   
-  var fetchRequest: NSFetchRequest<Goal>?
-  var goals: [Goal] = []
-  var asyncFetchRequest: NSAsynchronousFetchResult<Goal>?
+//  var fetchRequest: NSFetchRequest<Goal>?
+//  var goals: [Goal] = []
+//  var asyncFetchRequest: NSAsynchronousFetchResult<Goal>?
     
     
     //MARK:- IBOutlets
@@ -30,17 +32,12 @@ class HistoryViewController: UIViewController {
         super.viewDidLoad()
         historyTableView.delegate = delegate
         setupTableView()
-//      CoreDataController.shared.setupSubSections()
-        // Do any additional setup after loading the view.
     }
-    
-  
   func setupTableView() {
     print("setupTableView")
     if fetchedResultsController == nil {
       fetchedResultsController = CoreDataController.shared.fetchedToDoByMonthController
     }
-//    fetchedResultsController.fetchRequest.predicate = predicate
     do {
       try fetchedResultsController.performFetch()
       historyTableView.reloadData()
@@ -52,8 +49,8 @@ class HistoryViewController: UIViewController {
 }
 
 extension HistoryViewController: HistoryViewDataSourceDelegate {
-  func configureHistorySummaryCell(at indexPath: IndexPath, _ cell: HistorySummaryCell, undoneGoalCount: Int, doneGoalCount: Int, undoneToDoCount: Int, doneToDoCount: Int) {
-    cell.configureHistorySummaryCell(at: indexPath, undoneGoalCount: undoneGoalCount, doneGoalCount: doneGoalCount, undoneToDoCount: undoneToDoCount, doneToDoCount: doneToDoCount)
+  func configureHistorySummaryCell(at indexPath: IndexPath, _ cell: HistorySummaryCell, statistics: Statistics) {
+    cell.configureHistorySummaryCell(at: indexPath, statistics: statistics)
   }
   
   func configureHistoryTaskCell(at indexPath: IndexPath, _ cell: HistoryTaskCell, for object: ToDo) {
@@ -64,3 +61,11 @@ extension HistoryViewController: HistoryViewDataSourceDelegate {
     cell.configureHistoryGoalCell(at: indexPath, for: object)
   }
 }
+
+extension HistoryViewController: HistorySection0HeaderDelegate {
+  func configureHistorySection0HeaderView(at section: Int, _ view: HistorySection0HeaderView, headerLabel: String?) {
+    let label = headerLabel ?? "No Section"
+    view.configureHistorySection0View(at: section, with: label)
+  }
+}
+

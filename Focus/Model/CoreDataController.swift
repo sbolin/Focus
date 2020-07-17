@@ -97,40 +97,9 @@ class CoreDataController {
     return fetchedResultsController
   }()
   
-  func setupSubSections() -> [Goal] {
-    let goalExp = NSExpression(forKeyPath: \Goal.goalDateCreated)
-    let goalCountExp = NSExpression(forFunction: "count:", arguments: [goalExp])
-    let todoExp = NSExpression(forKeyPath: \ToDo.todoDateCreated)
-    let todoCountExp = NSExpression(forFunction: "count:", arguments: [todoExp])
-    
-    let countGoalsDateAdded = NSExpressionDescription()
-    countGoalsDateAdded.name = "countGoalsAtDate"
-    countGoalsDateAdded.expression = goalCountExp
-    countGoalsDateAdded.expressionResultType = .integer64AttributeType
-    
-    let countTodoDateAdded = NSExpressionDescription()
-    countTodoDateAdded.name = "countToDosAtDate"
-    countTodoDateAdded.expression = todoCountExp
-    countTodoDateAdded.expressionResultType = .integer64AttributeType
-    
-    let sortDateDesc = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: false)
-    
-    //    let request = ToDo.todoFetchRequest()
-    let request = Goal.goalFetchRequest()
-    request.sortDescriptors = [sortDateDesc]
-    request.resultType = .dictionaryResultType
-    request.propertiesToFetch = [countGoalsDateAdded, \Goal.goalDateCreated, countTodoDateAdded, \ToDo.todoDateCreated]
-    request.propertiesToGroupBy = ["groupByMonth", "Goal", "ToDo"]
-    
-    do {
-      let goalFetch = try CoreDataController.shared.managedContext.fetch(request)
-      print(goalFetch)
-      return goalFetch
-    } catch {
-      print("Fetch failed")
-    }
-    return []
-  }
+  
+  
+
   
   //MARK: - SaveContext
   func saveContext () {

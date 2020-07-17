@@ -28,7 +28,14 @@ class HistorySummaryCell: UITableViewCell {
     historySummaryCellToDoLabel.text = "Todo Count per Month"
   }
   
-  func configureHistorySummaryCell(at indexPath: IndexPath, undoneGoalCount: Int, doneGoalCount: Int, undoneToDoCount: Int, doneToDoCount: Int) {
+  func configureHistorySummaryCell(at indexPath: IndexPath, statistics: Statistics) {
+    let section = indexPath.section
+    let doneGoalCount = statistics.goalComplete[section]
+    let doneToDoCount = statistics.todoComplete[section]
+    
+    let undoneGoalCount = statistics.goalIncomplete[section]
+    let undoneToDoCount = statistics.todoIncomplete[section]
+    
     historySummaryCellLabel.text = "\(undoneGoalCount) out of \(doneGoalCount) goals completed"
     historySummaryCellToDoLabel.text = "\(undoneToDoCount) out of \(doneToDoCount) tasks completed"
   }

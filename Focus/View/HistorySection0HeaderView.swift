@@ -7,7 +7,7 @@
 //
 import UIKit
 
-protocol HistorySection0HeaderCellDelegate: class {
+protocol HistorySection0HeaderViewDelegate: class {
   func historySection0(_ cell: HistorySection0HeaderView, sectionTapped: Bool)
 }
 
@@ -15,7 +15,7 @@ class HistorySection0HeaderView: UITableViewHeaderFooterView {
   
   //MARK: - Properties
   public static let reuseIdentifier = "HistorySection0HeaderCell"
-  weak var delegate: HistorySection0HeaderCellDelegate?
+  weak var delegate: HistorySection0HeaderViewDelegate?
   var sectionNumber: Int!
 
   //MARK: - IBOutlets
@@ -26,6 +26,10 @@ class HistorySection0HeaderView: UITableViewHeaderFooterView {
   override func awakeFromNib() {
     super.awakeFromNib()
     
+  }
+  
+  func configureHistorySection0View(at section: Int, with label: String) {
+    historySection0Label.text = label
   }
   
   //MARK: - IBActions

@@ -24,8 +24,7 @@ class HistoryGoalCell: UITableViewCell {
   }
   
   func configureHistoryGoalCell(at indexPath: IndexPath, for goal: Goal) {
-    historyGoal.text = "\(goal.goal) + \(indexPath.section) + \(indexPath.row)"
-//    historyGoal.text = goal.goal
+    historyGoal.text = goal.goal
     historyGoalCompleted.isSelected = goal.goalCompleted
     toggleButtonColor()
   }

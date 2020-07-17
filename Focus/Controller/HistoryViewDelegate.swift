@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol HistorySection0HeaderDelegate {
+  func configureHistorySection0HeaderView(at section: Int, _ view: HistorySection0HeaderView, headerLabel: String?)
+}
+
 class HistoryViewDelegate: NSObject, UITableViewDelegate {
+  
+  var delegate: HistorySection0HeaderDelegate?
   
   //MARK: - UITableViewDelegate Methods
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -17,10 +23,9 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     let row = indexPath.row
-    switch row {
-    case 0:
+    if row == 0 || (row - 1) % 4 == 0 {
       return 60
-    default:
+    } else {
       return 48
     }
   }
@@ -30,6 +35,12 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    
+    let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: HistorySection0HeaderView.reuseIdentifier) as! HistorySection0HeaderView
+    let headerLabel = CoreDataController.shared.fetchedToDoByMonthController.sections?[section].name
+    delegate?.configureHistorySection0HeaderView(at: section, headerView, headerLabel: headerLabel)
+    return headerView
+    /*
     let view = UITableViewHeaderFooterView()
     view.textLabel?.textColor = UIColor.systemOrange
     view.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
@@ -37,6 +48,8 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
     view.textLabel?.textAlignment = .center
     view.textLabel?.text = CoreDataController.shared.fetchedToDoByMonthController.sections?[section].name
     return view
+    */
+    
   }
 }
 

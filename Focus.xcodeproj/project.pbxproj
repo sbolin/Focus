@@ -12,10 +12,11 @@
 		1509A1522465F8AD00FF01A1 /* ToDo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A14E2465F8AD00FF01A1 /* ToDo+CoreDataClass.swift */; };
 		1509A1532465F8AD00FF01A1 /* ToDo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A14F2465F8AD00FF01A1 /* ToDo+CoreDataProperties.swift */; };
 		1509A1552466700400FF01A1 /* UIButton+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A1542466700400FF01A1 /* UIButton+Actions.swift */; };
-		1509A18B246EA6A500FF01A1 /* HistorySection0HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A18A246EA6A500FF01A1 /* HistorySection0HeaderCell.swift */; };
+		1509A18B246EA6A500FF01A1 /* HistorySection0HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A18A246EA6A500FF01A1 /* HistorySection0HeaderView.swift */; };
 		1509A18D246EA70700FF01A1 /* HistorySummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A18C246EA70700FF01A1 /* HistorySummaryCell.swift */; };
 		1509A195246EAF1400FF01A1 /* HistoryFinalHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A194246EAF1400FF01A1 /* HistoryFinalHeaderCell.swift */; };
 		1509A197246F011C00FF01A1 /* TodayViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A196246F011C00FF01A1 /* TodayViewDataSource.swift */; };
+		1567D7AA24C1776300608928 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567D7A924C1776300608928 /* Statistics.swift */; };
 		157A9570247706E30010AD9C /* UITableViewCell+ReturnUITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A956F247706E30010AD9C /* UITableViewCell+ReturnUITableView.swift */; };
 		157A9572247849730010AD9C /* Time+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A9571247849730010AD9C /* Time+Date.swift */; };
 		15A76620246FB45B00B90B3B /* HistoryViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7661F246FB45B00B90B3B /* HistoryViewDataSource.swift */; };
@@ -56,10 +57,11 @@
 		1509A14E2465F8AD00FF01A1 /* ToDo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1509A14F2465F8AD00FF01A1 /* ToDo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1509A1542466700400FF01A1 /* UIButton+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Actions.swift"; sourceTree = "<group>"; };
-		1509A18A246EA6A500FF01A1 /* HistorySection0HeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistorySection0HeaderCell.swift; sourceTree = "<group>"; };
+		1509A18A246EA6A500FF01A1 /* HistorySection0HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistorySection0HeaderView.swift; sourceTree = "<group>"; };
 		1509A18C246EA70700FF01A1 /* HistorySummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistorySummaryCell.swift; sourceTree = "<group>"; };
 		1509A194246EAF1400FF01A1 /* HistoryFinalHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryFinalHeaderCell.swift; sourceTree = "<group>"; };
 		1509A196246F011C00FF01A1 /* TodayViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewDataSource.swift; sourceTree = "<group>"; };
+		1567D7A924C1776300608928 /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 		157A956F247706E30010AD9C /* UITableViewCell+ReturnUITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+ReturnUITableView.swift"; sourceTree = "<group>"; };
 		157A9571247849730010AD9C /* Time+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Time+Date.swift"; sourceTree = "<group>"; };
 		15A7661F246FB45B00B90B3B /* HistoryViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewDataSource.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				1509A14E2465F8AD00FF01A1 /* ToDo+CoreDataClass.swift */,
 				1509A14F2465F8AD00FF01A1 /* ToDo+CoreDataProperties.swift */,
 				15F48A9E245A7D5E0012C415 /* CoreDataController.swift */,
+				1567D7A924C1776300608928 /* Statistics.swift */,
 				15F48A7E245A7CAB0012C415 /* Focus.xcdatamodeld */,
 			);
 			path = Model;
@@ -164,7 +167,7 @@
 			children = (
 				15F48AB2245ADB2B0012C415 /* TodayGoalCell.swift */,
 				15F48AB0245ADB140012C415 /* TodayToDoCell.swift */,
-				1509A18A246EA6A500FF01A1 /* HistorySection0HeaderCell.swift */,
+				1509A18A246EA6A500FF01A1 /* HistorySection0HeaderView.swift */,
 				1509A18C246EA70700FF01A1 /* HistorySummaryCell.swift */,
 				1509A194246EAF1400FF01A1 /* HistoryFinalHeaderCell.swift */,
 				15F48AB4245ADB3F0012C415 /* HistoryGoalCell.swift */,
@@ -311,13 +314,14 @@
 				157A9572247849730010AD9C /* Time+Date.swift in Sources */,
 				1509A18D246EA70700FF01A1 /* HistorySummaryCell.swift in Sources */,
 				15F48A9F245A7D5E0012C415 /* CoreDataController.swift in Sources */,
-				1509A18B246EA6A500FF01A1 /* HistorySection0HeaderCell.swift in Sources */,
+				1509A18B246EA6A500FF01A1 /* HistorySection0HeaderView.swift in Sources */,
 				1509A1502465F8AD00FF01A1 /* Goal+CoreDataClass.swift in Sources */,
 				1509A197246F011C00FF01A1 /* TodayViewDataSource.swift in Sources */,
 				1509A1512465F8AD00FF01A1 /* Goal+CoreDataProperties.swift in Sources */,
 				15F48AB5245ADB3F0012C415 /* HistoryGoalCell.swift in Sources */,
 				15A76626247053E900B90B3B /* NotificationController.swift in Sources */,
 				15A76622247044B100B90B3B /* TodayViewDelegate.swift in Sources */,
+				1567D7AA24C1776300608928 /* Statistics.swift in Sources */,
 				15F48AAF245AB8310012C415 /* ProgressViewController.swift in Sources */,
 				157A9570247706E30010AD9C /* UITableViewCell+ReturnUITableView.swift in Sources */,
 				15F48AB9245ADBB20012C415 /* MainTabBarController.swift in Sources */,
