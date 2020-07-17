@@ -23,6 +23,30 @@ extension Goal {
   @NSManaged public var goalDateCompleted: Date?
   @NSManaged public var todos: Set<ToDo>
   
+  @objc public var groupByYear: String {
+    get {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy"
+      return dateFormatter.string(from: goalDateCreated)
+    }
+  }
+  
+  @objc public var groupByMonth: String {
+    get {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "MMM yyyy"
+      return dateFormatter.string(from: goalDateCreated)
+    }
+  }
+  
+  @objc public var groupByWeek: String {
+    get {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "w Y"
+      return dateFormatter.string(from: goalDateCreated)
+    }
+  }
+  
 }
 
 // MARK: Generated accessors for todos

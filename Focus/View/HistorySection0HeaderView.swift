@@ -8,13 +8,13 @@
 import UIKit
 
 protocol HistorySection0HeaderViewDelegate: class {
-  func historySection0(_ cell: HistorySection0HeaderView, sectionTapped: Bool)
+  func historySection0(_ cell: HistorySection0HeaderView, sectionButtonTapped: Bool)
 }
 
 class HistorySection0HeaderView: UITableViewHeaderFooterView {
   
   //MARK: - Properties
-  public static let reuseIdentifier = "HistorySection0HeaderCell"
+  public static let reuseIdentifier = "HistorySection0HeaderView"
   weak var delegate: HistorySection0HeaderViewDelegate?
   var sectionNumber: Int!
 
@@ -29,12 +29,13 @@ class HistorySection0HeaderView: UITableViewHeaderFooterView {
   }
   
   func configureHistorySection0View(at section: Int, with label: String) {
+    sectionNumber = section
     historySection0Label.text = label
   }
   
   //MARK: - IBActions
   @IBAction func historySection0ButtonTapped(_ sender: UIButton) {
     historySection0Button.isSelected.toggle()
-    delegate?.historySection0(self, sectionTapped: historySection0Button.isSelected)
+    delegate?.historySection0(self, sectionButtonTapped: historySection0Button.isSelected)
   }
 }

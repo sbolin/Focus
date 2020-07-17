@@ -89,5 +89,4 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
       return noteCell
     }
   }
-
 }

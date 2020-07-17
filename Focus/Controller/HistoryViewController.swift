@@ -14,7 +14,8 @@ class HistoryViewController: UIViewController {
     //MARK: - Properties
   let delegate = HistoryViewDelegate()
   var dataSource: HistoryViewDataSource<ToDo, HistoryViewController>!
-  var fetchedResultsController: NSFetchedResultsController<ToDo>!
+  var fetchedToDoResultsController: NSFetchedResultsController<ToDo>!
+  var fetchedGoalResultsController = CoreDataController.shared.fetchedGoalByMonthController
   var predicate: NSPredicate?
   var statistics = Statistics()
 
@@ -25,27 +26,34 @@ class HistoryViewController: UIViewController {
     
     
     //MARK:- IBOutlets
-    @IBOutlet weak var historyTableView: UITableView!
-    
-    //MARK: - View Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        historyTableView.delegate = delegate
-        setupTableView()
-    }
+  @IBOutlet weak var historyTableView: UITableView!
+  
+  //MARK: - View Life Cycle
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    historyTableView.delegate = delegate
+    setupTableView()
+    statisticsSetup()
+  }
   func setupTableView() {
     print("setupTableView")
-    if fetchedResultsController == nil {
-      fetchedResultsController = CoreDataController.shared.fetchedToDoByMonthController
+    if fetchedToDoResultsController == nil {
+      fetchedToDoResultsController = CoreDataController.shared.fetchedToDoByMonthController
     }
     do {
-      try fetchedResultsController.performFetch()
+      try fetchedToDoResultsController.performFetch()
       historyTableView.reloadData()
     } catch {
       print("Fetch failed")
     }
-    dataSource = HistoryViewDataSource(tableView: historyTableView, fetchedResultsController: fetchedResultsController, delegate: self)
+    dataSource = HistoryViewDataSource(tableView: historyTableView, fetchedResultsController: fetchedToDoResultsController, delegate: self)
   }
+  func statisticsSetup() {
+    
+    
+    
+  }
+  
 }
 
 extension HistoryViewController: HistoryViewDataSourceDelegate {
