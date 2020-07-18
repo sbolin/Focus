@@ -10,15 +10,15 @@ import UIKit
 import CoreData
 
 class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegate {
-    
-    //MARK: - Properties
+  
+  //MARK: - Properties
   let delegate = HistoryViewDelegate()
   var dataSource: HistoryViewDataSource<ToDo, HistoryViewController>!
   var fetchedResultsController: NSFetchedResultsController<ToDo>!
   
   var fetchedToDoByMonthResultsController = CoreDataController.shared.fetchedToDoByMonthController
   var fetchedGoalByMonthResultsController = CoreDataController.shared.fetchedGoalByMonthController
-
+  
   
   var predicate: NSPredicate?
   var statistics = Statistics()
@@ -75,23 +75,23 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
   lazy var pastYearToDoPredicate: NSPredicate = {
     return NSPredicate(format: "%K > %@", #keyPath(ToDo.todoDateCreated), allTime)
   }()
-
-    
-    //MARK:- IBOutlets
+  
+  
+  //MARK:- IBOutlets
   @IBOutlet weak var historyTableView: UITableView!
   
   //MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
     historyTableView.delegate = delegate
-//    setupTableView()
+    setupTableView()
     statisticsSetup()
     historyTableView.reloadData()
   }
   func setupTableView() {
     print("setupTableView")
     if fetchedResultsController == nil {
-      fetchedResultsController = CoreDataController.shared.fetchedToDoResultsController
+      fetchedResultsController = CoreDataController.shared.fetchedToDoByMonthController
     }
     do {
       try fetchedResultsController.performFetch()
@@ -102,6 +102,7 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
     dataSource = HistoryViewDataSource(tableView: historyTableView, fetchedResultsController: fetchedResultsController, delegate: self)
   }
   func statisticsSetup() {
+    print("statisticsSetup")
     fetchedToDoByMonthResultsController.delegate = self  //
     fetchedToDoByMonthResultsController.fetchRequest.predicate = allToDoPredicate  //
     fetchedGoalByMonthResultsController.delegate = self  //
@@ -122,7 +123,7 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
       print("Fetch frc2 failed")
     }
     
-        dataSource = HistoryViewDataSource(tableView: historyTableView, fetchedResultsController: frc1, delegate: self)
+    dataSource = HistoryViewDataSource(tableView: historyTableView, fetchedResultsController: frc1, delegate: self)
     
     guard let todoSections = frc1.sections?.count else { return }
     for section in 0...(todoSections - 1) {
@@ -140,8 +141,11 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
         }
       }
       statistics.todoIncomplete.append(statistics.todoCount[section] - statistics.todoComplete[section])
+      print("    \(section)        \(statistics.todoCount[section])           \(statistics.todoComplete[section])          \(statistics.todoIncomplete[section])          \(statistics.todoDuration[section])")
     }
-
+    
+    
+    
     guard let goalSections = frc2.sections?.count else { return }
     for section in 0...(goalSections - 1) {
       statistics.goalDuration.append(0)
@@ -158,6 +162,7 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
         }
       }
       statistics.goalIncomplete.append(statistics.goalCount[section] - statistics.goalComplete[section])
+      print("    \(section)        \(statistics.goalCount[section])           \(statistics.goalComplete[section])          \(statistics.goalIncomplete[section])           \(statistics.goalDuration[section])")
     }
   }
 }
