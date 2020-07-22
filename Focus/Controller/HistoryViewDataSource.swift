@@ -25,17 +25,8 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   fileprivate var todoRowsInSection: Int?
   fileprivate var goalRowsInSection: Int?
   
-  var statistics = Statistics()
-  
- // fileprivate var todoObject: ToDo?
-//  fileprivate var goalObject: Goal?
-  
-//  var goalFetch = [ToDo]()
-  
-//  var undoneGoalCount = 0
-//  var doneGoalCount = 0
-//  var undoneToDoCount = 0
-//  var doneToDoCount = 0
+  let statFactory = StatisticsFactory()
+  let statTimePeriod = StatTimePeriod.allByMonth
   
   //MARK: - Initializer
   required init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController<Result>, delegate: Delegate) {
@@ -68,6 +59,23 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let statistics = statFactory.stats(statType: statTimePeriod)
+    
+    
+    let section = indexPath.section
+    let goalCount = statistics.goalCount[section]
+    let goalCompleted = statistics.goalComplete[section]
+    //      let goalIncompleted = statistics.goalIncomplete[section]
+    let goalDuration = statistics.goalDuration[section]
+    let mainTitle = "\(goalCompleted) Goals Complete out of \(goalCount) - \(goalDuration) Days"
+    
+    let todoCount = statistics.todoCount[section]
+    let todoCompleted = statistics.todoComplete[section]
+    //      let todoIncompleted = statistics.todoIncomplete[section]
+    let todoDuration = statistics.todoDuration[section]
+    let subTitle = "\(todoCompleted) Todos Complete out of \(todoCount) - \(todoDuration) Days"
+    print("Section: \(section), row: \(indexPath.row): \(mainTitle) / \(subTitle)")
+    
     if indexPath.row == 0 {
       let summaryCell = tableView.dequeueReusableCell(withIdentifier: HistorySummaryCell.reuseIdentifier, for: indexPath) as! HistorySummaryCell
       delegate?.configureHistorySummaryCell(at: indexPath, summaryCell, statistics: statistics)
@@ -81,7 +89,7 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
       delegate?.configureHistoryGoalCell(at: indexPath, goalCell, for: goalObject)
       return goalCell
     } else {
-      let offset: Int = indexPath.row / 4 + 2
+      let offset: Int = (indexPath.row - 1) / 4 + 2
       let previousIndex = IndexPath(row: indexPath.row - offset, section: indexPath.section)
       let todoObject = self.fetchedResultsController.object(at: previousIndex) as! ToDo
       let noteCell = tableView.dequeueReusableCell(withIdentifier: HistoryTaskCell.reuseIdentifier, for: indexPath) as! HistoryTaskCell

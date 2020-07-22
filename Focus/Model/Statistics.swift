@@ -8,6 +8,15 @@
 
 import Foundation
 
+enum StatTimePeriod {
+  case lastweek
+  case lastmonth
+  case lastSixMonths
+  case lastYear
+  case allByMonth
+  case all
+}
+
 struct Statistics {
   var todoCount: [Int]
   var todoComplete: [Int]

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol HistorySection0HeaderDelegate {
-  func configureHistorySection0HeaderView(at section: Int, _ view: HistorySection0HeaderView, headerLabel: String?)
+  func configureHistorySection0HeaderView(_ view: HistorySection0HeaderView, at section: Int, headerLabel: String?)
 }
 
 class HistoryViewDelegate: NSObject, UITableViewDelegate {
@@ -35,12 +35,15 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    
+    print("viewForHeaderInSection: \(section)")
+
+/*
     let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: HistorySection0HeaderView.reuseIdentifier) as! HistorySection0HeaderView
-    let headerLabel = CoreDataController.shared.fetchedToDoByMonthController.sections?[section].name
-    delegate?.configureHistorySection0HeaderView(at: section, headerView, headerLabel: headerLabel)
+    let label = CoreDataController.shared.fetchedToDoByMonthController.sections?[section].name
+    delegate?.configureHistorySection0HeaderView(headerView, at: section, headerLabel: label)
     return headerView
-    /*
+ */
+
     let view = UITableViewHeaderFooterView()
     view.textLabel?.textColor = UIColor.systemOrange
     view.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
@@ -48,8 +51,6 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
     view.textLabel?.textAlignment = .center
     view.textLabel?.text = CoreDataController.shared.fetchedToDoByMonthController.sections?[section].name
     return view
-    */
-    
   }
 }
 

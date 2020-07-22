@@ -19,7 +19,7 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
   var fetchedToDoByMonthResultsController = CoreDataController.shared.fetchedToDoByMonthController
   var fetchedGoalByMonthResultsController = CoreDataController.shared.fetchedGoalByMonthController
   
-  
+/*
   var predicate: NSPredicate?
   var statistics = Statistics()
   
@@ -75,7 +75,7 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
   lazy var pastYearToDoPredicate: NSPredicate = {
     return NSPredicate(format: "%K > %@", #keyPath(ToDo.todoDateCreated), allTime)
   }()
-  
+*/
   
   //MARK:- IBOutlets
   @IBOutlet weak var historyTableView: UITableView!
@@ -85,7 +85,7 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
     super.viewDidLoad()
     historyTableView.delegate = delegate
     setupTableView()
-    statisticsSetup()
+//    statisticsSetup()
     historyTableView.reloadData()
   }
   func setupTableView() {
@@ -101,6 +101,8 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
     }
     dataSource = HistoryViewDataSource(tableView: historyTableView, fetchedResultsController: fetchedResultsController, delegate: self)
   }
+  
+  /*
   func statisticsSetup() {
     print("statisticsSetup")
     fetchedToDoByMonthResultsController.delegate = self  //
@@ -122,8 +124,6 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
     } catch {
       print("Fetch frc2 failed")
     }
-    
-    dataSource = HistoryViewDataSource(tableView: historyTableView, fetchedResultsController: frc1, delegate: self)
     
     guard let todoSections = frc1.sections?.count else { return }
     for section in 0...(todoSections - 1) {
@@ -165,6 +165,7 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
       print("    \(section)        \(statistics.goalCount[section])           \(statistics.goalComplete[section])          \(statistics.goalIncomplete[section])           \(statistics.goalDuration[section])")
     }
   }
+ */
 }
 
 extension HistoryViewController: HistoryViewDataSourceDelegate {
@@ -182,7 +183,7 @@ extension HistoryViewController: HistoryViewDataSourceDelegate {
 }
 
 extension HistoryViewController: HistorySection0HeaderDelegate {
-  func configureHistorySection0HeaderView(at section: Int, _ view: HistorySection0HeaderView, headerLabel: String?) {
+  func configureHistorySection0HeaderView(_ view: HistorySection0HeaderView, at section: Int, headerLabel: String?) {
     let label = headerLabel ?? "No Section"
     view.configureHistorySection0View(at: section, with: label)
   }

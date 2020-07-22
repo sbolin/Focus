@@ -36,7 +36,10 @@ class HistorySummaryCell: UITableViewCell {
     let undoneGoalCount = statistics.goalIncomplete[section]
     let undoneToDoCount = statistics.todoIncomplete[section]
     
-    historySummaryCellLabel.text = "\(undoneGoalCount) out of \(doneGoalCount) goals completed"
-    historySummaryCellToDoLabel.text = "\(undoneToDoCount) out of \(doneToDoCount) tasks completed"
+    let totalGoalCount = doneGoalCount + undoneGoalCount
+    let totalToDoCount = doneToDoCount + undoneToDoCount
+    
+    historySummaryCellLabel.text = "\(undoneGoalCount) out of \(totalGoalCount) goals completed"
+    historySummaryCellToDoLabel.text = "\(undoneToDoCount) out of \(totalToDoCount) tasks completed"
   }
 }
