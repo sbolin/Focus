@@ -11,89 +11,83 @@ import CoreData
 
 class ProgressViewController: UIViewController {
   
-  let goal = [Goal]()
-  
   @IBOutlet weak var progressView: UIView!
-  @IBOutlet weak var weekMonthSwitch: UISegmentedControl!
+  @IBOutlet weak var timeSwitch: UISegmentedControl!
   
   var fetchedYearResultsController = CoreDataController.shared.fetchedToDoByYearController
   var fetchedMonthResultsController = CoreDataController.shared.fetchedToDoByMonthController
   var fetchedWeekResultsController = CoreDataController.shared.fetchedToDoByWeekController
 
-  
-  let lastDay = Date().addingTimeInterval(-60 * 60 * 24) as NSDate
-  let lastWeek = Date().addingTimeInterval(-60 * 60 * 24 * 7) as NSDate
-  let lastMonth = Date().addingTimeInterval(-60 * 60 * 24 * 30) as NSDate
-  let last6Month = Date().addingTimeInterval(-60 * 60 * 24 * 183) as NSDate
-  let lastYear = Date().addingTimeInterval(-60 * 60 * 24 * 365) as NSDate
-  let allTime = Date().addingTimeInterval(-60 * 60 * 24 * 365 * 10) as NSDate // 10 year to show all notes.
-  
-  //MARK: - Predicates
-  lazy var allGoalPredicate: NSPredicate = {
-    return NSPredicate(format: "%K > %@", #keyPath(Goal.goalDateCreated), allTime)
-  }()
-  
-  lazy var goalCompletedPredicate: NSPredicate = {
-    return NSPredicate(format: "%K = %d", #keyPath(Goal.goalCompleted), true)
-  }()
-  
-  lazy var allToDoPredicate: NSPredicate = {
-    return NSPredicate(format: "%K > %@", #keyPath(ToDo.todoDateCreated), allTime)
-  }()
-  
-  lazy var todoCompletedPredicate: NSPredicate = {
-    return NSPredicate(format: "%K = %d", #keyPath(ToDo.todoCompleted), true)
-  }()
+  fileprivate var statTimePeriod = StatTimePeriod.all
+  let statFactory = StatisticsFactory()
+  var statistics = Statistics()
+
   
   //MARK: - View Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    let request: NSFetchRequest<ToDo> = ToDo.todoFetchRequest()
-    let defaultTime = weekMonthSwitch.titleForSegment(at: 0)!
+//    let request: NSFetchRequest<ToDo> = ToDo.todoFetchRequest()
+//    let defaultTime = timeSwitch.titleForSegment(at: 0)!
     
     
   }
   
   
   @IBAction func weekMonthToggled(_ sender: UISegmentedControl) {
-    guard let selectedValue = sender.titleForSegment(at: sender.selectedSegmentIndex) else { return }
-    var predicate = ""
+//    guard let selectedValue = sender.titleForSegment(at: sender.selectedSegmentIndex) else { return }
     
     switch sender.selectedSegmentIndex {
     case 0:
       print("Week Selected")
-      predicate = "week"
+      statTimePeriod = StatTimePeriod.lastweek
+      statistics = statFactory.stats(statType: statTimePeriod)
+      
     case 1:
       print("Month Selected")
-      predicate = "month"
+      statTimePeriod = StatTimePeriod.lastmonth
+      statistics = statFactory.stats(statType: statTimePeriod)
+      
     case 2:
+      print("6 Month Selected")
+      statTimePeriod = StatTimePeriod.lastSixMonths
+      statistics = statFactory.stats(statType: statTimePeriod)
+
+    case 3:
       print("Year Selected")
-      predicate = "year"
+      statTimePeriod = StatTimePeriod.lastYear
+      statistics = statFactory.stats(statType: statTimePeriod)
+
     default:
       break
     }
-    
+    setupData(statistics: statistics)
     
   }
   
-  //MARK: - Counting Methods
-  func getEntityCount(for entityName: String, with predicate: NSPredicate) -> Int? {
-    let goalFetchRequest = NSFetchRequest<NSNumber>(entityName: entityName)
-    
-    goalFetchRequest.predicate = nil
-    goalFetchRequest.fetchLimit = 0
-    
-    goalFetchRequest.resultType = .countResultType
-    goalFetchRequest.predicate = predicate
-    
-    do {
-      let countResult = try CoreDataController.shared.managedContext.fetch(goalFetchRequest)
-      return countResult.first!.intValue
-    } catch let error as NSError {
-      print("count not fetched \(error), \(error.userInfo)")
-      return nil
+  //MARK: - Get Statistics
+  func setupData(statistics: Statistics) {
+    let sectionCount = statistics.goalCount.count
+    let totalGoals = (statistics.goalCount).reduce(0, +)
+    let totalToDos = (statistics.todoCount).reduce(0, +)
+    print("Total Goals: \(totalGoals)")
+    print("Total ToDos: \(totalToDos)")
+    for section in 0...(sectionCount - 1) {
+      let goalsInSection = statistics.goalCount[section]
+      let todosInSection = statistics.todoCount[section]
+      print("Section \(section)")
+      print("Goals in section: \(goalsInSection)")
+      print("Completed goals: \(statistics.goalComplete[section])")
+      print("Incomplete goals: \(statistics.goalIncomplete[section])")
+      print("Goal duration: \(statistics.goalDuration[section])")
+      print("\n")
+      print("ToDos in section: \(todosInSection)")
+      print("Completed todos: \(statistics.todoComplete[section])")
+      print("Incomplete todos: \(statistics.todoIncomplete[section])")
+      print("ToDo duration: \(statistics.todoDuration[section])")
+      print("\n")
     }
   }
+
   
   // Goal count label
   func makeLabel(count: Int, quantifier: String) -> String {

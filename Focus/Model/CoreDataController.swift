@@ -142,7 +142,7 @@ class CoreDataController {
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: context,
-      sectionNameKeyPath: "groupByWeek",
+      sectionNameKeyPath: "groupByDay", //"groupByWeek"
       cacheName: nil)
     
     return fetchedResultsController
@@ -157,7 +157,7 @@ class CoreDataController {
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: managedContext,
-      sectionNameKeyPath: "groupByWeek",
+      sectionNameKeyPath: "groupByDay", //"groupByWeek"
       cacheName: nil)
     
     return fetchedResultsController

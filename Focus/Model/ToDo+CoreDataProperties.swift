@@ -47,4 +47,12 @@ extension ToDo {
       return dateFormatter.string(from: todoDateCreated)
     }
   }
+  
+  @objc var groupByDay: String {
+    get {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "d"
+      return dateFormatter.string(from: todoDateCreated)
+    }
+  }
 }

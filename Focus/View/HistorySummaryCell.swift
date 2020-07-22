@@ -29,17 +29,19 @@ class HistorySummaryCell: UITableViewCell {
   }
   
   func configureHistorySummaryCell(at indexPath: IndexPath, statistics: Statistics) {
+    
     let section = indexPath.section
-    let doneGoalCount = statistics.goalComplete[section]
-    let doneToDoCount = statistics.todoComplete[section]
+    let goalCount = statistics.goalCount[section]
+    let goalCompleted = statistics.goalComplete[section]
+    //      let goalIncompleted = statistics.goalIncomplete[section]
+    let goalDuration = statistics.goalDuration[section]
     
-    let undoneGoalCount = statistics.goalIncomplete[section]
-    let undoneToDoCount = statistics.todoIncomplete[section]
+    let todoCount = statistics.todoCount[section]
+    let todoCompleted = statistics.todoComplete[section]
+    //      let todoIncompleted = statistics.todoIncomplete[section]
+    let todoDuration = statistics.todoDuration[section]
     
-    let totalGoalCount = doneGoalCount + undoneGoalCount
-    let totalToDoCount = doneToDoCount + undoneToDoCount
-    
-    historySummaryCellLabel.text = "\(undoneGoalCount) out of \(totalGoalCount) goals completed"
-    historySummaryCellToDoLabel.text = "\(undoneToDoCount) out of \(totalToDoCount) tasks completed"
+    historySummaryCellLabel.text = "\(goalCompleted) out of \(goalCount) goals completed in \(goalDuration) days"
+    historySummaryCellToDoLabel.text = "\(todoCompleted) out of \(todoCount) tasks completed in \(todoDuration) days"
   }
 }

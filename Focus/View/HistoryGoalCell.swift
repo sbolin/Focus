@@ -30,7 +30,7 @@ class HistoryGoalCell: UITableViewCell {
   }
   
   func toggleButtonColor() {
-    historyGoalCompleted.isSelected ? (historyGoalCompleted.tintColor = .systemOrange) :
+    historyGoalCompleted.isSelected ? (historyGoalCompleted.tintColor = .systemRed) :
       (historyGoalCompleted.tintColor = .systemGray4)
   }
 }

@@ -23,10 +23,12 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     let row = indexPath.row
-    if row == 0 || (row - 1) % 4 == 0 {
-      return 60
+    if row == 0 {
+      return 45
+    } else if (row - 1) % 4 == 0 {
+      return 50
     } else {
-      return 48
+      return 44
     }
   }
   
@@ -35,7 +37,6 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    print("viewForHeaderInSection: \(section)")
 
 /*
     let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: HistorySection0HeaderView.reuseIdentifier) as! HistorySection0HeaderView

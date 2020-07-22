@@ -47,6 +47,14 @@ extension Goal {
     }
   }
   
+  @objc public var groupByDay: String {
+    get {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "d"
+      return dateFormatter.string(from: goalDateCreated)
+    }
+  }
+  
 }
 
 // MARK: Generated accessors for todos
