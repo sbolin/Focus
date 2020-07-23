@@ -151,7 +151,6 @@ class StatisticsFactory {
         statistics.goalIncomplete.append(statistics.goalCount[section] - statistics.goalComplete[section])
       }
     }
-    print("StatisticsFactory: statistics = \(statistics)")
-    return statistics
+      return statistics
   }
 }
