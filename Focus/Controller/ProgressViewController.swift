@@ -75,6 +75,8 @@ class ProgressViewController: UIViewController {
       let goalsInSection = statistics.goalCount[section]
       let todosInSection = statistics.todoCount[section]
       print("Section \(section)")
+      print("Section Title \(statistics.sectionName[section])")
+
       print("Goals in section: \(goalsInSection)")
       print("Completed goals: \(statistics.goalComplete[section])")
       print("Incomplete goals: \(statistics.goalIncomplete[section])")

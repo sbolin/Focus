@@ -18,6 +18,7 @@ enum StatTimePeriod {
 }
 
 struct Statistics {
+  var sectionName: [String]
   var todoCount: [Int]
   var todoComplete: [Int]
   var todoIncomplete: [Int]
@@ -28,6 +29,7 @@ struct Statistics {
   var goalDuration: [Int]
   
   init() {
+    sectionName = []
     todoCount = []
     todoComplete = []
     todoIncomplete = []

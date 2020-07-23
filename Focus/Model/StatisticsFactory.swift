@@ -116,6 +116,8 @@ class StatisticsFactory {
     
     let todoSections = frc1.sections?.count ?? 0
     for section in 0...(todoSections - 1) {
+      let sectionName = frc1.sections?[section].name ?? "No Section"
+      statistics.sectionName.append(sectionName)
       statistics.todoDuration.append(0)
       if let todoSectionObject = frc1.sections?[section].objects as? [ToDo] {
         statistics.todoCount.append(todoSectionObject.count)

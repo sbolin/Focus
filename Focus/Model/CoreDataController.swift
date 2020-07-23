@@ -288,7 +288,7 @@ class CoreDataController {
       } else if (goalNumber > intermediateGoalCount2) && (goalNumber <= intermediateGoalCount3) {
         dateCreated = Date(timeIntervalSinceNow: TimeInterval(-86400 * 3 * goalNumber))
       } else {
-        dateCreated = Date(timeIntervalSinceNow: TimeInterval(-86400 * (365 - goalNumber + 100)))
+        dateCreated = Date(timeIntervalSinceNow: TimeInterval(-86400 * (365 + goalNumber - 100)))
       }
       dateCompleted = dateCreated
       let goal = NSEntityDescription.insertNewObject(forEntityName: "Goal", into: managedContext) as! Goal
