@@ -163,6 +163,8 @@ class CoreDataController {
     return fetchedResultsController
   }()
   
+  lazy var sectionExpanded: [Bool] = []  //Ask Peter about this...
+  
   //MARK: - SaveContext
   func saveContext () {
     guard managedContext.hasChanges else { return }

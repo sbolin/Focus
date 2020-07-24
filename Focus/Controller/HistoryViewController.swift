@@ -32,6 +32,11 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
     }
     do {
       try fetchedResultsController.performFetch()
+      // set expanded section to true as default
+      for _ in fetchedResultsController.sections! {
+        CoreDataController.shared.sectionExpanded.append(true)
+      }
+      //
       historyTableView.reloadData()
     } catch {
       print("Fetch failed")

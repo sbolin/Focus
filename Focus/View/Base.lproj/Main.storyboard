@@ -50,7 +50,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mCn-pe-yDV">
-                                                    <rect key="frame" x="344" y="1" width="13" height="22"/>
+                                                    <rect key="frame" x="346" y="1" width="13" height="22"/>
                                                     <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" image="chevron.right" catalog="system">
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="medium"/>
@@ -64,7 +64,7 @@
                                                 <constraint firstItem="mCn-pe-yDV" firstAttribute="centerY" secondItem="LVJ-sY-eb8" secondAttribute="centerY" id="1Sz-Dw-e3O"/>
                                                 <constraint firstItem="pPl-ZU-qHs" firstAttribute="centerY" secondItem="LVJ-sY-eb8" secondAttribute="centerY" id="ZN5-gO-0KS"/>
                                                 <constraint firstItem="pPl-ZU-qHs" firstAttribute="centerX" secondItem="LVJ-sY-eb8" secondAttribute="centerX" id="b4E-qf-bNZ"/>
-                                                <constraint firstAttribute="trailing" secondItem="mCn-pe-yDV" secondAttribute="trailing" constant="18" id="wkd-K8-qh7"/>
+                                                <constraint firstAttribute="trailing" secondItem="mCn-pe-yDV" secondAttribute="trailing" constant="16" id="wkd-K8-qh7"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
