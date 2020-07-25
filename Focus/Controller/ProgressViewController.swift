@@ -8,10 +8,11 @@
 
 import UIKit
 import CoreData
+import Charts
 
-class ProgressViewController: UIViewController {
+class ProgressViewController: UIViewController, ChartViewDelegate {
   
-  @IBOutlet weak var progressView: UIView!
+  @IBOutlet weak var progressView: BarChartView!
   @IBOutlet weak var timeSwitch: UISegmentedControl!
   
   var fetchedYearResultsController = CoreDataController.shared.fetchedToDoByYearController
@@ -26,13 +27,14 @@ class ProgressViewController: UIViewController {
   //MARK: - View Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    setupChart()
+    updateChart()
+
 //    let request: NSFetchRequest<ToDo> = ToDo.todoFetchRequest()
 //    let defaultTime = timeSwitch.titleForSegment(at: 0)!
     
-    
   }
-  
-  
+
   @IBAction func weekMonthToggled(_ sender: UISegmentedControl) {
 //    guard let selectedValue = sender.titleForSegment(at: sender.selectedSegmentIndex) else { return }
     
@@ -61,7 +63,43 @@ class ProgressViewController: UIViewController {
       break
     }
     setupData(statistics: statistics)
+    updateChart()
+  }
+  
+  func setupChart() {
+    progressView.delegate = self
+    progressView.drawBarShadowEnabled = false
+    progressView.drawValueAboveBarEnabled = true
+    progressView.fitBars = true
+    progressView.drawBordersEnabled = true
+    progressView.drawGridBackgroundEnabled = true
+    progressView.borderColor = .systemOrange
+    progressView.gridBackgroundColor = .white
+    progressView.chartDescription?.text = "Progress Summary"
     
+
+  }
+  
+  func updateChart() {
+    // dummy data for now...
+    let todoCompletedDataEntry1 = BarChartDataEntry(x: 1.0, y: 5.0)
+    let todoTotalDataEntry1 = BarChartDataEntry(x: 1.1, y: 7.0)
+    let todoCompletedDataEntry2 = BarChartDataEntry(x: 2.0, y: 4.0)
+    let todoTotalDataEntry2 = BarChartDataEntry(x: 2.1, y: 6.0)
+    let todoCompletedDataEntry3 = BarChartDataEntry(x: 3.0, y: 7.0)
+    let todoTotalDataEntry3 = BarChartDataEntry(x: 3.1, y: 10.0)
+    
+    let goalCompletedDataEntry1 = BarChartDataEntry(x: 1.0, y: 2.0)
+    let goalTotalDataEntry1 = BarChartDataEntry(x: 1.1, y: 3.0)
+    let goalCompletedDataEntry2 = BarChartDataEntry(x: 2.0, y: 3.0)
+    let goalTotalDataEntry2 = BarChartDataEntry(x: 2.1, y: 8.0)
+    let goalCompletedDataEntry3 = BarChartDataEntry(x: 3.0, y: 5.0)
+    let goalTotalDataEntry3 = BarChartDataEntry(x: 3.1, y: 9.0)
+    
+    let dataSet = BarChartDataSet(entries: [todoCompletedDataEntry1, todoTotalDataEntry1, todoCompletedDataEntry2, todoTotalDataEntry2, todoCompletedDataEntry3, todoTotalDataEntry3, goalCompletedDataEntry1, goalTotalDataEntry1, goalCompletedDataEntry2, goalTotalDataEntry2, goalCompletedDataEntry3, goalTotalDataEntry3], label: "Progress")
+    let data = BarChartData(dataSets: [dataSet])
+    progressView.data = data
+    progressView.notifyDataSetChanged()
   }
   
   //MARK: - Get Statistics
