@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Charts
 
+
 class ProgressViewController: UIViewController, ChartViewDelegate {
   
   @IBOutlet weak var progressView: BarChartView!
@@ -83,21 +84,26 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
   func updateChart() {
     // dummy data for now...
     let todoCompletedDataEntry1 = BarChartDataEntry(x: 1.0, y: 5.0)
-    let todoTotalDataEntry1 = BarChartDataEntry(x: 1.1, y: 7.0)
-    let todoCompletedDataEntry2 = BarChartDataEntry(x: 2.0, y: 4.0)
-    let todoTotalDataEntry2 = BarChartDataEntry(x: 2.1, y: 6.0)
-    let todoCompletedDataEntry3 = BarChartDataEntry(x: 3.0, y: 7.0)
-    let todoTotalDataEntry3 = BarChartDataEntry(x: 3.1, y: 10.0)
+    let todoTotalDataEntry1 = BarChartDataEntry(x: 2.0, y: 7.0)
+    let todoCompletedDataEntry2 = BarChartDataEntry(x: 3.0, y: 4.0)
+    let todoTotalDataEntry2 = BarChartDataEntry(x: 4.0, y: 6.0)
+    let todoCompletedDataEntry3 = BarChartDataEntry(x: 5.0, y: 7.0)
+    let todoTotalDataEntry3 = BarChartDataEntry(x: 6.0, y: 10.0)
     
     let goalCompletedDataEntry1 = BarChartDataEntry(x: 1.0, y: 2.0)
-    let goalTotalDataEntry1 = BarChartDataEntry(x: 1.1, y: 3.0)
-    let goalCompletedDataEntry2 = BarChartDataEntry(x: 2.0, y: 3.0)
-    let goalTotalDataEntry2 = BarChartDataEntry(x: 2.1, y: 8.0)
-    let goalCompletedDataEntry3 = BarChartDataEntry(x: 3.0, y: 5.0)
-    let goalTotalDataEntry3 = BarChartDataEntry(x: 3.1, y: 9.0)
+    let goalTotalDataEntry1 = BarChartDataEntry(x: 2.0, y: 3.0)
+    let goalCompletedDataEntry2 = BarChartDataEntry(x: 3.0, y: 3.0)
+    let goalTotalDataEntry2 = BarChartDataEntry(x: 4.0, y: 8.0)
+    let goalCompletedDataEntry3 = BarChartDataEntry(x: 5.0, y: 5.0)
+    let goalTotalDataEntry3 = BarChartDataEntry(x: 6.0, y: 9.0)
     
-    let dataSet = BarChartDataSet(entries: [todoCompletedDataEntry1, todoTotalDataEntry1, todoCompletedDataEntry2, todoTotalDataEntry2, todoCompletedDataEntry3, todoTotalDataEntry3, goalCompletedDataEntry1, goalTotalDataEntry1, goalCompletedDataEntry2, goalTotalDataEntry2, goalCompletedDataEntry3, goalTotalDataEntry3], label: "Progress")
-    let data = BarChartData(dataSets: [dataSet])
+    let todoCompleteDataSet = BarChartDataSet(entries: [todoCompletedDataEntry1, todoCompletedDataEntry2, todoCompletedDataEntry3], label: "To Do Complete")
+    let todoTotalDataSet = BarChartDataSet(entries: [todoTotalDataEntry1, todoTotalDataEntry2, todoTotalDataEntry3], label: "To Do Total")
+    let goalCompleteDataSet = BarChartDataSet(entries: [goalCompletedDataEntry1, goalCompletedDataEntry2, goalCompletedDataEntry3], label: "Goal Complete")
+    let goalTotalDataSet = BarChartDataSet(entries: [goalTotalDataEntry1, goalTotalDataEntry2, goalTotalDataEntry3], label: "Goal Total")
+    let data = BarChartData(dataSets: [todoCompleteDataSet, todoTotalDataSet, goalCompleteDataSet, goalTotalDataSet])
+    data.barWidth = 0.9
+//    data.groupBars(fromX: 0, groupSpace: 100, barSpace: 20)
     progressView.data = data
     progressView.notifyDataSetChanged()
   }

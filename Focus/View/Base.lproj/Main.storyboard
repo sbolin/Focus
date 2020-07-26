@@ -464,22 +464,17 @@
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="euc-9X-YfC" customClass="BarChartView" customModule="Charts">
                                 <rect key="frame" x="16" y="143" width="343" height="343"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress" translatesAutoresizingMaskIntoConstraints="NO" id="ekw-Kb-k9Y">
-                                        <rect key="frame" x="134" y="134" width="75" height="75"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="75" id="dZL-Bc-vro"/>
-                                            <constraint firstAttribute="width" constant="75" id="hiK-0d-Ckm"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
                                 <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="ekw-Kb-k9Y" firstAttribute="centerX" secondItem="euc-9X-YfC" secondAttribute="centerX" id="WXn-WJ-Zfa"/>
-                                    <constraint firstItem="ekw-Kb-k9Y" firstAttribute="centerY" secondItem="euc-9X-YfC" secondAttribute="centerY" id="ix2-b7-Lc0"/>
                                     <constraint firstAttribute="width" secondItem="euc-9X-YfC" secondAttribute="height" multiplier="1:1" id="nac-VK-TRS"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summarize by:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4W-38-uon">
+                                <rect key="frame" x="6" y="80" width="78" height="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -489,7 +484,10 @@
                             <constraint firstItem="45w-Na-oUC" firstAttribute="top" secondItem="r6R-E5-rlp" secondAttribute="top" id="aSX-Pd-GTI"/>
                             <constraint firstItem="kal-7c-0ef" firstAttribute="trailing" secondItem="45w-Na-oUC" secondAttribute="trailing" id="bJx-EG-uLA"/>
                             <constraint firstItem="yWA-fh-S7E" firstAttribute="centerX" secondItem="r6R-E5-rlp" secondAttribute="centerX" id="cvx-Ll-07e"/>
+                            <constraint firstItem="kal-7c-0ef" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="v4W-38-uon" secondAttribute="trailing" symbolic="YES" id="id2-aY-XhB"/>
                             <constraint firstItem="yWA-fh-S7E" firstAttribute="top" secondItem="45w-Na-oUC" secondAttribute="bottom" constant="16" id="mse-0e-MRo"/>
+                            <constraint firstItem="v4W-38-uon" firstAttribute="leading" secondItem="yWA-fh-S7E" secondAttribute="leading" id="rx0-3c-hyb"/>
+                            <constraint firstItem="v4W-38-uon" firstAttribute="top" secondItem="45w-Na-oUC" secondAttribute="bottom" id="szD-FX-bBs"/>
                             <constraint firstItem="euc-9X-YfC" firstAttribute="top" secondItem="yWA-fh-S7E" secondAttribute="bottom" constant="16" id="tWu-yK-TS1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kal-7c-0ef"/>
@@ -538,6 +536,5 @@
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="list.dash" catalog="system" width="128" height="85"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="progress" width="25" height="25"/>
     </resources>
 </document>

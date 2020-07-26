@@ -163,7 +163,7 @@ class CoreDataController {
     return fetchedResultsController
   }()
   
-  lazy var sectionExpanded: [Bool] = []  //Ask Peter about this...
+  lazy var sectionExpanded: [Bool] = []  //Make a class - get/set values easily
   
   //MARK: - SaveContext
   func saveContext () {
