@@ -79,9 +79,9 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
       break
       
     }
-    
     zeroData()
     setupData(statistics: statistics)
+    setupChart()
     updateChart()
   }
   
@@ -101,12 +101,10 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     
     chartView.drawBordersEnabled = true
     chartView.drawGridBackgroundEnabled = true
-//    chartView.fitBars = true
     chartView.borderColor = .systemOrange
     chartView.borderLineWidth = 2
     chartView.gridBackgroundColor = .systemGray6
     chartView.highlightFullBarEnabled = true
-//    chartView.chartDescription?.text = "Progress Summary"
     chartView.xAxis.labelPosition = .bottom
     
     //legend
@@ -125,7 +123,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     
     // x-axis
     let xAxis = chartView.xAxis
-    xAxis.labelFont = .systemFont(ofSize: 10, weight: .light)
+    xAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
 //    xAxis.axisMinimum = -1
 //    xAxis.axisMaximum = 13
 //    xAxis.axisMinLabels = 12 // should be calculated
@@ -144,7 +142,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     leftAxisFormatter.maximumFractionDigits = 1
     
     let leftAxis = chartView.leftAxis
-    leftAxis.labelFont = .systemFont(ofSize: 10, weight: .light)
+    leftAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
     leftAxis.spaceTop = 0.1
     leftAxis.axisMinimum = 0
     leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: formatter)
@@ -164,6 +162,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     
     let groupCount = timePeriod.count
     let timeStart = 0
+    let timeEnd = timeStart + groupCount
     
     var todoCompletedDataEntry: [BarChartDataEntry] = []
     var todoTotalDataEntry: [BarChartDataEntry] = []
@@ -173,7 +172,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     var goalTotalDataEntry: [BarChartDataEntry] = []
     var goalDurationDataEntry: [BarChartDataEntry] = []
 
-    for time in 0..<timePeriod.count {
+    for time in 0..<groupCount {
       
       let todoCompletedEntry = BarChartDataEntry(x: Double(time), y: todoCompletedData[time])
       let todoTotalEntry = BarChartDataEntry(x: Double(time), y: todoTotalData[time])
@@ -195,25 +194,32 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
 
     let todoTotalDataSet = BarChartDataSet(entries: todoTotalDataEntry, label: "To Do Total")
     todoTotalDataSet.setColor(UIColor(named: "LightPurple") ?? UIColor.systemPurple)
+    
+    let todoDurationDataSet = LineChartDataSet(entries: todoTotalDataEntry, label: "ToDo Duration")
+    todoDurationDataSet.setColor(UIColor(named: "LightPurple") ?? UIColor.systemPurple)
 
     let goalCompleteDataSet = BarChartDataSet(entries: goalCompletedDataEntry, label: "Goal Complete")
     goalCompleteDataSet.setColor(UIColor(named: "LightOrange") ?? UIColor.systemOrange)
 
     let goalTotalDataSet = BarChartDataSet(entries: goalTotalDataEntry, label: "Goal Total")
     goalTotalDataSet.setColor(UIColor(named: "LightRed") ?? UIColor.systemRed)
-
-    let data = BarChartData(dataSets: [todoCompleteDataSet, todoTotalDataSet, goalCompleteDataSet, goalTotalDataSet])
-    data.setValueFont(.systemFont(ofSize: 10, weight: .light))
-    data.setValueFormatter(DataValueFormatter())
     
-    data.barWidth = barWidth
+    let goalDurationDataSet = LineChartDataSet(entries: goalTotalDataEntry, label: "Goal Duration")
+    goalDurationDataSet.setColor(UIColor(named: "LightRed") ?? UIColor.systemRed)
+
+    let barData = BarChartData(dataSets: [todoCompleteDataSet, todoTotalDataSet, goalCompleteDataSet, goalTotalDataSet])
+    barData.setValueFont(.systemFont(ofSize: 10, weight: .light))
+    barData.setValueFormatter(DataValueFormatter())
+    
+    barData.barWidth = barWidth
     
     chartView.xAxis.axisMinimum = Double(timeStart)
-    chartView.xAxis.axisMaximum = Double(timeStart) + data.groupWidth(groupSpace: groupSpace, barSpace: barSpace) * Double(groupCount)
+    chartView.xAxis.axisMaximum = Double(timeStart) + barData.groupWidth(groupSpace: groupSpace, barSpace: barSpace) * Double(groupCount)
     chartView.xAxis.labelCount = groupCount
     
-    chartView.data = data
+    chartView.data = barData
     chartView.groupBars(fromX: Double(timeStart), groupSpace: groupSpace, barSpace: barSpace)
+    chartView.animate(yAxisDuration: 1.5, easingOption: ChartEasingOption.easeInOutQuart)
     
 //    chartView.fitBars = true
     chartView.notifyDataSetChanged()
