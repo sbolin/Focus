@@ -15,23 +15,26 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
   
   @IBOutlet weak var chartView: BarChartView!
   @IBOutlet weak var timeSwitch: UISegmentedControl!
-  
-  var fetchedYearResultsController = CoreDataController.shared.fetchedToDoByYearController
-  var fetchedMonthResultsController = CoreDataController.shared.fetchedToDoByMonthController
-  var fetchedWeekResultsController = CoreDataController.shared.fetchedToDoByWeekController
 
   fileprivate var statTimePeriod = StatTimePeriod.all
   let statFactory = StatisticsFactory()
   var statistics = Statistics()
   
-  var todoCompletedData: [Double]!
-  var todoTotalData: [Double]!
-  var todoDurationData: [Double]!
-  var goalCompletedData: [Double]!
-  var goalTotalData: [Double]!
-  var goalDurationData: [Double]!
+  // Statistics properties
+  var timePeriod = [String]()
   
-  let timePeriod = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  var todoTotalData = [Double]()
+  var todoCompletedData = [Double]()
+  var todoIncompleteDate = [Double]()
+  var todoDurationData = [Double]()
+  
+  var goalTotalData = [Double]()
+  var goalCompletedData = [Double]()
+  var goalIncompleteData = [Double]()
+  var goalDurationData = [Double]()
+  
+
+//  let timePeriod = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   
   lazy var formatter: NumberFormatter = {
     let formatter = NumberFormatter()
@@ -40,17 +43,14 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     return formatter
   }()
 
-  
   //MARK: - View Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    statTimePeriod = StatTimePeriod.lastweek
+    statistics = statFactory.stats(statType: statTimePeriod)
+    setupData(statistics: statistics)
     setupChart()
     updateChart()
-    chartView.noDataText = "Loading Data"
-    chartView.noDataTextColor = .systemOrange
-
-//    let request: NSFetchRequest<ToDo> = ToDo.todoFetchRequest()
-//    let defaultTime = timeSwitch.titleForSegment(at: 0)!
     
   }
 
@@ -80,7 +80,10 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
 
     default:
       break
+      
     }
+    
+    zeroData()
     setupData(statistics: statistics)
     updateChart()
   }
@@ -91,6 +94,8 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     // behavior
     chartView.pinchZoomEnabled = false
     chartView.dragEnabled = false
+    chartView.noDataText = "Loading Data"
+    chartView.noDataTextColor = .systemOrange
     
     // design
     chartView.chartDescription?.enabled = false
@@ -102,7 +107,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
 //    chartView.fitBars = true
     chartView.borderColor = .systemOrange
     chartView.borderLineWidth = 2
-    chartView.gridBackgroundColor = .white
+    chartView.gridBackgroundColor = .systemGray6
     chartView.highlightFullBarEnabled = true
 //    chartView.chartDescription?.text = "Progress Summary"
     chartView.xAxis.labelPosition = .bottom
@@ -150,11 +155,9 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     
     chartView.rightAxis.enabled = false
  //   chartView.rightAxis.drawAxisLineEnabled = false
-
   }
   
   func updateChart() {
-    // dummy data for now...
     
     // set up group spacing
     let groupSpace = 0.1
@@ -162,17 +165,9 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     let barWidth = 0.2
     // (0.2 + 0.025) * 4 + 0.10 = 1.00 -> interval per "group"
     
-    let groupCount = 12
+    let groupCount = timePeriod.count
     let timeStart = 0
-    let timeEnd = timeStart + groupCount
     
-    todoCompletedData = [5, 7, 4, 6, 7, 4, 0, 8, 7, 3, 5, 9]
-    todoTotalData = [6, 9, 6, 6, 9, 6, 3, 9, 9, 3, 6, 9]
-    todoDurationData = [1, 3, 2, 2, 3, 2, 1, 3, 3, 1, 2, 3]
-    goalCompletedData = [1, 2, 1, 2, 2, 1, 0, 2, 2, 1, 1, 3]
-    goalTotalData = [2, 3, 2, 2, 3, 2, 1, 3, 3, 1, 2, 3]
-    goalDurationData = [1, 3, 2, 2, 3, 2, 1, 3, 3, 1, 2, 3]
-
     var todoCompletedDataEntry: [BarChartDataEntry] = []
     var todoTotalDataEntry: [BarChartDataEntry] = []
     var todoDurationDataEntry: [BarChartDataEntry] = []
@@ -218,7 +213,6 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     
     chartView.xAxis.axisMinimum = Double(timeStart)
     chartView.xAxis.axisMaximum = Double(timeStart) + data.groupWidth(groupSpace: groupSpace, barSpace: barSpace) * Double(groupCount)
-//    chartView.xAxis.setLabelCount(groupCount, force: true)
     chartView.xAxis.labelCount = groupCount
     
     chartView.data = data
@@ -230,17 +224,22 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
   
   //MARK: - Get Statistics
   func setupData(statistics: Statistics) {
+    
     let sectionCount = statistics.goalCount.count
+ 
     let totalGoals = (statistics.goalCount).reduce(0, +)
     let totalToDos = (statistics.todoCount).reduce(0, +)
     print("Total Goals: \(totalGoals)")
     print("Total ToDos: \(totalToDos)")
-    for section in 0...(sectionCount - 1) {
+    print("Number sections: \(sectionCount)\n")
+
+    for section in 0..<sectionCount {
       let goalsInSection = statistics.goalCount[section]
       let todosInSection = statistics.todoCount[section]
-      print("Section \(section)")
-      print("Section Title \(statistics.sectionName[section])")
-
+      
+      print("Section No.: \(section)")
+      print("Section Title: \(statistics.sectionName[section])")
+      
       print("Goals in section: \(goalsInSection)")
       print("Completed goals: \(statistics.goalComplete[section])")
       print("Incomplete goals: \(statistics.goalIncomplete[section])")
@@ -251,20 +250,31 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
       print("Incomplete todos: \(statistics.todoIncomplete[section])")
       print("ToDo duration: \(statistics.todoDuration[section])")
       print("\n")
+      
+      timePeriod.append(statistics.sectionName[section])
+      todoTotalData.append(Double(statistics.todoCount[section]))
+      todoCompletedData.append(Double(statistics.todoComplete[section]))
+      todoIncompleteDate.append(Double(statistics.todoIncomplete[section]))
+      todoDurationData.append(Double(statistics.todoDuration[section]))
+      
+      goalTotalData.append(Double(statistics.goalCount[section]))
+      goalCompletedData.append(Double(statistics.goalComplete[section]))
+      goalIncompleteData.append(Double(statistics.goalIncomplete[section]))
+      goalDurationData.append(Double(statistics.goalDuration[section]))
     }
   }
+  
+  func zeroData() {
+    
+    timePeriod = [String]()
+    todoTotalData = [Double]()
+    todoCompletedData = [Double]()
+    todoIncompleteDate = [Double]()
+    todoDurationData = [Double]()
+    goalTotalData = [Double]()
+    goalCompletedData = [Double]()
+    goalIncompleteData = [Double]()
+    goalDurationData = [Double]()
 
-  
-  // Goal count label
-  func makeLabel(count: Int, quantifier: String) -> String {
-    let quantifierPluralized = count == 1 ? quantifier : "\(quantifier)s"
-    return "\(count) \(quantifierPluralized)"
   }
-  
-  // Note count label
-  func makeContinuingLabel(firstLabel: String, count: Int, quantifier: String) -> String {
-    let quantifierPluralized = count == 1 ? quantifier : "\(quantifier)s"
-    return firstLabel + " / \(count) \(quantifierPluralized)"
-  }
-  
 }

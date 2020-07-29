@@ -26,6 +26,17 @@ class DataValueFormatter: NSObject, IValueFormatter {
   }
   
   fileprivate func format(value: Double) -> String {
+//    fileprivate func format(value: Double) -> NSAttributedString {
+
+    //Add font variation - NOTE: NOT USED
+    let font = UIFont.systemFont(ofSize: 6, weight: .light)
+    let textColor = UIColor.systemOrange
+    let attributes: [NSAttributedString.Key: Any] = [
+      .foregroundColor: textColor,
+      .font: font,
+      .textEffect: NSAttributedString.TextEffectStyle.letterpressStyle]
+    
+    
     var sig = value
     var length = 0
     let maxLength = suffix.count - 1
@@ -37,9 +48,12 @@ class DataValueFormatter: NSObject, IValueFormatter {
     
     var r = String(format: "%2.f", sig) + suffix[length]
     
+    
+    
     if let appendix = appendix {
       r += appendix
     }
+    let attributedString = NSAttributedString(string: r, attributes: attributes)
     
     return r
   }
