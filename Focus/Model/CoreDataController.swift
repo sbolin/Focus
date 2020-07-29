@@ -31,7 +31,6 @@ class CoreDataController {
   }()
   
   //MARK: - Fetch Properties
-  // new fetches
   // used in TodayView
   lazy var fetchedToDoResultsController: NSFetchedResultsController<ToDo> = {
     let managedContext = persistentContainer.viewContext
@@ -39,13 +38,12 @@ class CoreDataController {
     let goalSort = NSSortDescriptor(keyPath: \ToDo.goal.goal, ascending: true)
     let createdSort = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: true)
     let todoIDSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true)
-//    request.sortDescriptors = [goalSort, todoIDSort]
     request.sortDescriptors = [createdSort]
 
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: managedContext,
-      sectionNameKeyPath: #keyPath(Goal.goal),
+      sectionNameKeyPath: #keyPath(ToDo.goal.goalDateCreated), //#keyPath(Goal.goal),
       cacheName: nil)
     
     return fetchedResultsController
@@ -110,7 +108,7 @@ class CoreDataController {
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: managedContext,
-      sectionNameKeyPath: "groupByMonth",
+      sectionNameKeyPath: "groupByWeek", // "groupByMonth",
       cacheName: nil)
     
     return fetchedResultsController
@@ -125,7 +123,7 @@ class CoreDataController {
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: managedContext,
-      sectionNameKeyPath: "groupByMonth",
+      sectionNameKeyPath: "groupByWeek", // "groupByMonth",
       cacheName: nil)
     
     return fetchedResultsController

@@ -32,10 +32,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
   var goalCompletedData = [Double]()
   var goalIncompleteData = [Double]()
   var goalDurationData = [Double]()
-  
-
-//  let timePeriod = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-  
+    
   lazy var formatter: NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.maximumFractionDigits = 1
