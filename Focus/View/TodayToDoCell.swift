@@ -87,7 +87,9 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   
   func fetchInput() -> String? {
     if let textCapture = todayTask.text?.trimmingCharacters(in: .whitespaces) {
-      return textCapture.count > 0 ? textCapture : nil
+      if textCapture.count >= 0 {
+        return textCapture
+      }
     }
     return nil
   }

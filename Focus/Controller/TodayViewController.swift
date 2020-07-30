@@ -14,11 +14,12 @@ class TodayViewController: UIViewController {
   //MARK: - Properties
   let todayViewdelegate = TodayViewDelegate()
   var dataSource: TodayViewDataSource<ToDo, TodayViewController>!
-  var fetchedToDoResultsController: NSFetchedResultsController<ToDo>!
+  var fetchedResultsController: NSFetchedResultsController<ToDo>!
 
   
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
+  @IBOutlet weak var taskToAchieveLabel: UILabel!
   
   //MARK: - View Life Cycle
   override func viewDidLoad() {
@@ -33,22 +34,22 @@ class TodayViewController: UIViewController {
 
   func setupToDoTableView() {
     // setup fetchrequest
-    if fetchedToDoResultsController == nil {
-      fetchedToDoResultsController = CoreDataController.shared.fetchedToDoResultsController
+    if fetchedResultsController == nil {
+      fetchedResultsController = CoreDataController.shared.fetchedToDoResultsController
     }
-    fetchedToDoResultsController.fetchRequest.fetchLimit = 0
+    fetchedResultsController.fetchRequest.fetchLimit = 0
     let todoCreatedAtDescriptor = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
     let todoDescriptor = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
-    fetchedToDoResultsController.fetchRequest.sortDescriptors = [todoCreatedAtDescriptor, todoDescriptor]
-    fetchedToDoResultsController.fetchRequest.fetchLimit = 3
+    fetchedResultsController.fetchRequest.sortDescriptors = [todoCreatedAtDescriptor, todoDescriptor]
+    fetchedResultsController.fetchRequest.fetchLimit = 3
     
     do {
-      try fetchedToDoResultsController.performFetch()
+      try fetchedResultsController.performFetch()
       todayTableView.reloadData()
     } catch {
       print("Fetch failed")
     }
-    dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedToDoResultsController, delegate: self)
+    dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedResultsController, delegate: self)
   }
   
   
@@ -70,20 +71,6 @@ class TodayViewController: UIViewController {
   func adjustLayoutForKeyboard(targetHeight: CGFloat) {
     todayTableView.contentInset.bottom = targetHeight
   }
-  
-  @IBAction func addTodayTask(_ sender: UIButton) {
-    todayTableView.beginUpdates()
-    // add task to dataSource
-    let context = CoreDataController.shared.managedContext
-    let todo = ToDo(context: context)
-    todo.todo = "New Todo"
-    todo.todoDateCreated = Date()
-    todo.todoCompleted = false
-    // update the tableview UI
-    todayTableView.insertRows(at: [IndexPath(row: 0, section: 1)], with: .automatic)
-    todayTableView.endUpdates()
-//   CoreDataController.shared.saveContext()
-  }
 }
 
 //MARK: - Delegate Methods
@@ -95,8 +82,4 @@ extension TodayViewController: TodayViewDataSourceDelegate {
   func configureTodayGoal(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal) {
     cell.configureTodayGoalCell(at: indexPath, for: object)
   }
-  
-
-  
-
 }
