@@ -17,6 +17,9 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   //MARK: - Properties
   public static let reuseIdentifier = "TodayGoalCell"
   var delegate: TodayGoalCellDelegate?
+  var oldText: String = ""
+  var newText: String = ""
+  var goalExisted: Bool = false
   
   //MARK: - IBOutlets
   @IBOutlet weak var todayGoal: UITextField!
@@ -42,6 +45,24 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   }
   
   //MARK: - Helper Functions
+  func textFieldDidBeginEditing(_ textField: UITextField) {
+    print("textFieldDidBeginEditing")
+    if let text = textField.text {
+      if text.count > 0 {
+        oldText = text
+        print("oldText = \(oldText)")
+      }
+    }
+  }
+  
+  func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+    print("textFieldDidEndEditing")
+    if let text = textField.text {
+      newText = text
+      print("newText = \(newText)")
+    }
+  }
+  
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     processInput()
     return true
@@ -60,6 +81,7 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
     if let textCapture = todayGoal.text?.trimmingCharacters(in: .whitespaces) {
       return textCapture.count > 0 ? textCapture : nil
     }
+    
     return nil
   }
   

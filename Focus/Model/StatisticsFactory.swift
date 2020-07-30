@@ -91,7 +91,7 @@ class StatisticsFactory {
       frc2 = CoreDataController.shared.fetchedGoalByYearController
       frc2.fetchRequest.predicate = past6MonthGoalPredicate
     case .lastmonth:
-      frc1 = CoreDataController.shared.fetchedToDoByMonthController
+      frc1 = CoreDataController.shared.fetchedToDoByLastMonthController
       frc1.fetchRequest.predicate = pastMonthToDoPredicate
       frc2 = CoreDataController.shared.fetchedGoalByMonthController
       frc2.fetchRequest.predicate = pastMonthGoalPredicate

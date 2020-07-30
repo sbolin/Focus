@@ -35,15 +35,17 @@ class CoreDataController {
   lazy var fetchedToDoResultsController: NSFetchedResultsController<ToDo> = {
     let managedContext = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
-    let goalSort = NSSortDescriptor(keyPath: \ToDo.goal.goal, ascending: true)
-    let createdSort = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: true)
+//    let goalSort = NSSortDescriptor(keyPath: \ToDo.goal.goal, ascending: true)
+//    let goalCreatedSort = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: true)
+    let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: true)
+    let todoSort = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
     let todoIDSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true)
-    request.sortDescriptors = [createdSort]
+    request.sortDescriptors = [todoCreatedSort]// [todoCreatedSort, todoIDSort]
 
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: managedContext,
-      sectionNameKeyPath: #keyPath(ToDo.goal.goalDateCreated), //#keyPath(Goal.goal),
+      sectionNameKeyPath: #keyPath(ToDo.goal.goal), // #keyPath(ToDo.goal.goalDateCreated), //#keyPath(Goal.goal),
       cacheName: nil)
     
     return fetchedResultsController
@@ -54,7 +56,7 @@ class CoreDataController {
     let request = Goal.goalFetchRequest()
     let goalSort = NSSortDescriptor(keyPath: \Goal.goal, ascending: true)
     let createdSort = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: true)
-    request.sortDescriptors = [goalSort, createdSort]
+    request.sortDescriptors = [createdSort, goalSort]
     
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
@@ -64,7 +66,8 @@ class CoreDataController {
     
     return fetchedResultsController
   }()
-  
+
+ 
   // used in progress view for yearly results
   lazy var fetchedToDoByYearController: NSFetchedResultsController<ToDo> = {
     let managedContext = persistentContainer.viewContext
@@ -97,8 +100,26 @@ class CoreDataController {
     return fetchedResultsController
   }()
   
-  // used in HistoryView for main results, and progressView for monthly results
+  // used in HistoryView for main results
   lazy var fetchedToDoByMonthController: NSFetchedResultsController<ToDo> = {
+    let managedContext = persistentContainer.viewContext
+    let request = ToDo.todoFetchRequest()
+    let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: true)
+    let nameSort = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
+    let idSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true)
+    request.sortDescriptors = [createdSort, nameSort, idSort]
+    
+    let fetchedResultsController = NSFetchedResultsController(
+      fetchRequest: request,
+      managedObjectContext: managedContext,
+      sectionNameKeyPath: "groupByMonth",
+      cacheName: nil)
+    
+    return fetchedResultsController
+  }()
+  
+  // used in progressView for last month results
+  lazy var fetchedToDoByLastMonthController: NSFetchedResultsController<ToDo> = {
     let managedContext = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
     let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: true)
@@ -128,7 +149,7 @@ class CoreDataController {
     
     return fetchedResultsController
   }()
-  
+ 
   // used in progress view for weekly results
   lazy var fetchedToDoByWeekController: NSFetchedResultsController<ToDo> = {
     let context = persistentContainer.viewContext

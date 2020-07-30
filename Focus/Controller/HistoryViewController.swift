@@ -59,10 +59,3 @@ extension HistoryViewController: HistoryViewDataSourceDelegate {
   }
 }
 
-extension HistoryViewController: HistorySection0HeaderDelegate {
-  func configureHistorySection0HeaderView(_ view: HistorySection0HeaderView, at section: Int, headerLabel: String?) {
-    let label = headerLabel ?? "No Section"
-    view.configureHistorySection0View(at: section, with: label)
-  }
-}
-

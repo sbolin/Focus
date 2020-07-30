@@ -52,7 +52,6 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
   }
 
   @IBAction func weekMonthToggled(_ sender: UISegmentedControl) {
-//    guard let selectedValue = sender.titleForSegment(at: sender.selectedSegmentIndex) else { return }
     
     switch sender.selectedSegmentIndex {
     case 0:
@@ -99,13 +98,15 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     chartView.drawBarShadowEnabled = false
     chartView.drawValueAboveBarEnabled = true
     
-    chartView.drawBordersEnabled = true
     chartView.drawGridBackgroundEnabled = true
+    chartView.drawBordersEnabled = true
     chartView.borderColor = .systemOrange
     chartView.borderLineWidth = 2
-    chartView.gridBackgroundColor = .systemGray6
+    chartView.gridBackgroundColor = .white
+    chartView.backgroundColor = .systemGray6
     chartView.highlightFullBarEnabled = true
     chartView.xAxis.labelPosition = .bottom
+    
     
     //legend
     let legend = chartView.legend
@@ -124,12 +125,6 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     // x-axis
     let xAxis = chartView.xAxis
     xAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
-//    xAxis.axisMinimum = -1
-//    xAxis.axisMaximum = 13
-//    xAxis.axisMinLabels = 12 // should be calculated
-//    xAxis.axisMaxLabels = 12 // should be calculated
-//    xAxis.granularityEnabled = true
-//    xAxis.granularity = 1
     xAxis.centerAxisLabelsEnabled = true
     xAxis.drawAxisLineEnabled = false
     xAxis.valueFormatter = IndexAxisValueFormatter(values: timePeriod)
@@ -149,7 +144,6 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     leftAxis.drawAxisLineEnabled = false
     
     chartView.rightAxis.enabled = false
- //   chartView.rightAxis.drawAxisLineEnabled = false
   }
   
   func updateChart() {
@@ -162,7 +156,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     
     let groupCount = timePeriod.count
     let timeStart = 0
-    let timeEnd = timeStart + groupCount
+//    let timeEnd = timeStart + groupCount
     
     var todoCompletedDataEntry: [BarChartDataEntry] = []
     var todoTotalDataEntry: [BarChartDataEntry] = []
@@ -221,7 +215,6 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     chartView.groupBars(fromX: Double(timeStart), groupSpace: groupSpace, barSpace: barSpace)
     chartView.animate(yAxisDuration: 1.5, easingOption: ChartEasingOption.easeInOutQuart)
     
-//    chartView.fitBars = true
     chartView.notifyDataSetChanged()
   }
   
@@ -230,29 +223,12 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     
     let sectionCount = statistics.goalCount.count
  
-    let totalGoals = (statistics.goalCount).reduce(0, +)
-    let totalToDos = (statistics.todoCount).reduce(0, +)
-    print("Total Goals: \(totalGoals)")
-    print("Total ToDos: \(totalToDos)")
-    print("Number sections: \(sectionCount)\n")
+//    let totalGoals = (statistics.goalCount).reduce(0, +)
+//    let totalToDos = (statistics.todoCount).reduce(0, +)
 
     for section in 0..<sectionCount {
-      let goalsInSection = statistics.goalCount[section]
-      let todosInSection = statistics.todoCount[section]
-      
-      print("Section No.: \(section)")
-      print("Section Title: \(statistics.sectionName[section])")
-      
-      print("Goals in section: \(goalsInSection)")
-      print("Completed goals: \(statistics.goalComplete[section])")
-      print("Incomplete goals: \(statistics.goalIncomplete[section])")
-      print("Goal duration: \(statistics.goalDuration[section])")
-      print("\n")
-      print("ToDos in section: \(todosInSection)")
-      print("Completed todos: \(statistics.todoComplete[section])")
-      print("Incomplete todos: \(statistics.todoIncomplete[section])")
-      print("ToDo duration: \(statistics.todoDuration[section])")
-      print("\n")
+//      let goalsInSection = statistics.goalCount[section]
+//      let todosInSection = statistics.todoCount[section]
       
       timePeriod.append(statistics.sectionName[section])
       todoTotalData.append(Double(statistics.todoCount[section]))

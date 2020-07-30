@@ -18,6 +18,9 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   //MARK: - Properties
   public static let reuseIdentifier = "TodayTaskCell"
   var delegate: TodayTaskCellDelegate?
+  var oldText: String = ""
+  var newText: String = ""
+  var todoExisted: Bool = false
   
   //MARK: - IBOutlets
   @IBOutlet weak var todayTask: UITextField!
@@ -37,10 +40,9 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
     todayTaskNumber.image =  UIImage(systemName: "\(todoCount).circle.fill")
     todayTaskCompleted.isSelected = todo.todoCompleted
     toggleButtonColor()
-    if todayTaskCompleted.isSelected {
+    if todo.todoCompleted {
       todayTaskCompleted.wiggle()
     }
-    
   }
   
   func toggleButtonColor() {
@@ -49,15 +51,35 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   }
   
   //MARK: - Helper Functions
+  func textFieldDidBeginEditing(_ textField: UITextField) {
+    print("textFieldDidBeginEditing")
+    if let text = textField.text {
+      if text.count > 0 {
+        oldText = text
+        print("oldText = \(oldText)")
+      }
+    }
+  }
+  
+  func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+    print("textFieldDidEndEditing")
+    if let text = textField.text {
+      newText = text
+      print("newText = \(newText)")
+    }
+  }
+  
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     processInput()
     return true
   }
   
   func processInput() {
-    if let todayText = fetchInput() {
+    if let todoText = fetchInput() {
       // call delegate method to update datamodel
-      delegate?.todayToDoUpdated(self, toDoUpdated: todayText)
+      if newText != oldText {
+        delegate?.todayToDoUpdated(self, toDoUpdated: todoText)
+      }
     }
     //    todayTask.text = ""
     todayTask.resignFirstResponder()

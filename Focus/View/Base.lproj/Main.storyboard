@@ -36,45 +36,8 @@
                                 <rect key="frame" x="0.0" y="80" width="375" height="538"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="HistorySection0HeaderView" rowHeight="24" id="ZCW-1q-T8v" customClass="HistorySection0HeaderView" customModule="Focus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="24"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZCW-1q-T8v" id="LVJ-sY-eb8">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="24"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="May 2020" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pPl-ZU-qHs">
-                                                    <rect key="frame" x="149" y="1.5" width="77" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mCn-pe-yDV">
-                                                    <rect key="frame" x="346" y="1" width="13" height="22"/>
-                                                    <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <state key="normal" image="chevron.right" catalog="system">
-                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="medium"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="historySection0ButtonTapped:" destination="ZCW-1q-T8v" eventType="touchUpInside" id="Dmh-UC-b29"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="mCn-pe-yDV" firstAttribute="centerY" secondItem="LVJ-sY-eb8" secondAttribute="centerY" id="1Sz-Dw-e3O"/>
-                                                <constraint firstItem="pPl-ZU-qHs" firstAttribute="centerY" secondItem="LVJ-sY-eb8" secondAttribute="centerY" id="ZN5-gO-0KS"/>
-                                                <constraint firstItem="pPl-ZU-qHs" firstAttribute="centerX" secondItem="LVJ-sY-eb8" secondAttribute="centerX" id="b4E-qf-bNZ"/>
-                                                <constraint firstAttribute="trailing" secondItem="mCn-pe-yDV" secondAttribute="trailing" constant="16" id="wkd-K8-qh7"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <connections>
-                                            <outlet property="historySection0Button" destination="mCn-pe-yDV" id="8FJ-ya-t4f"/>
-                                            <outlet property="historySection0Label" destination="pPl-ZU-qHs" id="C5m-zu-3Nq"/>
-                                        </connections>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="HistorySummaryCell" rowHeight="45" id="Kxj-Vw-OqU" customClass="HistorySummaryCell" customModule="Focus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="52" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Kxj-Vw-OqU" id="zWf-qe-jwA">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
@@ -106,32 +69,8 @@
                                             <outlet property="historySummaryCellToDoLabel" destination="Il8-VU-fpG" id="srg-IG-275"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="HistoryFinalHeaderCell" rowHeight="24" id="0u9-vE-ABc" customClass="HistoryFinalHeaderCell" customModule="Focus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="97" width="375" height="24"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0u9-vE-ABc" id="0kX-xw-Hlo">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="24"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JEH-6w-MHD">
-                                                    <rect key="frame" x="164.5" y="1.5" width="46" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="JEH-6w-MHD" firstAttribute="centerX" secondItem="0kX-xw-Hlo" secondAttribute="centerX" id="XlR-cO-IA7"/>
-                                                <constraint firstItem="JEH-6w-MHD" firstAttribute="centerY" secondItem="0kX-xw-Hlo" secondAttribute="centerY" id="noN-Vc-rcZ"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <connections>
-                                            <outlet property="historyFinalHeaderCellLabel" destination="JEH-6w-MHD" id="uwu-bE-KLB"/>
-                                        </connections>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryGoalCell" rowHeight="50" id="acY-wd-8n9" customClass="HistoryGoalCell" customModule="Focus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="121" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="73" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="acY-wd-8n9" id="8Nt-8z-Sph">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
@@ -174,7 +113,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryTaskCell" rowHeight="44" id="DZj-ye-88J" customClass="HistoryTaskCell" customModule="Focus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="171" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="123" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DZj-ye-88J" id="e3s-dD-Vcv">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -539,7 +478,6 @@
         <image name="chart.bar.fill" catalog="system" width="128" height="89"/>
         <image name="checkmark.circle" catalog="system" width="128" height="121"/>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="chevron.right" catalog="system" width="96" height="128"/>
         <image name="fav_star" width="25" height="23.5"/>
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="list.dash" catalog="system" width="128" height="85"/>

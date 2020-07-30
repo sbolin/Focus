@@ -8,14 +8,8 @@
 
 import UIKit
 
-protocol HistorySection0HeaderDelegate {
-  func configureHistorySection0HeaderView(_ view: HistorySection0HeaderView, at section: Int, headerLabel: String?)
-}
-
 class HistoryViewDelegate: NSObject, UITableViewDelegate {
-  
-  var delegate: HistorySection0HeaderDelegate?
-  
+    
   //MARK: - UITableViewDelegate Methods
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
