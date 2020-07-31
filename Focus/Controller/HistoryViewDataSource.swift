@@ -48,6 +48,7 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    // use SectionExpanded class here
     if CoreDataController.shared.sectionExpanded[section] {
     todoRowsInSection = fetchedResultsController.sections?[section].numberOfObjects
     guard var numberOfRows = todoRowsInSection else { return 0 }

@@ -9,7 +9,7 @@
 import UIKit
 
 class HistoryViewDelegate: NSObject, UITableViewDelegate {
-    
+      
   //MARK: - UITableViewDelegate Methods
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
@@ -65,6 +65,7 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
     
     for (index, _) in CoreDataController.shared.fetchedToDoByMonthController.sections!.enumerated() {
       if section == index {
+        // use SectionExpanded class here
         CoreDataController.shared.sectionExpanded[index] = !CoreDataController.shared.sectionExpanded[index]
         tableView.reloadSections(NSIndexSet(index: index) as IndexSet, with: .automatic)
       }

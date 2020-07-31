@@ -9,7 +9,8 @@
 import UIKit
 
 protocol TodayTaskCellDelegate {
-  func todayToDoUpdated( _ cell: TodayToDoCell, toDoUpdated newToDo: String)
+  func todayToDoUpdated( _ cell: TodayToDoCell, updatedToDo: String)
+  func todayToDoNew( _ cell: TodayToDoCell, newToDo: String)
   func todayTaskCompletion(_ cell: TodayToDoCell, completionChanged completion: Bool)
 }
 
@@ -40,14 +41,16 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
     todayTaskNumber.image =  UIImage(systemName: "\(todoCount).circle.fill")
     todayTaskCompleted.isSelected = todo.todoCompleted
     toggleButtonColor()
-    if todo.todoCompleted {
-      todayTaskCompleted.wiggle()
-    }
+    toggleButtonWiggle()
   }
   
   func toggleButtonColor() {
     todayTaskCompleted.isSelected ? (todayTaskCompleted.tintColor = .systemOrange) :
       (todayTaskCompleted.tintColor = .systemGray6)
+  }
+  
+  func toggleButtonWiggle() {
+    todayTaskCompleted.isSelected ? todayTaskCompleted.wiggle() : nil
   }
   
   //MARK: - Helper Functions
@@ -78,10 +81,9 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
     if let todoText = fetchInput() {
       // call delegate method to update datamodel
       if newText != oldText {
-        delegate?.todayToDoUpdated(self, toDoUpdated: todoText)
+        delegate?.todayToDoUpdated(self, updatedToDo: todoText)
       }
     }
-    //    todayTask.text = ""
     todayTask.resignFirstResponder()
   }
   
@@ -101,7 +103,10 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   
   @IBAction func todayTaskTapped(_ sender: UIButton) {
     todayTaskCompleted.isSelected.toggle()
-    // call delegate method to update datamodel
-    delegate?.todayTaskCompletion(self, completionChanged: todayTaskCompleted.isSelected)
+    // check if task exists before proceeding
+    if todayTask.text?.count != 0 {
+      // call delegate method to update datamodel
+      delegate?.todayTaskCompletion(self, completionChanged: todayTaskCompleted.isSelected)
+    }
   }
 }

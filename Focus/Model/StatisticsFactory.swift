@@ -93,7 +93,7 @@ class StatisticsFactory {
     case .lastmonth:
       frc1 = CoreDataController.shared.fetchedToDoByLastMonthController
       frc1.fetchRequest.predicate = pastMonthToDoPredicate
-      frc2 = CoreDataController.shared.fetchedGoalByMonthController
+      frc2 = CoreDataController.shared.fetchedGoalByLastMonthController
       frc2.fetchRequest.predicate = pastMonthGoalPredicate
     case .lastweek:
       frc1 = CoreDataController.shared.fetchedToDoByWeekController

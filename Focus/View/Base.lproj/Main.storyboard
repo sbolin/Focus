@@ -375,13 +375,14 @@
                                 </constraints>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yWA-fh-S7E">
-                                <rect key="frame" x="6" y="100" width="363" height="32"/>
+                                <rect key="frame" x="10.5" y="100" width="354" height="32"/>
                                 <color key="backgroundColor" red="1" green="0.92500000000000004" blue="0.84999999999999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <segments>
-                                    <segment title="Past Week" width="90"/>
-                                    <segment title="Past Month" width="89.875"/>
-                                    <segment title="Past 6 Mon." width="90.25"/>
-                                    <segment title="Past Year" width="90"/>
+                                    <segment title="Week" width="70"/>
+                                    <segment title="Month" width="70"/>
+                                    <segment title="6 Months" width="70"/>
+                                    <segment title="Year" width="70"/>
+                                    <segment title="All" width="70"/>
                                 </segments>
                                 <connections>
                                     <action selector="weekMonthToggled:" destination="KRN-JO-yb0" eventType="valueChanged" id="THG-5N-svq"/>
@@ -394,8 +395,8 @@
                                     <constraint firstAttribute="width" secondItem="euc-9X-YfC" secondAttribute="height" multiplier="1:1.2" id="nac-VK-TRS"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summarize by:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4W-38-uon">
-                                <rect key="frame" x="6" y="84" width="82.5" height="14"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summarize Statistics By Past:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4W-38-uon">
+                                <rect key="frame" x="10.5" y="83" width="165" height="15"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>

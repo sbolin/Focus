@@ -34,7 +34,7 @@ extension Goal {
   @objc public var groupByMonth: String {
     get {
       let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "MMM yyyy"
+      dateFormatter.dateFormat = "MMM 'yy" //"MMM yyyy"
       return dateFormatter.string(from: goalDateCreated)
     }
   }
@@ -42,7 +42,7 @@ extension Goal {
   @objc public var groupByWeek: String {
     get {
       let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "w Y"
+      dateFormatter.dateFormat = "'wk 'w ''yy"// "w Y"
       return dateFormatter.string(from: goalDateCreated)
     }
   }

@@ -73,6 +73,11 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
       print("Year Selected")
       statTimePeriod = StatTimePeriod.lastYear
       statistics = statFactory.stats(statType: statTimePeriod)
+      
+    case 4:
+      print("All records")
+      statTimePeriod = StatTimePeriod.allByMonth
+      statistics = statFactory.stats(statType: statTimePeriod)
 
     default:
       break

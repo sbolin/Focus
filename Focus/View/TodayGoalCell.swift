@@ -9,7 +9,9 @@
 import UIKit
 
 protocol TodayGoalCellDelegate {
-  func todayGoal(_ cell: TodayGoalCell, todayGoalText goalText: String)
+  func modifyTodayGoal(_ cell: TodayGoalCell, modifyGoalText goalText: String)
+    func newTodayGoal(_ cell: TodayGoalCell, newGoalText goalText: String)
+    func deleteTodayGoal(_ cell: TodayGoalCell)
 }
 
 class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
@@ -71,17 +73,25 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   func processInput() {
     if let goalText = fetchInput() {
       // call cell delegate method to update datamodel
-      delegate?.todayGoal(self, todayGoalText: goalText)
+      if newText != oldText {
+        delegate?.modifyTodayGoal(self, modifyGoalText: goalText)
+      }
     }
-    //    todayGoal.text = ""
     todayGoal.resignFirstResponder()
   }
   
   func fetchInput() -> String? {
     if let textCapture = todayGoal.text?.trimmingCharacters(in: .whitespaces) {
-      return textCapture.count > 0 ? textCapture : nil
+      if textCapture.count > 0 {
+        return textCapture
+      } else if textCapture.count == 0 {
+        print("handle case when all goal text is deleted")
+        delegate?.deleteTodayGoal(self)
+        // deleting goal -> delete all associated todos
+        // create new blank goal/todo set
+        delegate?.newTodayGoal(self, newGoalText: "New Goal")
+      }
     }
-    
     return nil
   }
   

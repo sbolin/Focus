@@ -39,6 +39,7 @@
 		15F48AB5245ADB3F0012C415 /* HistoryGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AB4245ADB3F0012C415 /* HistoryGoalCell.swift */; };
 		15F48AB7245ADB520012C415 /* HistoryTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AB6245ADB520012C415 /* HistoryTaskCell.swift */; };
 		15F48AB9245ADBB20012C415 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48AB8245ADBB20012C415 /* MainTabBarController.swift */; };
+		15FD0E9E24D49E200090B896 /* SectionExpanded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FD0E9D24D49E200090B896 /* SectionExpanded.swift */; };
 		63B63AAAB808790D6EAC8482 /* libPods-FocusTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F47E06CA2FD3BBE62B286719 /* libPods-FocusTests.a */; };
 		A78D6271DD657226834D356D /* libPods-Focus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0827A5047869E026CD92F4A7 /* libPods-Focus.a */; };
 /* End PBXBuildFile section */
@@ -104,6 +105,7 @@
 		15F48AB4245ADB3F0012C415 /* HistoryGoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryGoalCell.swift; sourceTree = "<group>"; };
 		15F48AB6245ADB520012C415 /* HistoryTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTaskCell.swift; sourceTree = "<group>"; };
 		15F48AB8245ADBB20012C415 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		15FD0E9D24D49E200090B896 /* SectionExpanded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionExpanded.swift; sourceTree = "<group>"; };
 		51F8091FC204AAC16EF1292A /* Pods-Focus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Focus.release.xcconfig"; path = "Target Support Files/Pods-Focus/Pods-Focus.release.xcconfig"; sourceTree = "<group>"; };
 		718CA4FB22FA3480678C4327 /* Pods-Focus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Focus.debug.xcconfig"; path = "Target Support Files/Pods-Focus/Pods-Focus.debug.xcconfig"; sourceTree = "<group>"; };
 		718E815B73A009A988CE8F8B /* Pods-FocusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FocusTests.debug.xcconfig"; path = "Target Support Files/Pods-FocusTests/Pods-FocusTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				154BBEA624C2D7B800FE9B15 /* StatisticsFactory.swift */,
 				1567D7A924C1776300608928 /* Statistics.swift */,
 				15F48A7E245A7CAB0012C415 /* Focus.xcdatamodeld */,
+				15FD0E9D24D49E200090B896 /* SectionExpanded.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				15A76620246FB45B00B90B3B /* HistoryViewDataSource.swift in Sources */,
 				1509A1552466700400FF01A1 /* UIButton+Actions.swift in Sources */,
 				154BBEA724C2D7B800FE9B15 /* StatisticsFactory.swift in Sources */,
+				15FD0E9E24D49E200090B896 /* SectionExpanded.swift in Sources */,
 				15F48AA5245AB4670012C415 /* HistoryViewController.swift in Sources */,
 				15F48AB7245ADB520012C415 /* HistoryTaskCell.swift in Sources */,
 			);
