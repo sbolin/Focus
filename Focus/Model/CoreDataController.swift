@@ -104,7 +104,7 @@ class CoreDataController {
   lazy var fetchedToDoByMonthController: NSFetchedResultsController<ToDo> = {
     let managedContext = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
-    let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: true)
+    let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
     let nameSort = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
     let idSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true)
     request.sortDescriptors = [createdSort, nameSort, idSort]
@@ -121,7 +121,7 @@ class CoreDataController {
   lazy var fetchedGoalByMonthController: NSFetchedResultsController<Goal> = {
     let managedContext = persistentContainer.viewContext
     let request = Goal.goalFetchRequest()
-    let createdSort = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: true)
+    let createdSort = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: false)
     request.sortDescriptors = [createdSort]
     
     let fetchedResultsController = NSFetchedResultsController(

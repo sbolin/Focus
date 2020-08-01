@@ -185,8 +185,8 @@
 				15F48A9E245A7D5E0012C415 /* CoreDataController.swift */,
 				154BBEA624C2D7B800FE9B15 /* StatisticsFactory.swift */,
 				1567D7A924C1776300608928 /* Statistics.swift */,
-				15F48A7E245A7CAB0012C415 /* Focus.xcdatamodeld */,
 				15FD0E9D24D49E200090B896 /* SectionExpanded.swift */,
+				15F48A7E245A7CAB0012C415 /* Focus.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";

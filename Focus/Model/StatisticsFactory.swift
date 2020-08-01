@@ -73,7 +73,9 @@ class StatisticsFactory {
     
     switch statType {
     case .all:
+      frc1 = CoreDataController.shared.fetchedToDoByYearController
       frc1.fetchRequest.predicate = allToDoPredicate
+      frc2 = CoreDataController.shared.fetchedGoalByYearController
       frc2.fetchRequest.predicate = allGoalPredicate
     case .allByMonth:
       frc1 = CoreDataController.shared.fetchedToDoByMonthController

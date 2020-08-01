@@ -72,4 +72,3 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
     }
   }
 }
-

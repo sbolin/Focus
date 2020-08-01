@@ -35,7 +35,7 @@ extension ToDo {
   @objc var groupByMonth: String {
     get {
       let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "MMM 'yy" //"MMM yyyy"
+      dateFormatter.dateFormat = "MMM yy" //"MMM yyyy"
       return dateFormatter.string(from: todoDateCreated)
     }
   }

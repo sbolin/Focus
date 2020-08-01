@@ -76,7 +76,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
       
     case 4:
       print("All records")
-      statTimePeriod = StatTimePeriod.allByMonth
+      statTimePeriod = StatTimePeriod.all
       statistics = statFactory.stats(statType: statTimePeriod)
 
     default:

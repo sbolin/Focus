@@ -10,7 +10,6 @@ import Foundation
 
 class SectionExpanded {
   
-  lazy var sectionExpanded: [Bool] = []  //Make a class - get/set values easily
-
-
+  lazy var sectionExpanded: [Bool] = []
+  
 }
