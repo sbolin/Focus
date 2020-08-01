@@ -34,7 +34,6 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
       try fetchedResultsController.performFetch()
       // set expanded section to true as default
       for _ in fetchedResultsController.sections! {
-        // use SectionExpanded class here
         CoreDataController.shared.sectionExpanded.append(true)
       }
       //

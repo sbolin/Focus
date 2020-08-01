@@ -11,7 +11,7 @@ import UIKit
 protocol TodayTaskCellDelegate {
   func todayToDoUpdated( _ cell: TodayToDoCell, updatedToDo: String)
   func todayToDoNew( _ cell: TodayToDoCell, newToDo: String)
-  func todayTaskCompletion(_ cell: TodayToDoCell, completionChanged completion: Bool)
+  func todayTaskCompletion(_ cell: TodayToDoCell, completionStatus completion: Bool)
 }
 
 class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
@@ -45,8 +45,8 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   }
   
   func toggleButtonColor() {
-    todayTaskCompleted.isSelected ? (todayTaskCompleted.tintColor = .systemOrange) :
-      (todayTaskCompleted.tintColor = .systemGray6)
+    todayTaskCompleted.isSelected ? (todayTaskCompleted.tintColor = .systemOrange) : (todayTaskCompleted.tintColor = .systemGray6)
+
   }
   
   func toggleButtonWiggle() {
@@ -89,9 +89,10 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   
   func fetchInput() -> String? {
     if let textCapture = todayTask.text?.trimmingCharacters(in: .whitespaces) {
-      if textCapture.count >= 0 {
+      if textCapture.count > 0 {
         return textCapture
       }
+      delegate?.todayTaskCompletion(self, completionStatus: false)
     }
     return nil
   }
@@ -102,11 +103,12 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   }
   
   @IBAction func todayTaskTapped(_ sender: UIButton) {
-    todayTaskCompleted.isSelected.toggle()
     // check if task exists before proceeding
     if todayTask.text?.count != 0 {
+      sender.isSelected.toggle()
+
       // call delegate method to update datamodel
-      delegate?.todayTaskCompletion(self, completionChanged: todayTaskCompleted.isSelected)
+      delegate?.todayTaskCompletion(self, completionStatus: sender.isSelected)
     }
   }
 }

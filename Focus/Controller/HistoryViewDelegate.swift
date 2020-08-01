@@ -65,7 +65,6 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
     
     for (index, _) in CoreDataController.shared.fetchedToDoByMonthController.sections!.enumerated() {
       if section == index {
-        // use SectionExpanded class here
         CoreDataController.shared.sectionExpanded[index] = !CoreDataController.shared.sectionExpanded[index]
         tableView.reloadSections(NSIndexSet(index: index) as IndexSet, with: .automatic)
       }

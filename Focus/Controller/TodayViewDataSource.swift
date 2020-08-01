@@ -85,7 +85,7 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
     tableView.reloadData()
   }
   
-  func todayTaskCompletion(_ cell: TodayToDoCell, completionChanged completion: Bool) {
+  func todayTaskCompletion(_ cell: TodayToDoCell, completionStatus completion: Bool) {
     guard let indexPath = tableView.indexPath(for: cell) else { return }
     let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
     let note = CoreDataController.shared.fetchedToDoResultsController.object(at: previousIndexPath)

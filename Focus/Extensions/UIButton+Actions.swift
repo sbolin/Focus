@@ -13,7 +13,6 @@ extension UIButton {
 
   // wiggle button
   func wiggle() {
-    
     let springAnim = startWiggle(view: self)
     let correctionAnim = endWiggle(view: self)
     self.layer.add(springAnim, forKey: nil)

@@ -27,7 +27,7 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   
   fileprivate let statFactory = StatisticsFactory()
   fileprivate let statTimePeriod = StatTimePeriod.allByMonth
-  
+    
   //MARK: - Initializer
   required init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController<Result>, delegate: Delegate) {
     self.tableView = tableView
@@ -48,7 +48,6 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    // use SectionExpanded class here
     if CoreDataController.shared.sectionExpanded[section] {
     todoRowsInSection = fetchedResultsController.sections?[section].numberOfObjects
     guard var numberOfRows = todoRowsInSection else { return 0 }
