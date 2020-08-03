@@ -67,6 +67,13 @@ class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataS
 
 //MARK: - Cell delegate methods
 extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
+  func todayTaskCompletion(cell: TodayToDoCell, completionStatus completion: Bool) {
+    guard let indexPath = tableView.indexPath(for: cell) else { return }
+    let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+    let note = CoreDataController.shared.fetchedToDoResultsController.object(at: previousIndexPath) 
+    CoreDataController.shared.markToDoCompleted(completed: completion, todo: note)
+    tableView.reloadData()
+  }
 
   //MARK: TodayTaskCellDelegate Methods
   func todayToDoNew(_ cell: TodayToDoCell, newToDo: String) {
@@ -82,14 +89,6 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
     CoreDataController.shared.modifyToDo(updatedToDoText: updatedToDo, at: previousIndexPath)
-    tableView.reloadData()
-  }
-  
-  func todayTaskCompletion(_ cell: TodayToDoCell, completionStatus completion: Bool) {
-    guard let indexPath = tableView.indexPath(for: cell) else { return }
-    let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-    let note = CoreDataController.shared.fetchedToDoResultsController.object(at: previousIndexPath)
-    CoreDataController.shared.markToDoCompleted(completed: completion, todo: note)
     tableView.reloadData()
   }
   

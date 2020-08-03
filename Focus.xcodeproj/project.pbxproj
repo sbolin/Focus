@@ -23,6 +23,7 @@
 		15A76622247044B100B90B3B /* TodayViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A76621247044B100B90B3B /* TodayViewDelegate.swift */; };
 		15A7662424704B0500B90B3B /* HistoryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7662324704B0500B90B3B /* HistoryViewDelegate.swift */; };
 		15A76626247053E900B90B3B /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A76625247053E900B90B3B /* NotificationController.swift */; };
+		15A8748E24D877FC002520F0 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A8748D24D877FC002520F0 /* Validation.swift */; };
 		15F48A76245A7CAB0012C415 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48A75245A7CAB0012C415 /* AppDelegate.swift */; };
 		15F48A78245A7CAB0012C415 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F48A77245A7CAB0012C415 /* SceneDelegate.swift */; };
 		15F48A7D245A7CAB0012C415 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15F48A7B245A7CAB0012C415 /* Main.storyboard */; };
@@ -84,6 +85,7 @@
 		15A76621247044B100B90B3B /* TodayViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewDelegate.swift; sourceTree = "<group>"; };
 		15A7662324704B0500B90B3B /* HistoryViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewDelegate.swift; sourceTree = "<group>"; };
 		15A76625247053E900B90B3B /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		15A8748D24D877FC002520F0 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		15F48A72245A7CAB0012C415 /* Focus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Focus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15F48A75245A7CAB0012C415 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15F48A77245A7CAB0012C415 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				1509A18C246EA70700FF01A1 /* HistorySummaryCell.swift */,
 				15F48AB4245ADB3F0012C415 /* HistoryGoalCell.swift */,
 				15F48AB6245ADB520012C415 /* HistoryTaskCell.swift */,
+				15A8748D24D877FC002520F0 /* Validation.swift */,
 				15F48A7B245A7CAB0012C415 /* Main.storyboard */,
 				15F48A83245A7CAF0012C415 /* LaunchScreen.storyboard */,
 			);
@@ -416,6 +419,7 @@
 				15F48AB5245ADB3F0012C415 /* HistoryGoalCell.swift in Sources */,
 				15A76626247053E900B90B3B /* NotificationController.swift in Sources */,
 				15A76622247044B100B90B3B /* TodayViewDelegate.swift in Sources */,
+				15A8748E24D877FC002520F0 /* Validation.swift in Sources */,
 				1567D7AA24C1776300608928 /* Statistics.swift in Sources */,
 				15F48AAF245AB8310012C415 /* ProgressViewController.swift in Sources */,
 				157A9570247706E30010AD9C /* UITableViewCell+ReturnUITableView.swift in Sources */,

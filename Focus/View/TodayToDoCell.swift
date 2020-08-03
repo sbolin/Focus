@@ -11,7 +11,7 @@ import UIKit
 protocol TodayTaskCellDelegate {
   func todayToDoUpdated( _ cell: TodayToDoCell, updatedToDo: String)
   func todayToDoNew( _ cell: TodayToDoCell, newToDo: String)
-  func todayTaskCompletion(_ cell: TodayToDoCell, completionStatus completion: Bool)
+  func todayTaskCompletion(cell: TodayToDoCell, completionStatus completion: Bool)
 }
 
 class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
@@ -22,6 +22,7 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   var oldText: String = ""
   var newText: String = ""
   var todoExisted: Bool = false
+  var validation = Validation()
   
   //MARK: - IBOutlets
   @IBOutlet weak var todayTask: UITextField!
@@ -36,20 +37,22 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   
   //MARK: - Configuration
   func configureTodayTaskCell(at indexPath: IndexPath, for todo: ToDo) {
+    print("configureTodayTaskCell at s\(indexPath.section) r\(indexPath.row)")
     let todoCount = indexPath.row
     todayTask.text = todo.todo
-    todayTaskNumber.image =  UIImage(systemName: "\(todoCount).circle.fill")
     todayTaskCompleted.isSelected = todo.todoCompleted
-    toggleButtonColor()
-    toggleButtonWiggle()
+    todayTaskNumber.image =  UIImage(systemName: "\(todoCount).circle.fill")
+    todayTaskCompleted.isSelected ? (todayTaskCompleted.tintColor = .systemOrange) : (todayTaskCompleted.tintColor = .systemGray6)
   }
   
   func toggleButtonColor() {
-    todayTaskCompleted.isSelected ? (todayTaskCompleted.tintColor = .systemOrange) : (todayTaskCompleted.tintColor = .systemGray6)
-
+    print("toggleButtonColor")
+   todayTaskCompleted.isSelected ? (todayTaskCompleted.tintColor = .systemOrange) : (todayTaskCompleted.tintColor = .systemGray6)
   }
   
   func toggleButtonWiggle() {
+    print("toggleButtonWiggle")
+    todayTaskCompleted.showsTouchWhenHighlighted = true
     todayTaskCompleted.isSelected ? todayTaskCompleted.wiggle() : nil
   }
   
@@ -92,7 +95,7 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
       if textCapture.count > 0 {
         return textCapture
       }
-      delegate?.todayTaskCompletion(self, completionStatus: false)
+      delegate?.todayTaskCompletion(cell: self, completionStatus: false)
     }
     return nil
   }
@@ -103,12 +106,19 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   }
   
   @IBAction func todayTaskTapped(_ sender: UIButton) {
+    print("todayTaskTapped: \(sender)")
     // check if task exists before proceeding
     if todayTask.text?.count != 0 {
       sender.isSelected.toggle()
-
+      
+      if sender.isSelected {
+        sender.tintColor = .systemOrange
+        sender.wiggle()
+      } else {
+        sender.tintColor = .systemGray6
+      }
       // call delegate method to update datamodel
-      delegate?.todayTaskCompletion(self, completionStatus: sender.isSelected)
+      delegate?.todayTaskCompletion(cell: self, completionStatus: sender.isSelected)
     }
   }
 }

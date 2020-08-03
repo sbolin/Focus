@@ -10,16 +10,19 @@ import UIKit
 
 // Methods for UIButton behaviors when clicked
 extension UIButton {
-
+  
   // wiggle button
+  
   func wiggle() {
-    let springAnim = startWiggle(view: self)
-    let correctionAnim = endWiggle(view: self)
-    self.layer.add(springAnim, forKey: nil)
-    self.layer.add(correctionAnim, forKey: nil)
+    DispatchQueue.main.async {
+      let springAnim = self.startWiggle(view: self)
+      let correctionAnim = self.endWiggle(view: self)
+      self.layer.add(springAnim, forKey: nil)
+      self.layer.add(correctionAnim, forKey: nil)
+    }
   }
   
-  private func startWiggle(view: UIView) -> CASpringAnimation{
+  private func startWiggle(view: UIButton) -> CASpringAnimation{
     let animation = CASpringAnimation(keyPath: "transform")
     animation.damping = 0.0 //0
     animation.initialVelocity = 80 //80
@@ -44,7 +47,7 @@ extension UIButton {
     self.layer.add(springAnim, forKey: nil)
   }
   
-  private func startWhirl(view: UIView) -> CASpringAnimation{
+  private func startWhirl(view: UIButton) -> CASpringAnimation{
     let animation = CASpringAnimation(keyPath: "transform")
     animation.repeatCount = 1
     animation.autoreverses = false
