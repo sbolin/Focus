@@ -14,7 +14,7 @@ class CoreDataController {
   //MARK: - Create CoreData Stack
   static let shared = CoreDataController() // singleton
   private init() {} // Prevent clients from creating another instance.
-
+  
   lazy var managedContext: NSManagedObjectContext = {
     return self.persistentContainer.viewContext
   }()
@@ -39,9 +39,9 @@ class CoreDataController {
     let request = ToDo.todoFetchRequest()
     let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: true)
     let todoSort = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
-//    let todoIDSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true)
+    //    let todoIDSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true)
     request.sortDescriptors = [todoCreatedSort, todoSort]// [todoIDSort]
-
+    
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: managedContext,
@@ -66,8 +66,8 @@ class CoreDataController {
     
     return fetchedResultsController
   }()
-
- 
+  
+  
   // used in progress view for yearly results
   lazy var fetchedToDoByYearController: NSFetchedResultsController<ToDo> = {
     let managedContext = persistentContainer.viewContext
@@ -164,7 +164,7 @@ class CoreDataController {
     
     return fetchedResultsController
   }()
- 
+  
   // used in progress view for weekly results
   lazy var fetchedToDoByWeekController: NSFetchedResultsController<ToDo> = {
     let context = persistentContainer.viewContext
@@ -196,7 +196,7 @@ class CoreDataController {
     
     return fetchedResultsController
   }()
-    
+  
   //MARK: - SaveContext
   func saveContext () {
     guard managedContext.hasChanges else { return }
@@ -228,8 +228,8 @@ class CoreDataController {
     let todo = fetchedToDoResultsController.object(at: indexPath)
     if todo.todo != updatedToDoText {
       todo.todo = updatedToDoText
-  //    todo.todoDateCreated = Date()
-  //    todo.todoCompleted = false
+      //    todo.todoDateCreated = Date()
+      //    todo.todoCompleted = false
       saveContext()
     }
   }
@@ -261,12 +261,11 @@ class CoreDataController {
   //Modify existing Goal
   func modifyGoal(updatedGoalText: String, at indexPath: IndexPath) {
     print("modifyGoal")
-    let goal = fetchedGoalResultsController.object(at: indexPath)
-//    let todo = fetchedToDoResultsController.object(at: indexPath)
-//    let goal = todo.goal
+    let todo = fetchedToDoResultsController.object(at: indexPath)
+    let goal = todo.goal
     if goal.goal != updatedGoalText {
-        goal.goal = updatedGoalText
-        saveContext()
+      goal.goal = updatedGoalText
+      saveContext()
     }
   }
   
@@ -309,7 +308,7 @@ class CoreDataController {
     saveContext()
   }
   
-
+  
   //MARK: - create default todos
   func createToDosIfNeeded() {
     

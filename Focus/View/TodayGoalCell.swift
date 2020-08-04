@@ -9,9 +9,9 @@
 import UIKit
 
 protocol TodayGoalCellDelegate {
-  func modifyTodayGoal(_ cell: TodayGoalCell, modifyGoalText goalText: String)
-    func newTodayGoal(_ cell: TodayGoalCell, newGoalText goalText: String)
-    func deleteTodayGoal(_ cell: TodayGoalCell)
+  func todayGoalUpdated(_ cell: TodayGoalCell, updatedGoal: String)
+  func todayGoalNew(_ cell: TodayGoalCell, newGoal goalText: String)
+  
 }
 
 class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
@@ -20,12 +20,13 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
   public static let reuseIdentifier = "TodayGoalCell"
   var delegate: TodayGoalCellDelegate?
   var oldText: String = ""
-  var newText: String = ""
-  var goalExisted: Bool = false
-  
+//  var newText: String = ""
+  var validation = Validation()
+
   //MARK: - IBOutlets
   @IBOutlet weak var todayGoal: UITextField!
   @IBOutlet weak var todayGoalCompleted: UIButton!
+  
   
   //MARK: - View Life Cycle
   override func awakeFromNib() {
@@ -39,47 +40,66 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
     todayGoalCompleted.isSelected = goal.goalCompleted
     toggleButton()
   }
-  
+
   func toggleButton() {
     todayGoalCompleted.isSelected ? (todayGoalCompleted.tintColor = .systemRed) :
       (todayGoalCompleted.tintColor = .systemGray6)
     todayGoalCompleted.isSelected ? todayGoalCompleted.whirl() : nil
   }
-  
+
   //MARK: - Helper Functions
   func textFieldDidBeginEditing(_ textField: UITextField) {
-    print("textFieldDidBeginEditing")
     if let text = textField.text {
-      if text.count > 0 {
-        oldText = text
-        print("oldText = \(oldText)")
-      }
-    }
-  }
-  
-  func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-    print("textFieldDidEndEditing")
-    if let text = textField.text {
-      newText = text
-      print("newText = \(newText)")
+      oldText = text
+      print("oldText: \(oldText)")
     }
   }
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if textField.text?.count == 0 {
+      return false
+    }
     processInput()
     return true
   }
   
+  /*
+  func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+    if let text = textField.text {
+      newText = text
+      print("newText: \(newText)")
+    }
+  }
+ */
+  
   func processInput() {
+    guard let goalText = todayGoal.text else {
+      print("todayGoal.text error")
+      return
+    }
+    print("in processInput\ngoalText: \(goalText)")
+    print("oldText: \(oldText)")
+    let isValidated = validation.validatedText(newText: goalText, oldText: oldText)
+    print("isValidated: \(isValidated)")
+    if isValidated {
+      delegate?.todayGoalUpdated(self, updatedGoal: goalText)
+    } else {
+      todayGoal.text = oldText
+    }
+    
+    // old method:
+    /*
     if let goalText = fetchInput() {
       // call cell delegate method to update datamodel
       if newText != oldText {
-        delegate?.modifyTodayGoal(self, modifyGoalText: goalText)
+        delegate?.todayGoalUpdated(self, updatedGoal: goalText)
       }
     }
+    */
     todayGoal.resignFirstResponder()
   }
   
+  /*
   func fetchInput() -> String? {
     if let textCapture = todayGoal.text?.trimmingCharacters(in: .whitespaces) {
       if textCapture.count > 0 {
@@ -89,11 +109,12 @@ class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
         delegate?.deleteTodayGoal(self)
         // deleting goal -> delete all associated todos
         // create new blank goal/todo set
-        delegate?.newTodayGoal(self, newGoalText: "New Goal")
+        delegate?.todayGoalNew(self, newGoal: "New Goal")
       }
     }
     return nil
   }
+ */
   
   //MARK:- IBActions
   @IBAction func todayGoalEditingEnded(_ sender: UITextField) {

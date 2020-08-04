@@ -69,7 +69,8 @@ class TodayViewController: UIViewController {
   }
   
   func adjustLayoutForKeyboard(targetHeight: CGFloat) {
-    todayTableView.contentInset.bottom = targetHeight
+    //    no need to adjust keyboard in TodayView, enough space below table
+//    todayTableView.contentInset.bottom = targetHeight
   }
 }
 

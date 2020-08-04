@@ -76,41 +76,34 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   }
 
   //MARK: TodayTaskCellDelegate Methods
-  func todayToDoNew(_ cell: TodayToDoCell, newToDo: String) {
+  func todayTaskNew(_ cell: TodayToDoCell, newTask: String) {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-    CoreDataController.shared.addToDo(text: newToDo, at: previousIndexPath)
+    CoreDataController.shared.addToDo(text: newTask, at: previousIndexPath)
     tableView.reloadData()
   }
   
-  func todayToDoUpdated(_ cell: TodayToDoCell, updatedToDo: String) {
+  func todayTaskUpdated(_ cell: TodayToDoCell, updatedTask: String) {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-    CoreDataController.shared.modifyToDo(updatedToDoText: updatedToDo, at: previousIndexPath)
+    CoreDataController.shared.modifyToDo(updatedToDoText: updatedTask, at: previousIndexPath)
     tableView.reloadData()
   }
   
   //MARK: TodayGoalCellDelegate Methods
-  func modifyTodayGoal(_ cell: TodayGoalCell, modifyGoalText goalText: String) {
+  func todayGoalUpdated(_ cell: TodayGoalCell, updatedGoal goalText: String) {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     CoreDataController.shared.modifyGoal(updatedGoalText: goalText, at: indexPath)
     tableView.reloadData()
   }
   
-  func newTodayGoal(_ cell: TodayGoalCell, newGoalText goalText: String) {
+  func todayGoalNew(_ cell: TodayGoalCell, newGoal goalText: String) {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
     CoreDataController.shared.addGoal(title: goalText, at: indexPath)
     tableView.reloadData()
-  }
-  
-  func deleteTodayGoal(_ cell: TodayGoalCell) {
-    guard let tableViewContainer = cell.tableView else { return }
-    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    let goal = CoreDataController.shared.fetchedGoalResultsController.object(at: indexPath)
-    CoreDataController.shared.deleteGoal(goal: goal)
   }
 }
