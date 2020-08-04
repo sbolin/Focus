@@ -308,7 +308,6 @@ class CoreDataController {
     saveContext()
   }
   
-  
   //MARK: - create default todos
   func createToDosIfNeeded() {
     

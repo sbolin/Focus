@@ -20,7 +20,6 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
   public static let reuseIdentifier = "TodayTaskCell"
   var delegate: TodayTaskCellDelegate?
   var oldText: String = ""
-//  var newText: String = ""
   var validation = Validation()
   
   //MARK: - IBOutlets
@@ -43,14 +42,6 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
     todayTaskCompleted.isSelected ? (todayTaskCompleted.tintColor = .systemOrange) : (todayTaskCompleted.tintColor = .systemGray6)
   }
   
-//  func toggleButtonColor() {
-//   todayTaskCompleted.isSelected ? (todayTaskCompleted.tintColor = .systemOrange) : (todayTaskCompleted.tintColor = .systemGray6)
-//  }
-//
-//  func toggleButtonWiggle() {
-//    todayTaskCompleted.isSelected ? todayTaskCompleted.wiggle() : nil
-//  }
-  
   //MARK: - Helper Functions
   func textFieldDidBeginEditing(_ textField: UITextField) {
     if let text = textField.text {
@@ -66,52 +57,18 @@ class TodayToDoCell: UITableViewCell, UITextFieldDelegate {
     return true
   }
   
-  /*
-  func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-    if let text = textField.text {
-      newText = text
-    }
-  }
- */
-  
   func processInput() {
     guard let taskText = todayTask.text else {
-      print("todayTask.text error")
       return
     }
-    print("in processInput\nTaskText: \(taskText)")
-    print("oldText: \(oldText)")
     let isValidated = validation.validatedText(newText: taskText, oldText: oldText)
-    print("isValidated: \(isValidated)")
     if isValidated {
       delegate?.todayTaskUpdated(self, updatedTask: taskText)
     } else {
       todayTask.text = oldText
     }
-    
-    // old method:
-    /*
-    if let todoText = fetchInput() {
-      // call delegate method to update datamodel
-      if newText != oldText {
-        delegate?.todayToDoUpdated(self, updatedToDo: todoText)
-      }
-    }
- */
     todayTask.resignFirstResponder()
   }
-  
-  /*
-  func fetchInput() -> String? {
-    if let textCapture = todayTask.text?.trimmingCharacters(in: .whitespaces) {
-      if textCapture.count > 0 {
-        return textCapture
-      }
-      delegate?.todayTaskCompletion(cell: self, completionStatus: false)
-    }
-    return nil
-  }
- */
   
   //MARK: - IBActions
   @IBAction func todayTaskEditingEnded(_ sender: UITextField) {

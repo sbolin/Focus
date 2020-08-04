@@ -55,27 +55,22 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     
     switch sender.selectedSegmentIndex {
     case 0:
-      print("Week Selected")
       statTimePeriod = StatTimePeriod.lastweek
       statistics = statFactory.stats(statType: statTimePeriod)
       
     case 1:
-      print("Month Selected")
       statTimePeriod = StatTimePeriod.lastmonth
       statistics = statFactory.stats(statType: statTimePeriod)
       
     case 2:
-      print("6 Month Selected")
       statTimePeriod = StatTimePeriod.lastSixMonths
       statistics = statFactory.stats(statType: statTimePeriod)
 
     case 3:
-      print("Year Selected")
       statTimePeriod = StatTimePeriod.lastYear
       statistics = statFactory.stats(statType: statTimePeriod)
       
     case 4:
-      print("All records")
       statTimePeriod = StatTimePeriod.all
       statistics = statFactory.stats(statType: statTimePeriod)
 
