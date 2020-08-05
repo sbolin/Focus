@@ -26,7 +26,6 @@ class DataValueFormatter: NSObject, IValueFormatter {
   }
   
   fileprivate func format(value: Double) -> String {
-//    fileprivate func format(value: Double) -> NSAttributedString {
 
     //Add font variation - NOTE: NOT USED
     let font = UIFont.systemFont(ofSize: 6, weight: .light)
@@ -35,7 +34,6 @@ class DataValueFormatter: NSObject, IValueFormatter {
       .foregroundColor: textColor,
       .font: font,
       .textEffect: NSAttributedString.TextEffectStyle.letterpressStyle]
-    
     
     var sig = value
     var length = 0
@@ -54,6 +52,7 @@ class DataValueFormatter: NSObject, IValueFormatter {
       r += appendix
     }
     let attributedString = NSAttributedString(string: r, attributes: attributes)
+//    return attributedString
     
     return r
   }

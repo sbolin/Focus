@@ -13,6 +13,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+      if (granted) {
+        print("Please allow notifications for To Do List. You can always change notification settings later in the Settings App.")
+      }
+      else {
+        print("We need to prove the app is amazing so the user will change their mind")
+      }
+    }
     return true
   }
 
