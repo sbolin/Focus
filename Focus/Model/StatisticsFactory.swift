@@ -29,6 +29,10 @@ class StatisticsFactory {
     return NSPredicate(format: "%K > %@", #keyPath(Goal.goalDateCreated), allTime)
   }()
   
+  lazy var pastDayGoalPredicate: NSPredicate = {
+    return NSPredicate(format: "%K > %@", #keyPath(Goal.goalDateCreated), lastDay)
+  }()
+  
   lazy var pastWeekGoalPredicate: NSPredicate = {
     return NSPredicate(format: "%K > %@", #keyPath(Goal.goalDateCreated), lastWeek)
   }()
@@ -45,9 +49,14 @@ class StatisticsFactory {
     return NSPredicate(format: "%K > %@", #keyPath(Goal.goalDateCreated), lastYear)
   }()
   
+  
   //MARK: Date ToDo Predicates
   lazy var allToDoPredicate: NSPredicate = {
     return NSPredicate(format: "%K > %@", #keyPath(ToDo.todoDateCreated), allTime)
+  }()
+  
+  lazy var pastDayToDoPredicate: NSPredicate = {
+    return NSPredicate(format: "%K > %@", #keyPath(ToDo.todoDateCreated), lastDay)
   }()
   
   lazy var pastWeekToDoPredicate: NSPredicate = {
@@ -102,6 +111,13 @@ class StatisticsFactory {
       frc1.fetchRequest.predicate = pastWeekToDoPredicate
       frc2 = CoreDataController.shared.fetchedGoalByWeekController
       frc2.fetchRequest.predicate = pastWeekGoalPredicate
+    case .lastday:
+      frc1 = CoreDataController.shared.fetchedToDoByWeekController
+      frc1.fetchRequest.predicate = pastDayToDoPredicate
+      frc2 = CoreDataController.shared.fetchedGoalByWeekController
+      frc2.fetchRequest.predicate = pastDayGoalPredicate
+    
+    
     }
     
     do {

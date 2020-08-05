@@ -9,6 +9,7 @@
 import Foundation
 
 enum StatTimePeriod {
+  case lastday
   case lastweek
   case lastmonth
   case lastSixMonths
