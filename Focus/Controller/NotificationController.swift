@@ -19,44 +19,54 @@ class NotificationController {
     let statFactory = StatisticsFactory()
     let statistics = statFactory.stats(statType: statTimePeriod)
     
-    // Statistics properties
-    var noGoals = true // true -> goal completed, false -> goal incomplete
-
-    
-    let todoTotalData = statistics.todoCount[0]
-    let todoCompletedData = statistics.todoComplete[0]
-    let todoIncompleteDate = statistics.todoIncomplete[0]
-    
-    let goalTotalData = statistics.goalCount[0]
-    let goalCompletedData = statistics.goalComplete[0]
-    let goalIncompleteData = statistics.goalIncomplete[0]
+    // ToDo Statistics properties
+    let todoTotal = statistics.todoCount[0]
+    let todoIncomplete = statistics.todoIncomplete[0]
     
     // notification setup
     var title = String()
+    var subtitle = String()
     var body = String()
     
-    if goalIncompleteData != 0 {
-      noGoals = false
-    }
-    
-    // Check if goal is completed (ie, all todo items completed)
-    // or if not completed (todos remain)
-    // If todos remain, calulate number
-    
-    
-    if noGoals { // no tasks
+    if todoIncomplete == 0 { // Focus goal completed
       title = "Focus Goal Complete"
+      subtitle = "Today's Goal and Tasks completed"
       body = "Add a new Focus Goal and Tasks 🙂"
     } else { // tasks remain
-      title = "Focus Goal not complete yet"
-      body = "You have # tasks to go!" // need to get tasks remain count
+      title = "Focus Goal not complete "
+      subtitle = "Add new Goal or Use Yesterday's?"
+      body = "You have \(todoIncomplete) tasks out of \(todoTotal) to go!"
     }
     
+    // check if notifications are still authorized
+    checkNotificationStatus()
+    
     // schedule (or remove) reminders
-    scheduleNotifications(title: title, body: body)
+    scheduleNotifications(title: title, subtitle: subtitle, body: body)
   }
   
-  func scheduleNotifications(title: String?, body: String?) {
+  //MARK: - Check Notification Status
+  func checkNotificationStatus() {
+    UNUserNotificationCenter.current().getNotificationSettings { (settings : UNNotificationSettings) in
+      if settings.authorizationStatus == .authorized {
+        // Still Authorized, no need to do anything
+        return
+      } else {
+        // Not Authorized anymore, request authorization again.
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+          if (granted) {
+            print("Please allow notifications for Focus. You can always change notification settings later in the Settings App.")
+          }
+          else {
+            print("Without Notifications Focus cannot send you reminders. You can always change notification settings later in the Settings App.")
+          }
+        }
+      }
+    }
+  }
+  
+  //MARK: - Schedule Notification
+  func scheduleNotifications(title: String?, subtitle: String?, body: String?) {
     let identifier = "FocusSummary"
     let notificationCenter = UNUserNotificationCenter.current()
     
@@ -73,13 +83,24 @@ class NotificationController {
       let content = UNMutableNotificationContent()
       content.title = newTitle
       content.subtitle = "Focus!"
-      content.categoryIdentifier = "notification"
       content.body = newBody
+      content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber; // Increment not specifically needed in this app (as only 1 notification exists at a time).
+      content.categoryIdentifier = "notification"
       content.sound = UNNotificationSound.default
+      
+      // Add logo image as attachment
+      if let path = Bundle.main.path(forResource:"Icon", ofType:"png") {
+        let url = URL(fileURLWithPath: path)
+        do {
+          let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: .none)
+          content.attachments = [attachment]
+        } catch {
+          print("The attachment was not loaded.")
+        }
+      }
       
       // create trigger
       let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-      //      let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 120, repeats: true)
       
       // create request
       let request = UNNotificationRequest(identifier: "FocusSummary", content: content, trigger: trigger)
@@ -87,7 +108,5 @@ class NotificationController {
       // schedule notification
       UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
-    
   }
-  
 }
