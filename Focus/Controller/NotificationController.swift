@@ -9,7 +9,7 @@
 import UIKit
 import UserNotifications
 
-class NotificationController {
+class NotificationController: NSObject, UNUserNotificationCenterDelegate {
   
   //MARK: - Notification when Tasks/Goal is completed
   func manageLocalNotification() {
@@ -42,10 +42,10 @@ class NotificationController {
     checkNotificationStatus()
     
     // schedule (or remove) reminders
-    scheduleNotifications(title: title, subtitle: subtitle, body: body)
+    setupNotification(title: title, subtitle: subtitle, body: body)
   }
   
-  //MARK: - Check Notification Status
+  //MARK: - Check Notification Status, user could have changed it.
   func checkNotificationStatus() {
     UNUserNotificationCenter.current().getNotificationSettings { (settings : UNNotificationSettings) in
       if settings.authorizationStatus == .authorized {
@@ -64,11 +64,11 @@ class NotificationController {
       }
     }
   }
-  
+ 
   //MARK: - Schedule Notification
-  func scheduleNotifications(title: String?, subtitle: String?, body: String?) {
+  func setupNotification(title: String?, subtitle: String?, body: String?) {
     let identifier = "FocusSummary"
-    let notificationCenter = UNUserNotificationCenter.current()
+    let center = UNUserNotificationCenter.current()
     
     // need to set so goes off at 8am each day
     var dateComponents = DateComponents()
@@ -76,7 +76,7 @@ class NotificationController {
     dateComponents.minute = 00
     
     //remove previously scheduled notifications
-    notificationCenter.removeDeliveredNotifications(withIdentifiers: [identifier])
+    center.removeDeliveredNotifications(withIdentifiers: [identifier])
     
     if let newTitle = title, let newBody = body {
       //create content
@@ -86,6 +86,7 @@ class NotificationController {
       content.body = newBody
       content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber; // Increment not specifically needed in this app (as only 1 notification exists at a time).
       content.categoryIdentifier = "notification"
+      content.userInfo = ["customData": "Custom Data"]
       content.sound = UNNotificationSound.default
       
       // Add logo image as attachment
@@ -103,10 +104,52 @@ class NotificationController {
       let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
       
       // create request
-      let request = UNNotificationRequest(identifier: "FocusSummary", content: content, trigger: trigger)
+      let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
       
       // schedule notification
-      UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+      center.add(request, withCompletionHandler: nil)
     }
+  }
+  
+  func registerCategory() {
+    let center = UNUserNotificationCenter.current()
+    center.delegate = self
+    
+    let newGoal = UNNotificationAction(identifier: "New Goal", title: "Set new Goal", options: .foreground)
+    let oldGoal = UNNotificationAction(identifier: "Previous Goal", title: "Use Previous Goal", options: .foreground)
+    let category = UNNotificationCategory(identifier: "notification", actions: [newGoal, oldGoal], intentIdentifiers: [])
+    
+    center.setNotificationCategories([category])
+    
+  }
+  
+  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    // pull out the buried userInfo dictionary
+    let userInfo = response.notification.request.content.userInfo
+    
+    if let customData = userInfo["customData"] as? String {
+      print("Custom data received: \(customData)")
+      
+      switch response.actionIdentifier {
+        
+      case UNNotificationDefaultActionIdentifier:
+        // the user swiped to unlock
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        print("Default identifier")
+        
+      case "New Goal":
+        // the user tapped our "show more info…" button
+        print("Create New Goal")
+        
+      case "Previous Goal":
+        // user tapped "Use Previous Goal"
+        print("Use Previous Goal")
+        
+      default:
+        break
+      }
+    }
+    // you must call the completion handler when you're done
+    completionHandler()
   }
 }

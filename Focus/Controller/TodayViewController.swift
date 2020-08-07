@@ -28,6 +28,15 @@ class TodayViewController: UIViewController {
     todayTableView.delegate = todayViewdelegate
     setupToDoTableView()
     registerForKeyboardNotifications()
+    let current = UNUserNotificationCenter.current()
+    current.delegate = self
+    let action = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
+    
+    let category = UNNotificationCategory(identifier:"notification-category", actions: [action], intentIdentifiers: [], options: [])
+    
+    // we set to handle this [category] which has has action and its identifier
+    UNUserNotificationCenter.current().setNotificationCategories([category])
+    
   }
   
   //MARK: - Setup tableview to show last note
@@ -82,5 +91,14 @@ extension TodayViewController: TodayViewDataSourceDelegate {
   
   func configureTodayGoal(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal) {
     cell.configureTodayGoalCell(at: indexPath, for: object)
+  }
+}
+
+extension TodayViewController: UNUserNotificationCenterDelegate {
+  
+  // MARK:- UNUserNotificationCenterDelegate
+  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    // To show the banner in-app
+    completionHandler([.badge, .alert, .sound])
   }
 }
