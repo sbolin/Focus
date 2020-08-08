@@ -9,18 +9,29 @@
 import Foundation
 import CoreData
 
+enum StorageType {
+  case persistent, inMemory
+}
+
 class CoreDataController {
   
   //MARK: - Create CoreData Stack
   static let shared = CoreDataController() // singleton
-  private init() {} // Prevent clients from creating another instance.
+  init() {} // Change from private to allow subclassing with new init
   
   lazy var managedContext: NSManagedObjectContext = {
     return self.persistentContainer.viewContext
   }()
   
-  private lazy var persistentContainer: NSPersistentContainer = {
-    let container = NSPersistentContainer(name: "Focus")
+  lazy var modelName = "Focus"
+  
+  lazy var model: NSManagedObjectModel = {
+    let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd")!
+    return NSManagedObjectModel(contentsOf: modelURL)!
+  }()
+  
+  lazy var persistentContainer: NSPersistentContainer = {
+    let container = NSPersistentContainer(name: modelName, managedObjectModel: model)
     container.loadPersistentStores { (storeDescription, error) in
       container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
       if let error = error as NSError? {
@@ -29,6 +40,8 @@ class CoreDataController {
     }
     return container
   }()
+  
+  // persistentContainer no longer private
   
   lazy var sectionExpanded: [Bool] = []  //Make a class - get/set values easily
   

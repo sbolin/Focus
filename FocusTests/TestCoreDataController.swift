@@ -10,30 +10,24 @@
 import Foundation
 import CoreData
 
-class TestCoreController: CoreDataController {
+class TestCoreDataController: CoreDataController {
   override init() {
     super.init()
+    
+    let persistentStoreDescription = NSPersistentStoreDescription()
+    persistentStoreDescription.type = NSInMemoryStoreType
+    persistentStoreDescription.url = URL(fileURLWithPath: "/dev/null")
+    
+    let container = NSPersistentContainer(
+      name: CoreDataController.shared.modelName,
+      managedObjectModel: CoreDataController.shared.model)
+    container.persistentStoreDescriptions = [persistentStoreDescription]
+    container.loadPersistentStores { (_, error) in
+      if let error = error as NSError? {
+        fatalError(
+          "Unresolved error \(error), \(error.userInfo)")
+      }
+    }
+    self.persistentContainer = container
   }
-  
-  let persistentStoreDescription =
-    NSPersistentStoreDescription()
-  persistentStoreDescription.type = NSInMemoryStoreType
-  
-  let container = NSPersistentContainer(
-    name: CoreDataController.modelName,
-    managedObjectModel: CoreDataController.model)
-  container.persistentStoreDescriptions =
-  [persistentStoreDescription]
-  
-  container.loadPersistentStores { (_, error) in
-  if let error = error as NSError? {
-  fatalError(
-  "Unresolved error \(error), \(error.userInfo)")
-  }
-  }
-  
-  self.storeContainer = container
-}
-}
-
 }

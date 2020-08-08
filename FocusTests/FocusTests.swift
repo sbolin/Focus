@@ -8,18 +8,48 @@
 
 import XCTest
 @testable import Focus
+import CoreData
 
 final class FocusTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
   
-  func text_Goal_init() {
+  //MARK: - Properties
+  var coreDataStack: CoreDataController!
+  
+  override func setUp() {
+    super.setUp()
+    
+    coreDataStack = TestCoreDataController()
+  }
+  
+  override func tearDown() {
+    coreDataStack = nil
+  }
+  
+  func testAddNewGoal() {
+    
+  }
+  
+  func testAddNewTodo() {
+    
+  }
+  
+  func testModifyGoal() {
+    
+  }
+  
+  func testModifyToDo() {
+    
+  }
+  
+  func testCompleteGoal() {
+    
+  }
+  
+  func testCompleteToDoItem() {
+    
+  }
+  
+  func testCompleteAllTodo() {
     
   }
 
