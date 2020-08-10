@@ -15,14 +15,7 @@ class Validation {
     let isValidatedNewText = trimmedNewText.count > 0
     let isValidatedOldText = trimmedOldText.count > 0
     let isValidatedDifferent = trimmedNewText != trimmedOldText
-    
-    /* work on Regex pattern to check
-    let textRegex = "^\\w{1,}$" // any text, 1 or more characters
-    let validatedText = NSPredicate(format: "SELF MATCHES %@", textRegex)
-    let isValidatedNewText = validatedText.evaluate(with: trimmedNewText)
-    let isValidatedOldText = validatedText.evaluate(with: trimmedOldText)
-    let isValidatedDifferent = trimmedNewText != trimmedOldText
- */
+
     let isValid = isValidatedNewText && isValidatedOldText && isValidatedDifferent
     return isValid
   }

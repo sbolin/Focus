@@ -192,6 +192,8 @@
 				15F48A9E245A7D5E0012C415 /* CoreDataController.swift */,
 				154BBEA624C2D7B800FE9B15 /* StatisticsFactory.swift */,
 				1567D7A924C1776300608928 /* Statistics.swift */,
+				15A8748D24D877FC002520F0 /* Validation.swift */,
+				157CC6E324D0A644008892CC /* DataValueFormatter.swift */,
 				15F48A7E245A7CAB0012C415 /* Focus.xcdatamodeld */,
 			);
 			path = Model;
@@ -205,7 +207,6 @@
 				1509A18C246EA70700FF01A1 /* HistorySummaryCell.swift */,
 				15F48AB4245ADB3F0012C415 /* HistoryGoalCell.swift */,
 				15F48AB6245ADB520012C415 /* HistoryTaskCell.swift */,
-				15A8748D24D877FC002520F0 /* Validation.swift */,
 				15F48A7B245A7CAB0012C415 /* Main.storyboard */,
 				15F48A83245A7CAF0012C415 /* LaunchScreen.storyboard */,
 			);
@@ -222,7 +223,6 @@
 				15A7661F246FB45B00B90B3B /* HistoryViewDataSource.swift */,
 				15A7662324704B0500B90B3B /* HistoryViewDelegate.swift */,
 				15F48AAE245AB8310012C415 /* ProgressViewController.swift */,
-				157CC6E324D0A644008892CC /* DataValueFormatter.swift */,
 				15F48AB8245ADBB20012C415 /* MainTabBarController.swift */,
 				15A76625247053E900B90B3B /* NotificationController.swift */,
 			);

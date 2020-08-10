@@ -20,7 +20,10 @@ class CoreDataController {
   init() {} // Change from private to allow subclassing with new init
   
   lazy var managedContext: NSManagedObjectContext = {
-    return self.persistentContainer.viewContext
+    let context = self.persistentContainer.viewContext
+    context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    return context
+//    return self.persistentContainer.viewContext
   }()
   
   lazy var modelName = "Focus"
@@ -33,7 +36,6 @@ class CoreDataController {
   lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: modelName, managedObjectModel: model)
     container.loadPersistentStores { (storeDescription, error) in
-      container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
       if let error = error as NSError? {
         print("Unresolved error \(error), \(error.userInfo)")
       }

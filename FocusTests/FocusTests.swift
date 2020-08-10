@@ -13,17 +13,55 @@ import CoreData
 final class FocusTests: XCTestCase {
   
   //MARK: - Properties
-  var coreDataStack: CoreDataController!
+  var testStack: CoreDataController!
   
   override func setUp() {
     super.setUp()
-    
-    coreDataStack = TestCoreDataController()
+
+    testStack = TestCoreDataController()
   }
   
   override func tearDown() {
-    coreDataStack = nil
+    testStack = nil
   }
+  
+    //MARK: - Tests
+  
+  func test_persistentStoreCreated() {
+    let coreDataSetupExpectation = expectation(description: "Set up core data")
+    
+    coreDataSetupExpectation.fulfill()
+    waitForExpectations(timeout: 1.0) { (_) in
+      XCTAssertTrue(self.testStack.persistentContainer.persistentStoreCoordinator.persistentStores.count > 0)
+    }
+  }
+  
+  func test_persistentContainerLoadedOnDisk() {
+  
+    let coreDataSetupExpectation = expectation(description: "set up completion called")
+    
+    let storeUrl = testStack.persistentContainer.persistentStoreCoordinator.persistentStores.first!.url!
+
+      XCTAssertEqual(self.testStack.persistentContainer.persistentStoreDescriptions.first?.type, NSSQLiteStoreType)
+      coreDataSetupExpectation.fulfill()
+    waitForExpectations(timeout: 1.0) { (_) in
+      do {
+        try self.testStack.persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: storeUrl, ofType: NSSQLiteStoreType, options: nil)
+      } catch {
+        print(error)
+      }
+    }
+  }
+  
+  func test_mainContextConcurrencyType() {
+    let setupExpectation = expectation(description: "main context")
+    
+      XCTAssertEqual(self.testStack.managedContext.concurrencyType, .mainQueueConcurrencyType)
+      setupExpectation.fulfill()
+    
+    waitForExpectations(timeout: 1.0, handler: nil)
+  }
+  
   
   func testAddNewGoal() {
     
