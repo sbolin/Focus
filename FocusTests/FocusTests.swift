@@ -17,12 +17,12 @@ final class FocusTests: XCTestCase {
   
   override func setUp() {
     super.setUp()
-
     testStack = TestCoreDataController()
   }
   
   override func tearDown() {
     testStack = nil
+    super.tearDown()
   }
   
     //MARK: - Tests
@@ -64,31 +64,102 @@ final class FocusTests: XCTestCase {
   
   
   func testAddNewGoal() {
+    let goalTitle = "Goal 1"
+    let indexPath = IndexPath(row: 0, section: 0)
+    // create goal
+    testStack.addGoal(title: goalTitle, at: indexPath)
     
+    // fetch same goal
+    let goal = testStack.fetchedGoalResultsController.object(at: indexPath)
+    
+    XCTAssertNotNil(goal, "goal should not be nil")
+    XCTAssertEqual(goal.goal, goalTitle)
+    XCTAssertNotEqual(goal.goal.count, 0)
+    XCTAssertEqual(goal.goalCompleted, false)
+    XCTAssertEqual(goal.goalDateCreated, Date())
   }
   
   func testAddNewTodo() {
+    let goalTitle = "Goal 1"
+    let todoTitle = "Goal 1 - Todo 1"
+    let indexPath = IndexPath(row: 1, section: 0)
+    // create todo
+    testStack.addToDo(text: todoTitle, at: indexPath)
     
+    // fetch same todo
+    let todo = testStack.fetchedToDoResultsController.object(at: indexPath)
+    
+    XCTAssertNotNil(todo, "todo should not be nil")
+    XCTAssertEqual(todo.todo, todoTitle)
+    XCTAssertNotEqual(todo.todo.count, 0)
+    XCTAssertEqual(todo.todoCompleted, false)
+    XCTAssertEqual(todo.todoDateCreated, Date())
+    XCTAssertEqual(todo.goal.goal, goalTitle)
   }
   
   func testModifyGoal() {
+    let modifiedGoalTitle = "Goal 1B"
+    let indexPath = IndexPath(row: 0, section: 0)
+    // modify goal
+    testStack.modifyGoal(updatedGoalText: modifiedGoalTitle, at: indexPath)
     
+    // fetch same goal
+    let goal = testStack.fetchedGoalResultsController.object(at: indexPath)
+    
+    XCTAssertNotNil(goal, "goal should not be nil")
+    XCTAssertEqual(goal.goal, modifiedGoalTitle)
+    XCTAssertEqual(goal.goalCompleted, false)
+    XCTAssertEqual(goal.goalDateCreated, Date()) // may not be the case
   }
   
   func testModifyToDo() {
+    let modifyTodoTitle = "Goal 1B - Todo 1B"
+    let indexPath = IndexPath(row: 1, section: 0)
+    // modify todo
+    testStack.modifyToDo(updatedToDoText: modifyTodoTitle, at: indexPath)
     
+    // fetch same todo
+    let todo = testStack.fetchedToDoResultsController.object(at: indexPath)
+    
+    XCTAssertNotNil(todo, "todo should not be nil")
+    XCTAssertEqual(todo.todo, modifyTodoTitle)
+    XCTAssertNotEqual(todo.todo.count, 0)
+    XCTAssertEqual(todo.todoCompleted, false)  // may not be the case - todo could be completed but renamed
+    XCTAssertEqual(todo.todoDateCreated, Date()) // may not be the case
   }
   
   func testCompleteGoal() {
-    
+    let indexPath = IndexPath(row: 0, section: 0)
+    // fetch todo at index Path
+    let goal = testStack.fetchedGoalResultsController.object(at: indexPath)
+    let todos = goal.todos
+    for todo in todos {
+      XCTAssertEqual(todo.todoCompleted, true)
+    }
+    XCTAssertEqual(goal.goalCompleted, true)
   }
   
   func testCompleteToDoItem() {
+    let indexPath = IndexPath(row: 1, section: 0)
+    // fetch todo at index Path
+    let todo = testStack.fetchedToDoResultsController.object(at: indexPath)
+    let completed = true
+    
+    // mark todo as complete
+    testStack.markToDoCompleted(completed: completed, todo: todo)
+    
+    XCTAssertEqual(todo.todoCompleted, completed)
     
   }
   
   func testCompleteAllTodo() {
-    
+    let indexPath = IndexPath(row: 0, section: 0)
+    // fetch goal
+    let goal = testStack.fetchedGoalResultsController.object(at: indexPath)
+    let todos = goal.todos
+    for todo in todos {
+      XCTAssertEqual(todo.todoCompleted, true)
+    }
   }
 
     func testExample() throws {

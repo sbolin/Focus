@@ -11,6 +11,7 @@ import Foundation
 import CoreData
 
 class TestCoreDataController: CoreDataController {
+  
   override init() {
     super.init()
     
@@ -24,8 +25,7 @@ class TestCoreDataController: CoreDataController {
     container.persistentStoreDescriptions = [persistentStoreDescription]
     container.loadPersistentStores { (_, error) in
       if let error = error as NSError? {
-        fatalError(
-          "Unresolved error \(error), \(error.userInfo)")
+        fatalError("Unresolved error \(error), \(error.userInfo)")
       }
     }
     self.persistentContainer = container
