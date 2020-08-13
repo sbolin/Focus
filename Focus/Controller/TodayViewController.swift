@@ -28,13 +28,14 @@ class TodayViewController: UIViewController {
     todayTableView.delegate = todayViewdelegate
     setupToDoTableView()
     registerForKeyboardNotifications()
+    
     let current = UNUserNotificationCenter.current()
     current.delegate = self
     let action = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
     
     let category = UNNotificationCategory(identifier:"notification-category", actions: [action], intentIdentifiers: [], options: [])
     
-    // we set to handle this [category] which has has action and its identifier
+    // we set to handle this category which has action and its identifier
     UNUserNotificationCenter.current().setNotificationCategories([category])
     
   }
@@ -50,7 +51,7 @@ class TodayViewController: UIViewController {
     let todoCreatedAtDescriptor = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
     let todoDescriptor = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
     fetchedResultsController.fetchRequest.sortDescriptors = [todoCreatedAtDescriptor, todoDescriptor]
-    fetchedResultsController.fetchRequest.fetchLimit = 3
+    fetchedResultsController.fetchRequest.fetchLimit = globalState.numberofTasks
     
     do {
       try fetchedResultsController.performFetch()

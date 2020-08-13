@@ -51,9 +51,9 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
     if CoreDataController.shared.sectionExpanded[section] {
     todoRowsInSection = fetchedResultsController.sections?[section].numberOfObjects
     guard var numberOfRows = todoRowsInSection else { return 0 }
-    goalRowsInSection = numberOfRows / 3
+      goalRowsInSection = numberOfRows / globalState.numberofTasks
     numberOfRows += goalRowsInSection ?? 0
-    return (numberOfRows + 1) // +1 for summaryCell
+      return (numberOfRows + globalState.numberofSummaryCells)
     } else {
       return 1 // must return at least 1 row for summaryCell
     }
@@ -65,8 +65,8 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
       let summaryCell = tableView.dequeueReusableCell(withIdentifier: HistorySummaryCell.reuseIdentifier, for: indexPath) as! HistorySummaryCell
       delegate?.configureHistorySummaryCell(at: indexPath, summaryCell, statistics: statistics)
       return summaryCell
-    } else if (indexPath.row - 1) % 4 == 0 {
-      let offset: Int = indexPath.row / 4 + 1
+    } else if (indexPath.row - 1) % (globalState.numberOfGoals + globalState.numberofTasks) == 0 {
+      let offset: Int = indexPath.row / (globalState.numberOfGoals + globalState.numberofTasks) + 1
       let previousIndex = IndexPath(row: indexPath.row - offset, section: indexPath.section)
       let todoObject = self.fetchedResultsController.object(at: previousIndex) as! ToDo
       let goalObject = todoObject.goal
@@ -74,7 +74,7 @@ class HistoryViewDataSource<Result: NSFetchRequestResult, Delegate: HistoryViewD
       delegate?.configureHistoryGoalCell(at: indexPath, goalCell, for: goalObject)
       return goalCell
     } else {
-      let offset: Int = (indexPath.row - 1) / 4 + 2
+      let offset: Int = (indexPath.row - 1) / (globalState.numberOfGoals + globalState.numberofTasks) + 2
       let previousIndex = IndexPath(row: indexPath.row - offset, section: indexPath.section)
       let todoObject = self.fetchedResultsController.object(at: previousIndex) as! ToDo
       let noteCell = tableView.dequeueReusableCell(withIdentifier: HistoryTaskCell.reuseIdentifier, for: indexPath) as! HistoryTaskCell
