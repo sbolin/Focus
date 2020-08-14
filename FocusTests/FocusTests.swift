@@ -26,7 +26,7 @@ final class FocusTests: XCTestCase {
   }
   
     //MARK: - Tests
-  
+  //MARK: CoreData Tests
   func test_persistentStoreCreated() {
     let coreDataSetupExpectation = expectation(description: "Set up core data")
     
@@ -62,12 +62,12 @@ final class FocusTests: XCTestCase {
     waitForExpectations(timeout: 1.0, handler: nil)
   }
   
-  
-  func testAddNewGoal() {
+  //MARK: Goal and ToDo tests
+  func testAddGoalAt() {
     let goalTitle = "Goal 1"
     let indexPath = IndexPath(row: 0, section: 0)
     // create goal
-    testStack.addGoal(title: goalTitle, at: indexPath)
+    testStack.addGoalAt(title: goalTitle, at: indexPath)
     
     // fetch same goal
     let goal = testStack.fetchedGoalResultsController.object(at: indexPath)
@@ -79,9 +79,28 @@ final class FocusTests: XCTestCase {
     XCTAssertEqual(goal.goalDateCreated, Date())
   }
   
+  func testAddNewGoal() {
+    let goalTitle = "Goal 2"
+    // create goal
+    testStack.addNewGoal(title: goalTitle)
+    
+    // fetch same goal
+    let allGoal = testStack.fetchedGoalResultsController.fetchedObjects
+    guard let goal = allGoal?.last else {
+      XCTAssert(false)
+      return
+    } // not sure if return is correct
+    
+    XCTAssertNotNil(goal, "goal should not be nil")
+    XCTAssertEqual(goal.goal, goalTitle)
+    XCTAssertNotEqual(goal.goal.count, 0)
+    XCTAssertEqual(goal.goalCompleted, false)
+    XCTAssertEqual(goal.goalDateCreated, Date())
+  }
+  
   func testAddNewTodo() {
-    let goalTitle = "Goal 1"
-    let todoTitle = "Goal 1 - Todo 1"
+    let goalTitle = "Goal 3"
+    let todoTitle = "Goal 3 - Todo 1"
     let indexPath = IndexPath(row: 1, section: 0)
     // create todo
     testStack.addToDo(text: todoTitle, at: indexPath)

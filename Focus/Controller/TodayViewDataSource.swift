@@ -102,7 +102,7 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   func todayGoalNew(_ cell: TodayGoalCell, newGoal goalText: String) {
     guard let tableViewContainer = cell.tableView else { return }
     guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    CoreDataController.shared.addGoal(title: goalText, at: indexPath)
+    CoreDataController.shared.addGoalAt(title: goalText, at: indexPath)
     tableView.reloadData()
   }
 }

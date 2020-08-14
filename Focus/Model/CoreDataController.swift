@@ -253,8 +253,8 @@ class CoreDataController {
     saveContext()
   }
   
-  //Add new Goal
-  func addGoal(title: String, at indexPath: IndexPath) {
+  //Add new Goal at Indexpath
+  func addGoalAt(title: String, at indexPath: IndexPath) {
     print("addGoal")
 //    let context = persistentContainer.viewContext
     let todo = fetchedToDoResultsController.object(at: indexPath)
@@ -267,6 +267,24 @@ class CoreDataController {
       newgoal.goalCompleted = false
       saveContext()
     }
+  }
+  
+  //Add new goal object (for new goal)
+  func addNewGoal(title: String) {
+    
+    let newgoal = Goal(context: managedContext)
+    newgoal.goal = title
+    newgoal.goalDateCreated = Date()
+    newgoal.goalCompleted = false
+    for i in 0...2 {
+      let associatedTodo = ToDo(context: managedContext)
+      associatedTodo.todo = "Todo \(i + 1)"
+      associatedTodo.todoDateCreated = Date()
+      associatedTodo.todoCompleted = false
+      newgoal.todos.insert(associatedTodo)
+    }
+    
+
   }
   
   //Modify existing Goal
