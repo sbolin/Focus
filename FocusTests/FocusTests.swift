@@ -42,7 +42,7 @@ final class FocusTests: XCTestCase {
     
     let storeUrl = testStack.persistentContainer.persistentStoreCoordinator.persistentStores.first!.url!
 
-      XCTAssertEqual(self.testStack.persistentContainer.persistentStoreDescriptions.first?.type, NSSQLiteStoreType)
+      XCTAssertEqual(self.testStack.persistentContainer.persistentStoreDescriptions.first?.type, NSInMemoryStoreType)
       coreDataSetupExpectation.fulfill()
     waitForExpectations(timeout: 1.0) { (_) in
       do {
@@ -67,6 +67,10 @@ final class FocusTests: XCTestCase {
     let goalTitle = "Goal 1"
     let indexPath = IndexPath(row: 0, section: 0)
     // create goal
+//    let fetchRequest = Goal.goalFetchRequest()
+    let managedContext = testStack.managedContext
+//    let fetchedGoal = try! managedContext.fetch(fetchRequest)
+    
     testStack.addGoalAt(title: goalTitle, at: indexPath)
     
     // fetch same goal
@@ -87,7 +91,7 @@ final class FocusTests: XCTestCase {
     // fetch same goal
     let allGoal = testStack.fetchedGoalResultsController.fetchedObjects
     guard let goal = allGoal?.last else {
-      XCTAssert(false)
+ //     XCTAssert(false)
       return
     } // not sure if return is correct
     

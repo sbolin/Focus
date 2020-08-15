@@ -271,20 +271,17 @@ class CoreDataController {
   
   //Add new goal object (for new goal)
   func addNewGoal(title: String) {
-    
     let newgoal = Goal(context: managedContext)
     newgoal.goal = title
     newgoal.goalDateCreated = Date()
     newgoal.goalCompleted = false
-    for i in 0...2 {
+    for i in 0...(globalState.numberofTasks - 1) {
       let associatedTodo = ToDo(context: managedContext)
       associatedTodo.todo = "Todo \(i + 1)"
       associatedTodo.todoDateCreated = Date()
       associatedTodo.todoCompleted = false
       newgoal.todos.insert(associatedTodo)
     }
-    
-
   }
   
   //Modify existing Goal
