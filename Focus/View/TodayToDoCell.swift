@@ -10,7 +10,7 @@ import UIKit
 
 protocol TodayTaskCellDelegate {
   func todayTaskUpdated( _ cell: TodayToDoCell, updatedTask: String)
-  func todayTaskNew( _ cell: TodayToDoCell, newTask: String)
+//  func todayTaskNew( _ cell: TodayToDoCell, newTask: String)
   func todayTaskCompletion(cell: TodayToDoCell, completionStatus completion: Bool)
 }
 

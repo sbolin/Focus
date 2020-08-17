@@ -75,13 +75,13 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   }
 
   //MARK: TodayTaskCellDelegate Methods
-  func todayTaskNew(_ cell: TodayToDoCell, newTask: String) {
-    guard let tableViewContainer = cell.tableView else { return }
-    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    let previousIndexPath = IndexPath(row: indexPath.row - globalState.numberOfGoals, section: indexPath.section)
-    CoreDataController.shared.addToDo(text: newTask, at: previousIndexPath)
-    tableView.reloadData()
-  }
+//  func todayTaskNew(_ cell: TodayToDoCell, newTask: String) {
+//    guard let tableViewContainer = cell.tableView else { return }
+//    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
+//    let previousIndexPath = IndexPath(row: indexPath.row - globalState.numberOfGoals, section: indexPath.section)
+//    CoreDataController.shared.addToDo(text: newTask, at: previousIndexPath)
+//    tableView.reloadData()
+//  }
   
   func todayTaskUpdated(_ cell: TodayToDoCell, updatedTask: String) {
     guard let tableViewContainer = cell.tableView else { return }
@@ -99,10 +99,10 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
     tableView.reloadData()
   }
   
-  func todayGoalNew(_ cell: TodayGoalCell, newGoal goalText: String) {
-    guard let tableViewContainer = cell.tableView else { return }
-    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-    CoreDataController.shared.addGoalAt(title: goalText, at: indexPath)
-    tableView.reloadData()
-  }
+//  func todayGoalNew(_ cell: TodayGoalCell, newGoal goalText: String) {
+//    guard let tableViewContainer = cell.tableView else { return }
+//    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
+//    CoreDataController.shared.addGoalAt(title: goalText, at: indexPath)
+//    tableView.reloadData()
+//  }
 }

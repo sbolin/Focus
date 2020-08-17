@@ -9,10 +9,6 @@
 import Foundation
 import CoreData
 
-enum StorageType {
-  case persistent, inMemory
-}
-
 class CoreDataController {
   
   //MARK: - Create CoreData Stack
@@ -219,19 +215,19 @@ class CoreDataController {
   }
   
   //MARK: - Creation Methods
-  func addToDo(text: String, at indexPath: IndexPath) {
-    print("addToDo")
-//    let context = persistentContainer.viewContext
-    let todo = fetchedToDoResultsController.object(at: indexPath)
-    let goal = todo.goal
-    let newToDo = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
-    newToDo.todo = text
-    newToDo.id = UUID()
-    newToDo.todoDateCreated = Date()
-    newToDo.todoCompleted = false
-    newToDo.goal = goal
-    saveContext()
-  }
+//  func addToDo(text: String, at indexPath: IndexPath) {
+//    print("addToDo")
+////    let context = persistentContainer.viewContext
+//    let todo = fetchedToDoResultsController.object(at: indexPath)
+//    let goal = todo.goal
+//    let newToDo = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
+//    newToDo.todo = text
+//    newToDo.id = UUID()
+//    newToDo.todoDateCreated = Date()
+//    newToDo.todoCompleted = false
+//    newToDo.goal = goal
+//    saveContext()
+//  }
   
   //Modify existing todo
   func modifyToDo(updatedToDoText: String, at indexPath: IndexPath) {
@@ -254,20 +250,20 @@ class CoreDataController {
   }
   
   //Add new Goal at Indexpath
-  func addGoalAt(title: String, at indexPath: IndexPath) {
-    print("addGoal")
-//    let context = persistentContainer.viewContext
-    let todo = fetchedToDoResultsController.object(at: indexPath)
-    let goal = todo.goal
-    if goal.goal.isEmpty {
-      // new goal
-      let newgoal = Goal(context: managedContext)
-      newgoal.goal = title
-      newgoal.goalDateCreated = Date()
-      newgoal.goalCompleted = false
-      saveContext()
-    }
-  }
+//  func addGoalAt(title: String, at indexPath: IndexPath) {
+//    print("addGoal")
+////    let context = persistentContainer.viewContext
+//    let todo = fetchedToDoResultsController.object(at: indexPath)
+//    let goal = todo.goal
+//    if goal.goal.isEmpty {
+//      // new goal
+//      let newgoal = Goal(context: managedContext)
+//      newgoal.goal = title
+//      newgoal.goalDateCreated = Date()
+//      newgoal.goalCompleted = false
+//      saveContext()
+//    }
+//  }
   
   //Add new goal object (for new goal)
   func addNewGoal(title: String) {
@@ -314,27 +310,28 @@ class CoreDataController {
   
   //MARK: - Deletion Methods
   //Delete ToDo
-  func deleteToDo(todo: ToDo) {
-    print("deleteToDo")
-    let associatedGoal = todo.goal
-    let todoCount = associatedGoal.todos.count
-    if todoCount < 2 {
-      managedContext.delete(todo)
-      managedContext.delete(associatedGoal)
-    } else {
-      managedContext.delete(todo)
-    }
-    saveContext()
-  }
-  
-  //Delete Goal
-  func deleteGoal(goal: Goal) {
-    print("deleteGoal")
-    managedContext.delete(goal)
-    saveContext()
-  }
+//  func deleteToDo(todo: ToDo) {
+//    print("deleteToDo")
+//    let associatedGoal = todo.goal
+//    let todoCount = associatedGoal.todos.count
+//    if todoCount < 2 {
+//      managedContext.delete(todo)
+//      managedContext.delete(associatedGoal)
+//    } else {
+//      managedContext.delete(todo)
+//    }
+//    saveContext()
+//  }
+//  
+//  //Delete Goal
+//  func deleteGoal(goal: Goal) {
+//    print("deleteGoal")
+//    managedContext.delete(goal)
+//    saveContext()
+//  }
   
   //MARK: - create default todos
+
   func createToDosIfNeeded() {
     
     // check if todos exist, if so return

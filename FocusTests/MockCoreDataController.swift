@@ -1,5 +1,5 @@
 //
-//  TestCoreDataController.swift
+//  MockCoreDataController.swift
 //  FocusTests
 //
 //  Created by Scott Bolin on 8/8/20.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-class TestCoreDataController: CoreDataController {
+class MockCoreDataController: CoreDataController {
   
   override init() {
     super.init()
@@ -19,15 +19,15 @@ class TestCoreDataController: CoreDataController {
     persistentStoreDescription.type = NSInMemoryStoreType
     persistentStoreDescription.url = URL(fileURLWithPath: "/dev/null")
     
-    let container = NSPersistentContainer(
+    let persistentContainer = NSPersistentContainer(
       name: CoreDataController.shared.modelName,
       managedObjectModel: CoreDataController.shared.model)
-    container.persistentStoreDescriptions = [persistentStoreDescription]
-    container.loadPersistentStores { (_, error) in
+    persistentContainer.persistentStoreDescriptions = [persistentStoreDescription]
+    persistentContainer.loadPersistentStores { (_, error) in
       if let error = error as NSError? {
         fatalError("Unresolved error \(error), \(error.userInfo)")
       }
     }
-    self.persistentContainer = container
+    self.persistentContainer = persistentContainer
   }
 }

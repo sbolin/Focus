@@ -15,11 +15,11 @@ class TodayViewController: UIViewController {
   let todayViewdelegate = TodayViewDelegate()
   var dataSource: TodayViewDataSource<ToDo, TodayViewController>!
   var fetchedResultsController: NSFetchedResultsController<ToDo>!
-
   
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
   @IBOutlet weak var taskToAchieveLabel: UILabel!
+  
   
   //MARK: - View Life Cycle
   override func viewDidLoad() {
