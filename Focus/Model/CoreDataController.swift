@@ -30,7 +30,6 @@ class CoreDataController {
     }
     return container
   }()
-  // persistentContainer no longer private
   
   lazy var managedContext: NSManagedObjectContext = {
     let context = self.persistentContainer.viewContext
@@ -38,6 +37,11 @@ class CoreDataController {
     return context
   }()
   
+  lazy var derivedContext: NSManagedObjectContext = {
+    let context = self.persistentContainer.newBackgroundContext()
+    return context
+  }()
+
   lazy var sectionExpanded: [Bool] = []  //Make a class - get/set values easily
   
   //MARK: - Fetch Properties
@@ -274,10 +278,12 @@ class CoreDataController {
     for i in 0...(globalState.numberofTasks - 1) {
       let associatedTodo = ToDo(context: managedContext)
       associatedTodo.todo = "Todo \(i + 1)"
+      associatedTodo.id = UUID()
       associatedTodo.todoDateCreated = Date()
       associatedTodo.todoCompleted = false
       newgoal.todos.insert(associatedTodo)
     }
+    saveContext()
   }
   
   //Modify existing Goal

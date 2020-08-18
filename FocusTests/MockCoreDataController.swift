@@ -19,15 +19,17 @@ class MockCoreDataController: CoreDataController {
     persistentStoreDescription.type = NSInMemoryStoreType
     persistentStoreDescription.url = URL(fileURLWithPath: "/dev/null")
     
-    let persistentContainer = NSPersistentContainer(
+    let container = NSPersistentContainer(
       name: CoreDataController.shared.modelName,
       managedObjectModel: CoreDataController.shared.model)
-    persistentContainer.persistentStoreDescriptions = [persistentStoreDescription]
-    persistentContainer.loadPersistentStores { (_, error) in
+    
+    container.persistentStoreDescriptions = [persistentStoreDescription]
+    
+    container.loadPersistentStores { (_, error) in
       if let error = error as NSError? {
         fatalError("Unresolved error \(error), \(error.userInfo)")
       }
     }
-    self.persistentContainer = persistentContainer
+    persistentContainer = container
   }
 }

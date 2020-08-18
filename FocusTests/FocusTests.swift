@@ -6,9 +6,11 @@
 //  Copyright © 2020 Scott Bolin. All rights reserved.
 //
 
+
 import XCTest
 import CoreData
 @testable import Focus
+
 
 final class FocusTests: XCTestCase {
   
@@ -32,8 +34,8 @@ final class FocusTests: XCTestCase {
   }
   
   override func tearDown() {
-//    mockStack = nil
     super.tearDown()
+    mockStack = nil
   }
   
     //MARK: - Tests
@@ -73,23 +75,30 @@ final class FocusTests: XCTestCase {
 //    XCTAssertNotNil(fetchGoal)
   }
   
+  func test_saveAsAfterAddingModdingGoal() {
+    let derivedContext = mockStack.derivedContext
+    let newGoal = Goal(context: derivedContext)
+    newGoal.goal = "New Goal"
+    newGoal.goalCompleted = false
+    newGoal.goalDateCreated = Date()
+    
+    expectation(forNotification: .NSManagedObjectContextDidSave, object: mockStack.managedContext) { _ in
+      return true
+    }
+    
+    derivedContext.perform {
+      
+      // create goal
+      self.mockStack.addNewGoal(title: newGoal.goal)
+      XCTAssertNotNil(newGoal)
+    }
+    
+    waitForExpectations(timeout: 0.5) { error in
+      XCTAssertNil(error, "Save did not occur")
+    }
+  }
+  
 //MARK: Goal and ToDo tests
-
-  //  func testAddGoalAt() {
-//    let goalTitle = "Goal 1"
-//    let indexPath = IndexPath(row: 0, section: 0)
-//    // create goal
-//    mockStack.addGoalAt(title: goalTitle, at: indexPath)
-//
-//    // fetch same goal
-//        let goal = fetchedGoalResultsController.object(at: indexPath)
-//
-//    XCTAssertNotNil(goal, "goal should not be nil")
-//    XCTAssertEqual(goal.goal, goalTitle)
-//    XCTAssertNotEqual(goal.goal.count, 0)
-//    XCTAssertEqual(goal.goalCompleted, false)
-//    XCTAssertEqual(goal.goalDateCreated, Date())
-//  }
   
   func testAddNewGoal() {
     let goalTitle = "Goal 2"
@@ -138,8 +147,6 @@ final class FocusTests: XCTestCase {
     
     XCTAssertNotNil(goal, "goal should not be nil")
     XCTAssertEqual(goal.goal, modifiedGoalTitle)
-//    XCTAssertEqual(goal.goalCompleted, false)
-//    XCTAssertEqual(goal.goalDateCreated, Date()) // may not be the case
   }
   
   func testModifyToDo() {
@@ -154,8 +161,6 @@ final class FocusTests: XCTestCase {
     XCTAssertNotNil(todo, "todo should not be nil")
     XCTAssertEqual(todo.todo, modifyTodoTitle)
     XCTAssertNotEqual(todo.todo.count, 0)
-//    XCTAssertEqual(todo.todoCompleted, false)  // may not be the case - todo could be completed but renamed
-//    XCTAssertEqual(todo.todoDateCreated, Date()) // may not be the case
   }
   
   func testCompleteGoal() {
