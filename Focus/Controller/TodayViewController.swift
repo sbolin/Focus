@@ -24,7 +24,7 @@ class TodayViewController: UIViewController {
   //MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    CoreDataController.shared.createToDosIfNeeded()
+    CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
     todayTableView.delegate = todayViewdelegate
     setupToDoTableView()
     registerForKeyboardNotifications()

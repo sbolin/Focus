@@ -116,8 +116,6 @@ class StatisticsFactory {
       frc1.fetchRequest.predicate = pastDayToDoPredicate
       frc2 = CoreDataController.shared.fetchedGoalByWeekController
       frc2.fetchRequest.predicate = pastDayGoalPredicate
-    
-    
     }
     
     do {

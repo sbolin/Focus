@@ -209,7 +209,7 @@ class CoreDataController {
   }()
   
   //MARK: - SaveContext
-  func saveContext () {
+  func saveContext(managedContext: NSManagedObjectContext) {
     guard managedContext.hasChanges else { return }
     do {
       try managedContext.save()
@@ -241,7 +241,7 @@ class CoreDataController {
       todo.todo = updatedToDoText
       //    todo.todoDateCreated = Date()
       //    todo.todoCompleted = false
-      saveContext()
+      saveContext(managedContext: managedContext)
     }
   }
   
@@ -250,7 +250,7 @@ class CoreDataController {
     print("markToDoCompleted")
     todo.todoCompleted = completed
     markGoalCompleted(todo: todo)
-    saveContext()
+    saveContext(managedContext: managedContext)
   }
   
   //Add new Goal at Indexpath
@@ -283,7 +283,7 @@ class CoreDataController {
       associatedTodo.todoCompleted = false
       newgoal.todos.insert(associatedTodo)
     }
-    saveContext()
+    saveContext(managedContext: managedContext)
   }
   
   //Modify existing Goal
@@ -293,7 +293,7 @@ class CoreDataController {
     let goal = todo.goal
     if goal.goal != updatedGoalText {
       goal.goal = updatedGoalText
-      saveContext()
+      saveContext(managedContext: managedContext)
     }
   }
   
@@ -311,7 +311,7 @@ class CoreDataController {
       goalToCheck.goalCompleted = true
       goalToCheck.goalDateCompleted = Date()
     }
-    saveContext()
+    saveContext(managedContext: managedContext)
   }
   
   //MARK: - Deletion Methods
@@ -338,12 +338,11 @@ class CoreDataController {
   
   //MARK: - create default todos
 
-  func createToDosIfNeeded() {
+  func createToDosIfNeeded(managedContext: NSManagedObjectContext) {
     
     // check if todos exist, if so return
     let fetchRequest = ToDo.todoFetchRequest()
     let count = try! managedContext.count(for: fetchRequest)
-    
     guard count == 0 else { return }
     
     // automatically create (goalCount+1) goals and associated todos
@@ -398,6 +397,6 @@ class CoreDataController {
       }
       goalComplete = true
     }
-    saveContext()
+    saveContext(managedContext: managedContext)
   }
 }

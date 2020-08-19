@@ -38,6 +38,23 @@ final class FocusTests: XCTestCase {
     mockStack = nil
   }
   
+  func deleteAllGoals() {
+    // Initialize Fetch Request
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ToDo")
+    let context = MockCoreDataController.shared.managedContext
+    fetchRequest.includesPropertyValues = false
+    do {
+      let items = try context.fetch(fetchRequest) as! [NSManagedObject]
+      for item in items {
+        context.delete(item)
+      }
+      try context.save()
+      
+    } catch {
+      print("Could not delete mockStack")
+    }
+  }
+  
     //MARK: - Tests
   //MARK: CoreData Tests
   func test_coreDataManager() {
@@ -70,9 +87,30 @@ final class FocusTests: XCTestCase {
   func test_fetchedResultsFetched() {
     let fetchToDo = fetchedResultsController
     XCTAssertNotNil(fetchToDo)
+  }
+  
+  func test_fetchedResultsControllerFetches() {
+    let frca = mockStack.fetchedToDoResultsController
+    let frcb = mockStack.fetchedGoalResultsController
+    let frc1 = mockStack.fetchedToDoByWeekController
+    let frc2 = mockStack.fetchedGoalByWeekController
+    let frc3 = mockStack.fetchedToDoByMonthController
+    let frc4 = mockStack.fetchedGoalByMonthController
+    let frc5 = mockStack.fetchedToDoByLastMonthController
+    let frc6 = mockStack.fetchedGoalByLastMonthController
+    let frc7 = mockStack.fetchedToDoByYearController
+    let frc8 = mockStack.fetchedGoalByYearController
     
-//    let fetchGoal = fetchedGoalResultsController
-//    XCTAssertNotNil(fetchGoal)
+    XCTAssertNotNil(frca)
+    XCTAssertNotNil(frcb)
+    XCTAssertNotNil(frc1)
+    XCTAssertNotNil(frc2)
+    XCTAssertNotNil(frc3)
+    XCTAssertNotNil(frc4)
+    XCTAssertNotNil(frc5)
+    XCTAssertNotNil(frc6)
+    XCTAssertNotNil(frc7)
+    XCTAssertNotNil(frc8)    
   }
   
   func test_saveAsAfterAddingModdingGoal() {
@@ -99,7 +137,6 @@ final class FocusTests: XCTestCase {
   }
   
 //MARK: Goal and ToDo tests
-  
   func testAddNewGoal() {
     let goalTitle = "Goal 2"
     // create goal
@@ -115,24 +152,6 @@ final class FocusTests: XCTestCase {
     XCTAssertEqual(goal.goalCompleted, false)
     XCTAssertEqual(goal.goalDateCreated, Date())
   }
-  
-//  func testAddNewTodo() {
-//    let goalTitle = "Goal 3"
-//    let todoTitle = "Goal 3 - Todo 1"
-//    let indexPath = IndexPath(row: 1, section: 0)
-//    // create todo
-//    mockStack.addToDo(text: todoTitle, at: indexPath)
-//
-//    // fetch same todo
-//    let todo = fetchedToDoResultsController.object(at: indexPath)
-//
-//    XCTAssertNotNil(todo, "todo should not be nil")
-//    XCTAssertEqual(todo.todo, todoTitle)
-//    XCTAssertNotEqual(todo.todo.count, 0)
-//    XCTAssertEqual(todo.todoCompleted, false)
-//    XCTAssertEqual(todo.todoDateCreated, Date())
-//    XCTAssertEqual(todo.goal.goal, goalTitle)
-//  }
   
   func testModifyGoal() {
     let modifiedGoalTitle = "Goal 1B"
@@ -196,5 +215,27 @@ final class FocusTests: XCTestCase {
       mockStack.markToDoCompleted(completed: completed, todo: todo)
       XCTAssertEqual(todo.todoCompleted, completed)
     }
+    mockStack.markGoalCompleted(todo: todo)
+    XCTAssertEqual(goal.goalCompleted, completed)
+  }
+  
+  func testCreateToDos() {
+    var todos = [NSManagedObject]()
+    var todoCount: Int = 0
+    
+    let context = mockStack.managedContext
+    mockStack.createToDosIfNeeded(managedContext: context)
+    
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ToDo")
+    fetchRequest.includesPropertyValues = false
+    do {
+      todos = try context.fetch(fetchRequest) as! [NSManagedObject]
+      todoCount = todos.count
+    } catch {
+      print("Could not delete mockStack")
+    }
+    
+    XCTAssertNotNil(todoCount)
+    XCTAssert(todoCount == 300)
   }
 }
