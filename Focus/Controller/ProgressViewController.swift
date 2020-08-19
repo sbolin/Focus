@@ -103,7 +103,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     chartView.borderColor = .systemOrange
     chartView.borderLineWidth = 2
     chartView.gridBackgroundColor = .white
-    chartView.backgroundColor = .systemGray6
+    chartView.backgroundColor = .white
     chartView.highlightFullBarEnabled = true
     chartView.xAxis.labelPosition = .bottom
     

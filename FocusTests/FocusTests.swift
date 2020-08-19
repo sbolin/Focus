@@ -16,7 +16,6 @@ final class FocusTests: XCTestCase {
   
   //MARK: - Properties
   var mockStack: CoreDataController!
-//  var fetchedGoalResultsController: NSFetchedResultsController<Goal>!
   var fetchedResultsController: NSFetchedResultsController<ToDo>!
   
   override func setUp() {
@@ -25,7 +24,6 @@ final class FocusTests: XCTestCase {
     if fetchedResultsController == nil {
       fetchedResultsController = mockStack.fetchedToDoResultsController
     }
-    fetchedResultsController = mockStack.fetchedToDoResultsController
     do {
       try fetchedResultsController.performFetch()
     } catch {
@@ -55,7 +53,7 @@ final class FocusTests: XCTestCase {
     }
   }
   
-    //MARK: - Tests
+  //MARK: - Tests
   //MARK: CoreData Tests
   func test_coreDataManager() {
     let instance = MockCoreDataController.shared
@@ -123,14 +121,11 @@ final class FocusTests: XCTestCase {
     expectation(forNotification: .NSManagedObjectContextDidSave, object: mockStack.managedContext) { _ in
       return true
     }
-    
     derivedContext.perform {
-      
       // create goal
       self.mockStack.addNewGoal(title: newGoal.goal)
       XCTAssertNotNil(newGoal)
     }
-    
     waitForExpectations(timeout: 0.5) { error in
       XCTAssertNil(error, "Save did not occur")
     }
@@ -159,7 +154,6 @@ final class FocusTests: XCTestCase {
     // modify goal
     MockCoreDataController.shared.modifyGoal(updatedGoalText: modifiedGoalTitle, at: indexPath)
     
-    // fetch same goal
     // fetch same todo, convert to goal
     let todo = MockCoreDataController.shared.fetchedToDoResultsController.object(at: indexPath)
     let goal = todo.goal
@@ -220,20 +214,16 @@ final class FocusTests: XCTestCase {
   }
   
   func testCreateToDos() {
-    var todos = [NSManagedObject]()
-    var todoCount: Int = 0
-    
     let context = mockStack.managedContext
     mockStack.createToDosIfNeeded(managedContext: context)
     
-    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ToDo")
-    fetchRequest.includesPropertyValues = false
     do {
-      todos = try context.fetch(fetchRequest) as! [NSManagedObject]
-      todoCount = todos.count
+      try mockStack.fetchedToDoResultsController.performFetch()
     } catch {
-      print("Could not delete mockStack")
+      print("could not perform fetch")
     }
+    let todoObjects = mockStack.fetchedToDoResultsController.fetchedObjects!
+    let todoCount = todoObjects.count
     
     XCTAssertNotNil(todoCount)
     XCTAssert(todoCount == 300)
