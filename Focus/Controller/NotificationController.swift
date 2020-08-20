@@ -146,13 +146,13 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
         
       case UNNotificationDefaultActionIdentifier:
         // the user swiped to unlock
-        UIApplication.shared.applicationIconBadgeNumber = 0
         print("Default identifier")
         
       case "New Goal":
         // the user tapped our "show more info…" button
         if let textResponse = response as? UNTextInputNotificationResponse {
           goal = textResponse.userText
+          // call to popover to update 
         }
         CoreDataController.shared.addNewGoal(title: goal)
         print("New Goal: \(goal)")
@@ -167,5 +167,6 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     }
     // you must call the completion handler when you're done
     completionHandler()
+    UIApplication.shared.applicationIconBadgeNumber = 0
   }
 }

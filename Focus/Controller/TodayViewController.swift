@@ -55,6 +55,13 @@ class TodayViewController: UIViewController {
     dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedResultsController, delegate: self)
   }
   
+  func createFocusGoal() {
+    let createFocusGoal = CreateNewGoalController()
+//    createFocusGoal.delegate = self
+    let navController = UINavigationController(rootViewController: createFocusGoal)
+    present(navController, animated: true, completion: nil)
+  }
+  
   
   //MARK:- Notification Functions for keyboard
   func registerForKeyboardNotifications() {
