@@ -11,8 +11,14 @@ import UserNotifications
 
 class NotificationController: NSObject, UNUserNotificationCenterDelegate {
   
+  //MARK: - Properties
+  let identifier = "FocusNotification"
+  
   //MARK: - Notification when Tasks/Goal is completed
   func manageLocalNotification() {
+    
+    // check if notifications are still authorized
+    checkNotificationStatus()
     
     // Get Goal statistics
     let statTimePeriod = StatTimePeriod.lastday
@@ -41,15 +47,12 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
       type = 1
     }
     
-    // check if notifications are still authorized
-    checkNotificationStatus()
-    
     // schedule (or remove) reminders
     setupNotification(title: title, subtitle: subtitle, body: body, notification: type)
   }
   
   //MARK: - Check Notification Status, user could have changed it.
-  func checkNotificationStatus() {
+  private func checkNotificationStatus() {
     let center = UNUserNotificationCenter.current()
     center.getNotificationSettings { (settings : UNNotificationSettings) in
       if settings.authorizationStatus == .authorized {
@@ -70,8 +73,9 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
   }
  
   //MARK: - Schedule Notification
-  func setupNotification(title: String?, subtitle: String?, body: String?, notification: Int) {
-    let identifier = "FocusSummary"
+  private func setupNotification(title: String?, subtitle: String?, body: String?, notification: Int) {
+
+    registerCategory()
     let center = UNUserNotificationCenter.current()
     
     //remove previously scheduled notifications
@@ -83,15 +87,18 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     dateComponents.hour = 8
     dateComponents.minute = 00
     
+    // create trigger
+    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
     
+    // set up notification content
     if let newTitle = title, let newBody = body {
       //create content
       let content = UNMutableNotificationContent()
       content.title = newTitle
       content.subtitle = "Focus!"
       content.body = newBody
-      content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber; // Increment not specifically needed in this app (as only 1 notification exists at a time).
-      content.categoryIdentifier = "notification"
+      content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber // Increment not specifically needed in this app (as only 1 notification exists at a time).
+      content.categoryIdentifier = identifier
       content.userInfo = ["customData": "Custom Data"]
       content.sound = UNNotificationSound.default
       
@@ -106,9 +113,7 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
         }
       }
       
-      // create trigger
-      let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-      
+
       // create request
       let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
       
@@ -123,7 +128,7 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     
     let newGoal = UNTextInputNotificationAction(identifier: "New Goal", title: "Enter New Goal", options: .foreground, textInputButtonTitle: "Enter", textInputPlaceholder: "New Goal")
     let oldGoal = UNNotificationAction(identifier: "Previous Goal", title: "Use Previous Goal", options: .foreground)
-    let category = UNNotificationCategory(identifier: "notification", actions: [oldGoal, newGoal], intentIdentifiers: [])
+    let category = UNNotificationCategory(identifier: identifier, actions: [oldGoal, newGoal], intentIdentifiers: [], options: .customDismissAction)
     
     center.setNotificationCategories([category])
     

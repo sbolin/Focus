@@ -17,6 +17,12 @@ extension Date {
     return calendar.startOfDay(for: date)
   }
   
+  func endOfDay(for date: Date) -> Date {
+    var calendar = Calendar.current
+    calendar.timeZone = TimeZone.current
+    return calendar.startOfDay(for: date).advanced(by: TimeInterval(12 * 60 * 60))
+  }
+  
   func dateCaption(for date: Date) -> String {
     let dateformatter = DateFormatter()
     dateformatter.dateFormat = "dd MMM yyyy"

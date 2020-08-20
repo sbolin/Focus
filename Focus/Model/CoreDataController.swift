@@ -235,20 +235,21 @@ class CoreDataController {
   
   //Modify existing todo
   func modifyToDo(updatedToDoText: String, at indexPath: IndexPath) {
-    print("modifyToDo")
     let todo = fetchedToDoResultsController.object(at: indexPath)
     if todo.todo != updatedToDoText {
       todo.todo = updatedToDoText
-      //    todo.todoDateCreated = Date()
-      //    todo.todoCompleted = false
       saveContext(managedContext: managedContext)
     }
   }
   
   //Mark ToDo Completed
   func markToDoCompleted(completed: Bool, todo: ToDo) {
-    print("markToDoCompleted")
     todo.todoCompleted = completed
+    if completed {
+      todo.todoDateCompleted = Date().endOfDay(for: Date())
+    } else {
+      todo.todoDateCompleted = nil
+    }
     markGoalCompleted(todo: todo)
     saveContext(managedContext: managedContext)
   }
@@ -256,7 +257,7 @@ class CoreDataController {
   //Add new Goal at Indexpath
 //  func addGoalAt(title: String, at indexPath: IndexPath) {
 //    print("addGoal")
-////    let context = persistentContainer.viewContext
+//    let context = persistentContainer.viewContext
 //    let todo = fetchedToDoResultsController.object(at: indexPath)
 //    let goal = todo.goal
 //    if goal.goal.isEmpty {
@@ -273,13 +274,14 @@ class CoreDataController {
   func addNewGoal(title: String) {
     let newgoal = Goal(context: managedContext)
     newgoal.goal = title
-    newgoal.goalDateCreated = Date()
+    newgoal.goalDateCreated = Date().startOfDay(for: Date())
+    newgoal.goalDateCompleted = nil
     newgoal.goalCompleted = false
     for i in 0...(globalState.numberofTasks - 1) {
       let associatedTodo = ToDo(context: managedContext)
       associatedTodo.todo = "Todo \(i + 1)"
       associatedTodo.id = UUID()
-      associatedTodo.todoDateCreated = Date()
+      associatedTodo.todoDateCreated = Date().startOfDay(for: Date())
       associatedTodo.todoCompleted = false
       newgoal.todos.insert(associatedTodo)
     }
@@ -307,9 +309,8 @@ class CoreDataController {
       todo.todoCompleted == false
     }
     if !todosNotCompleted {
-      todo.todoDateCompleted = Date()
       goalToCheck.goalCompleted = true
-      goalToCheck.goalDateCompleted = Date()
+      goalToCheck.goalDateCompleted = Date().endOfDay(for: Date())
     }
     saveContext(managedContext: managedContext)
   }
@@ -367,10 +368,10 @@ class CoreDataController {
       } else {
         dateCreated = Date(timeIntervalSinceNow: TimeInterval(-86400 * (365 + goalNumber - 100)))
       }
-      dateCompleted = dateCreated
+      dateCompleted = dateCreated.endOfDay(for: dateCreated)
       let goal = NSEntityDescription.insertNewObject(forEntityName: "Goal", into: managedContext) as! Goal
       goal.goal = goalTitle
-      goal.goalDateCreated = dateCreated
+      goal.goalDateCreated = dateCreated.startOfDay(for: dateCreated)
       goal.goalCompleted = true
       
       for todoNumber in 0...2 {
@@ -378,7 +379,7 @@ class CoreDataController {
         let todo = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
         let todoTitle = "Goal #\(goalNumber + 1) To Do #\(todoNumber + 1)"
         todo.todo = todoTitle
-        todo.todoDateCreated = dateCreated
+        todo.todoDateCreated = dateCreated.startOfDay(for: dateCreated)
         todo.id = UUID()
         todo.goal = goal
         if random % 10 == 0 { // 20% change of todo being incomplete

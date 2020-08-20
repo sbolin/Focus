@@ -15,6 +15,7 @@ class TodayViewController: UIViewController {
   let todayViewdelegate = TodayViewDelegate()
   var dataSource: TodayViewDataSource<ToDo, TodayViewController>!
   var fetchedResultsController: NSFetchedResultsController<ToDo>!
+  var notification: NotificationController!
   
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
@@ -24,24 +25,16 @@ class TodayViewController: UIViewController {
   //MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    // for initial checks of App, will be deleted in final app.
     CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
     todayTableView.delegate = todayViewdelegate
     setupToDoTableView()
     registerForKeyboardNotifications()
-    
-    let current = UNUserNotificationCenter.current()
-    current.delegate = self
-    let action = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
-    
-    let category = UNNotificationCategory(identifier:"notification-category", actions: [action], intentIdentifiers: [], options: [])
-    
-    // we set to handle this category which has action and its identifier
-    UNUserNotificationCenter.current().setNotificationCategories([category])
+    notification.manageLocalNotification()
     
   }
-  
-  //MARK: - Setup tableview to show last note
 
+  //MARK: - Setup tableview to show last note
   func setupToDoTableView() {
     // setup fetchrequest
     if fetchedResultsController == nil {
