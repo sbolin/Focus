@@ -126,7 +126,7 @@ final class FocusTests: XCTestCase {
       self.mockStack.addNewGoal(title: newGoal.goal)
       XCTAssertNotNil(newGoal)
     }
-    waitForExpectations(timeout: 0.5) { error in
+    waitForExpectations(timeout: 1.0) { error in
       XCTAssertNil(error, "Save did not occur")
     }
   }
