@@ -10,8 +10,14 @@
 
 import UIKit
 
+// original protocol
+//protocol CreateNewGoalControllerDelegate {
+//  func didAddGoal(goal: String, firstTask: String, secondTask: String, thirdTask: String)
+//}
+
+// revised protocol
 protocol CreateNewGoalControllerDelegate {
-  func didAddGoal(goal: String, firstTask: String, secondTask: String, thirdTask: String)
+  func didAddGoal(success: Bool)
 }
 
 class CreateNewGoalController: UIViewController {
@@ -207,9 +213,16 @@ class CreateNewGoalController: UIViewController {
       return
     }
     
-    // call delegate to create new Focus item, and dismiss view
-    delegate?.didAddGoal(goal: goalName, firstTask: todoItem1, secondTask: todoItem2, thirdTask: todoItem3)
+    // original call delegate to create new Focus item, and dismiss view
+//    delegate?.didAddGoal(goal: goalName, firstTask: todoItem1, secondTask: todoItem2, thirdTask: todoItem3)
+    CoreDataController.shared.addNewGoal(goal: goalName, firstTask: todoItem1, secondTask: todoItem2, thirdTask: todoItem3)
+
     dismiss(animated: true, completion: nil)
+    // new delegate method
+    delegate?.didAddGoal(success: true)
+ 
+    //  to dismiss to other view controller, not tried yet self.view.window!.rootViewController?.presentedViewController?.dismiss(animated: true, completion: nil)
+
     
   }
   

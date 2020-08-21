@@ -15,7 +15,7 @@ class TodayViewController: UIViewController {
   let todayViewdelegate = TodayViewDelegate()
   var dataSource: TodayViewDataSource<ToDo, TodayViewController>!
   var fetchedResultsController: NSFetchedResultsController<ToDo>!
-  var notification: NotificationController!
+  let notification = NotificationController()
   
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
@@ -31,7 +31,6 @@ class TodayViewController: UIViewController {
     setupToDoTableView()
     registerForKeyboardNotifications()
     notification.manageLocalNotification()
-    
   }
 
   //MARK: - Setup tableview to show last note
@@ -55,12 +54,12 @@ class TodayViewController: UIViewController {
     dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedResultsController, delegate: self)
   }
   
-  func createFocusGoal() {
-    let createFocusGoal = CreateNewGoalController()
+//  func createFocusGoal() {
+//    let createFocusGoal = CreateNewGoalController()
 //    createFocusGoal.delegate = self
-    let navController = UINavigationController(rootViewController: createFocusGoal)
-    present(navController, animated: true, completion: nil)
-  }
+//    let navController = UINavigationController(rootViewController: createFocusGoal)
+//    present(navController, animated: true, completion: nil)
+//  }
   
   
   //MARK:- Notification Functions for keyboard

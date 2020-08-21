@@ -9,11 +9,11 @@
 import UIKit
 import UserNotifications
 
-class NotificationController: NSObject, UNUserNotificationCenterDelegate {
-  
+// original inherited from NSObject, change to UIViewController so can present new goal view
+class NotificationController: UIViewController, UNUserNotificationCenterDelegate, CreateNewGoalControllerDelegate {
+ 
   //MARK: - Properties
   let identifier = "FocusNotification"
-  let todayViewController = TodayViewController()
   
   //MARK: - Notification when Tasks/Goal is completed
   func manageLocalNotification() {
@@ -145,8 +145,14 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
         print("Default identifier")
         
       case "New Goal":
-        todayViewController.createFocusGoal()
-        print("New Goal Created")
+//        todayViewController?.createFocusGoal()
+        // try to present controller instead
+        let createFocusGoal = CreateNewGoalController()
+        createFocusGoal.delegate = self
+        let navController = UINavigationController(rootViewController: createFocusGoal)
+        present(navController, animated: true, completion: nil)
+        
+        
         
       case "Previous Goal":
         // user tapped "Use Previous Goal"
@@ -159,5 +165,9 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     // you must call the completion handler when you're done
     completionHandler()
     UIApplication.shared.applicationIconBadgeNumber = 0
+  }
+  
+  func didAddGoal(success: Bool) {
+    print("New Goal Created")
   }
 }

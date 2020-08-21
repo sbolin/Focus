@@ -65,13 +65,7 @@ class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataS
 }
 
 //MARK: - Cell delegate methods
-extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate, CreateNewGoalControllerDelegate {
-  
-  
-  func didAddGoal(goal: String, firstTask: String, secondTask: String, thirdTask: String) {
-    CoreDataController.shared.addNewGoal(goal: goal, firstTask: firstTask, secondTask: secondTask, thirdTask: thirdTask)
-    tableView.reloadData()
-  }
+extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
   
   func todayTaskCompletion(cell: TodayToDoCell, completionStatus completion: Bool) {
     guard let indexPath = tableView.indexPath(for: cell) else { return }
