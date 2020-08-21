@@ -6,6 +6,8 @@
 //  Copyright © 2020 Scott Bolin. All rights reserved.
 //
 
+// Global counts, in case want to add more Focus goals/tasks in the future.
+
 import Foundation
 
 struct globalState {

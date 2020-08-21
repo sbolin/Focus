@@ -19,7 +19,6 @@ class HistoryTaskCell: UITableViewCell {
   
   override func awakeFromNib() {
     super.awakeFromNib()
-
   }
   
   func configureHistoryTaskCell(at indexPath: IndexPath, for todo: ToDo) {
@@ -32,5 +31,4 @@ class HistoryTaskCell: UITableViewCell {
     historyTaskCompleted.isSelected ? (historyTaskCompleted.tintColor = .systemOrange) :
       (historyTaskCompleted.tintColor = .systemGray6)
   }
-  
 }

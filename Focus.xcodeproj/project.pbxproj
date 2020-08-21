@@ -237,8 +237,8 @@
 				15F48AAE245AB8310012C415 /* ProgressViewController.swift */,
 				15F48AB8245ADBB20012C415 /* MainTabBarController.swift */,
 				15A76625247053E900B90B3B /* NotificationController.swift */,
-				1558EFE824E5B23D0095661F /* GlobalVariables.swift */,
 				1537414224EED86A00D9B2EE /* CreateNewGoalController.swift */,
+				1558EFE824E5B23D0095661F /* GlobalVariables.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

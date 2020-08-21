@@ -13,6 +13,7 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
   
   //MARK: - Properties
   let identifier = "FocusNotification"
+  let todayViewController = TodayViewController()
   
   //MARK: - Notification when Tasks/Goal is completed
   func manageLocalNotification() {
@@ -36,19 +37,18 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     let type: Int
     
     if todoIncomplete == 0 { // Focus goal completed
-      title = "Focus Goal Complete"
+      title = "Focus Goal Complete 🎉"
       subtitle = "Today's Goal and Tasks completed"
       body = "Add a new Focus Goal and Tasks 🙂"
       type = 0
     } else { // tasks remain
-      title = "Focus Goal not complete "
+      title = "Focus Goal not complete"
       subtitle = "Add new Goal or Use Yesterday's?"
       body = "You have \(todoIncomplete) tasks out of \(todoTotal) to go!"
       type = 1
     }
-    
     // schedule (or remove) reminders
-    setupNotification(title: title, subtitle: subtitle, body: body, notification: type)
+    setupNotification(title: title, subtitle: subtitle, body: body, type: type)
   }
   
   //MARK: - Check Notification Status, user could have changed it.
@@ -73,9 +73,9 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
   }
  
   //MARK: - Schedule Notification
-  private func setupNotification(title: String?, subtitle: String?, body: String?, notification: Int) {
+  private func setupNotification(title: String?, subtitle: String?, body: String?, type: Int) {
 
-    registerCategory()
+    registerCategory(type: type)
     let center = UNUserNotificationCenter.current()
     
     //remove previously scheduled notifications
@@ -99,7 +99,7 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
       content.body = newBody
       content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber // Increment not specifically needed in this app (as only 1 notification exists at a time).
       content.categoryIdentifier = identifier
-      content.userInfo = ["customData": "Custom Data"]
+//      content.userInfo = ["customData": "Custom Data"] // not used
       content.sound = UNNotificationSound.default
       
       // Add logo image as attachment
@@ -113,7 +113,6 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
         }
       }
       
-
       // create request
       let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
       
@@ -122,26 +121,23 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     }
   }
   
-  func registerCategory() {
+  func registerCategory(type: Int) {
     let center = UNUserNotificationCenter.current()
     center.delegate = self
-    
-    let newGoal = UNTextInputNotificationAction(identifier: "New Goal", title: "Enter New Goal", options: .foreground, textInputButtonTitle: "Enter", textInputPlaceholder: "New Goal")
-    let oldGoal = UNNotificationAction(identifier: "Previous Goal", title: "Use Previous Goal", options: .foreground)
-    let category = UNNotificationCategory(identifier: identifier, actions: [oldGoal, newGoal], intentIdentifiers: [], options: .customDismissAction)
-    
-    center.setNotificationCategories([category])
-    
+    if type == 0 {
+      let newGoal = UNNotificationAction(identifier: "New Goal", title: "Enter New Goal", options: .foreground)
+      let category = UNNotificationCategory(identifier: identifier, actions: [newGoal], intentIdentifiers: [], options: .customDismissAction)
+      center.setNotificationCategories([category])
+    } else {
+      let newGoal = UNNotificationAction(identifier: "New Goal", title: "Enter Goal", options: .foreground)
+      let oldGoal = UNNotificationAction(identifier: "Previous Goal", title: "Use Previous Goal", options: .foreground)
+      let category = UNNotificationCategory(identifier: identifier, actions: [oldGoal, newGoal], intentIdentifiers: [], options: .customDismissAction)
+      center.setNotificationCategories([category])
+    }
   }
   
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    // pull out the buried userInfo dictionary
-    let userInfo = response.notification.request.content.userInfo
-    var goal = String()
-    
-    if let customData = userInfo["customData"] as? String {
-      print("Custom data received: \(customData)")
-      
+
       switch response.actionIdentifier {
         
       case UNNotificationDefaultActionIdentifier:
@@ -149,13 +145,8 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
         print("Default identifier")
         
       case "New Goal":
-        // the user tapped our "show more info…" button
-        if let textResponse = response as? UNTextInputNotificationResponse {
-          goal = textResponse.userText
-          // call to popover to update 
-        }
-        CoreDataController.shared.addNewGoal(title: goal)
-        print("New Goal: \(goal)")
+        todayViewController.createFocusGoal()
+        print("New Goal Created")
         
       case "Previous Goal":
         // user tapped "Use Previous Goal"
@@ -164,7 +155,7 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
       default:
         break
       }
-    }
+//    }
     // you must call the completion handler when you're done
     completionHandler()
     UIApplication.shared.applicationIconBadgeNumber = 0

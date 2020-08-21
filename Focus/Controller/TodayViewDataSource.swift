@@ -65,7 +65,14 @@ class TodayViewDataSource<Result: NSFetchRequestResult, Delegate: TodayViewDataS
 }
 
 //MARK: - Cell delegate methods
-extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
+extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate, CreateNewGoalControllerDelegate {
+  
+  
+  func didAddGoal(goal: String, firstTask: String, secondTask: String, thirdTask: String) {
+    CoreDataController.shared.addNewGoal(goal: goal, firstTask: firstTask, secondTask: secondTask, thirdTask: thirdTask)
+    tableView.reloadData()
+  }
+  
   func todayTaskCompletion(cell: TodayToDoCell, completionStatus completion: Bool) {
     guard let indexPath = tableView.indexPath(for: cell) else { return }
     let previousIndexPath = IndexPath(row: indexPath.row - globalState.numberOfGoals, section: indexPath.section)
@@ -74,14 +81,6 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
     tableView.reloadData()
   }
 
-  //MARK: TodayTaskCellDelegate Methods
-//  func todayTaskNew(_ cell: TodayToDoCell, newTask: String) {
-//    guard let tableViewContainer = cell.tableView else { return }
-//    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-//    let previousIndexPath = IndexPath(row: indexPath.row - globalState.numberOfGoals, section: indexPath.section)
-//    CoreDataController.shared.addToDo(text: newTask, at: previousIndexPath)
-//    tableView.reloadData()
-//  }
   
   func todayTaskUpdated(_ cell: TodayToDoCell, updatedTask: String) {
     guard let tableViewContainer = cell.tableView else { return }
@@ -98,11 +97,4 @@ extension TodayViewDataSource: TodayTaskCellDelegate, TodayGoalCellDelegate {
     CoreDataController.shared.modifyGoal(updatedGoalText: goalText, at: indexPath)
     tableView.reloadData()
   }
-  
-//  func todayGoalNew(_ cell: TodayGoalCell, newGoal goalText: String) {
-//    guard let tableViewContainer = cell.tableView else { return }
-//    guard let indexPath = tableViewContainer.indexPath(for: cell) else { return }
-//    CoreDataController.shared.addGoalAt(title: goalText, at: indexPath)
-//    tableView.reloadData()
-//  }
 }

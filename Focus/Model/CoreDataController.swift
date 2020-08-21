@@ -13,7 +13,7 @@ class CoreDataController {
   
   //MARK: - Create CoreData Stack
   static let shared = CoreDataController() // singleton
-  init() {} // Change from private to allow subclassing with new init
+  init() {} // Change from private to allow subclassing with new init for unit testing
   
   lazy var modelName = "Focus"
   lazy var model: NSManagedObjectModel = {
@@ -47,7 +47,6 @@ class CoreDataController {
   //MARK: - Fetch Properties
   // used in TodayView
   lazy var fetchedToDoResultsController: NSFetchedResultsController<ToDo> = {
-//    let managedContext = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
     let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: true)
     let todoSort = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
@@ -64,7 +63,6 @@ class CoreDataController {
   }()
   
   lazy var fetchedGoalResultsController: NSFetchedResultsController<Goal> = {
-//    let managedContext = persistentContainer.viewContext
     let request = Goal.goalFetchRequest()
     let goalSort = NSSortDescriptor(keyPath: \Goal.goal, ascending: true)
     let createdSort = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: true)
@@ -81,7 +79,6 @@ class CoreDataController {
   
   // used in progress view for yearly results
   lazy var fetchedToDoByYearController: NSFetchedResultsController<ToDo> = {
-//    let managedContext = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
     let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: true)
     let idSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true)
@@ -97,7 +94,6 @@ class CoreDataController {
   }()
   
   lazy var fetchedGoalByYearController: NSFetchedResultsController<Goal> = {
-//    let managedContext = persistentContainer.viewContext
     let request = Goal.goalFetchRequest()
     let createdSort = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: true)
     request.sortDescriptors = [createdSort]
@@ -105,7 +101,7 @@ class CoreDataController {
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: managedContext,
-      sectionNameKeyPath: "groupByMonth", // "groupByYear"
+      sectionNameKeyPath: "groupByMonth",
       cacheName: nil)
     
     return fetchedResultsController
@@ -113,7 +109,6 @@ class CoreDataController {
   
   // used in HistoryView for main results
   lazy var fetchedToDoByMonthController: NSFetchedResultsController<ToDo> = {
-//    let managedContext = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
     let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
     let nameSort = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
@@ -130,7 +125,6 @@ class CoreDataController {
   }()
   
   lazy var fetchedGoalByMonthController: NSFetchedResultsController<Goal> = {
-//    let managedContext = persistentContainer.viewContext
     let request = Goal.goalFetchRequest()
     let createdSort = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: false)
     request.sortDescriptors = [createdSort]
@@ -146,7 +140,6 @@ class CoreDataController {
   
   // used in progressView for last month results
   lazy var fetchedToDoByLastMonthController: NSFetchedResultsController<ToDo> = {
-//    let managedContext = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
     let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: true)
     let idSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true)
@@ -155,14 +148,13 @@ class CoreDataController {
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: managedContext,
-      sectionNameKeyPath: "groupByWeek", // "groupByMonth",
+      sectionNameKeyPath: "groupByWeek",
       cacheName: nil)
     
     return fetchedResultsController
   }()
   
   lazy var fetchedGoalByLastMonthController: NSFetchedResultsController<Goal> = {
-//    let managedContext = persistentContainer.viewContext
     let request = Goal.goalFetchRequest()
     let createdSort = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: true)
     request.sortDescriptors = [createdSort]
@@ -170,7 +162,7 @@ class CoreDataController {
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,
       managedObjectContext: managedContext,
-      sectionNameKeyPath: "groupByWeek", // "groupByMonth",
+      sectionNameKeyPath: "groupByWeek",
       cacheName: nil)
     
     return fetchedResultsController
@@ -178,7 +170,6 @@ class CoreDataController {
   
   // used in progress view for weekly results
   lazy var fetchedToDoByWeekController: NSFetchedResultsController<ToDo> = {
-//    let managedContext = persistentContainer.viewContext
     let request = ToDo.todoFetchRequest()
     let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: true)
     let idSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true)
@@ -194,7 +185,6 @@ class CoreDataController {
   }()
   
   lazy var fetchedGoalByWeekController: NSFetchedResultsController<Goal> = {
-//    let managedContext = persistentContainer.viewContext
     let request = Goal.goalFetchRequest()
     let createdSort = NSSortDescriptor(keyPath: \Goal.goalDateCreated, ascending: true)
     request.sortDescriptors = [createdSort]
@@ -218,21 +208,7 @@ class CoreDataController {
     }
   }
   
-  //MARK: - Creation Methods
-//  func addToDo(text: String, at indexPath: IndexPath) {
-//    print("addToDo")
-////    let context = persistentContainer.viewContext
-//    let todo = fetchedToDoResultsController.object(at: indexPath)
-//    let goal = todo.goal
-//    let newToDo = NSEntityDescription.insertNewObject(forEntityName: "ToDo", into: managedContext) as! ToDo
-//    newToDo.todo = text
-//    newToDo.id = UUID()
-//    newToDo.todoDateCreated = Date()
-//    newToDo.todoCompleted = false
-//    newToDo.goal = goal
-//    saveContext()
-//  }
-  
+  //MARK: - Goal + Todo Functions
   //Modify existing todo
   func modifyToDo(updatedToDoText: String, at indexPath: IndexPath) {
     let todo = fetchedToDoResultsController.object(at: indexPath)
@@ -254,32 +230,17 @@ class CoreDataController {
     saveContext(managedContext: managedContext)
   }
   
-  //Add new Goal at Indexpath
-//  func addGoalAt(title: String, at indexPath: IndexPath) {
-//    print("addGoal")
-//    let context = persistentContainer.viewContext
-//    let todo = fetchedToDoResultsController.object(at: indexPath)
-//    let goal = todo.goal
-//    if goal.goal.isEmpty {
-//      // new goal
-//      let newgoal = Goal(context: managedContext)
-//      newgoal.goal = title
-//      newgoal.goalDateCreated = Date()
-//      newgoal.goalCompleted = false
-//      saveContext()
-//    }
-//  }
-  
   //Add new goal object (for new goal)
-  func addNewGoal(title: String) {
+  func addNewGoal(goal: String, firstTask: String, secondTask: String, thirdTask: String) {
+    let taskName = [firstTask, secondTask, thirdTask]
     let newgoal = Goal(context: managedContext)
-    newgoal.goal = title
+    newgoal.goal = goal
     newgoal.goalDateCreated = Date().startOfDay(for: Date())
     newgoal.goalDateCompleted = nil
     newgoal.goalCompleted = false
     for i in 0...(globalState.numberofTasks - 1) {
       let associatedTodo = ToDo(context: managedContext)
-      associatedTodo.todo = "Todo \(i + 1)"
+      associatedTodo.todo = taskName[i]
       associatedTodo.id = UUID()
       associatedTodo.todoDateCreated = Date().startOfDay(for: Date())
       associatedTodo.todoCompleted = false
@@ -315,29 +276,7 @@ class CoreDataController {
     saveContext(managedContext: managedContext)
   }
   
-  //MARK: - Deletion Methods
-  //Delete ToDo
-//  func deleteToDo(todo: ToDo) {
-//    print("deleteToDo")
-//    let associatedGoal = todo.goal
-//    let todoCount = associatedGoal.todos.count
-//    if todoCount < 2 {
-//      managedContext.delete(todo)
-//      managedContext.delete(associatedGoal)
-//    } else {
-//      managedContext.delete(todo)
-//    }
-//    saveContext()
-//  }
-//  
-//  //Delete Goal
-//  func deleteGoal(goal: Goal) {
-//    print("deleteGoal")
-//    managedContext.delete(goal)
-//    saveContext()
-//  }
-  
-  //MARK: - create default todos
+  //MARK: - create default todos, to be deleted in final app
 
   func createToDosIfNeeded(managedContext: NSManagedObjectContext) {
     

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Scott Bolin. All rights reserved.
 //
 
-// create view programatically, enter Goal and todos, use protocol to save
+// create view programatically, enter Goal and todos, use protocol to save new Focus task
 
 import UIKit
 
@@ -93,11 +93,9 @@ class CreateNewGoalController: UIViewController {
     super.viewDidLoad()
     setupStyle()
     setupUI()
-    
-    // Do any additional setup after loading the view.
   }
   
-  //MaRK: - Setup View style and UI elements
+  //MARK: - Setup View style and UI elements
   private func setupStyle() {
     view.backgroundColor = .white
     navigationItem.title = "Create Focus Goal and Tasks"
@@ -209,6 +207,7 @@ class CreateNewGoalController: UIViewController {
       return
     }
     
+    // call delegate to create new Focus item, and dismiss view
     delegate?.didAddGoal(goal: goalName, firstTask: todoItem1, secondTask: todoItem2, thirdTask: todoItem3)
     dismiss(animated: true, completion: nil)
     

@@ -12,7 +12,6 @@ import UIKit
 extension UIButton {
   
   // wiggle button
-  
   func wiggle() {
     DispatchQueue.main.async {
       let springAnim = self.startWiggle(view: self)
@@ -41,7 +40,6 @@ extension UIButton {
   }
   
   // rotate button around all three axis
-  
   func whirl() {
     let springAnim = startWhirl(view: self)
     self.layer.add(springAnim, forKey: nil)

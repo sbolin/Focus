@@ -22,13 +22,4 @@ extension Date {
     calendar.timeZone = TimeZone.current
     return calendar.startOfDay(for: date).advanced(by: TimeInterval(12 * 60 * 60))
   }
-  
-  func dateCaption(for date: Date) -> String {
-    let dateformatter = DateFormatter()
-    dateformatter.dateFormat = "dd MMM yyyy"
-    dateformatter.timeStyle = .none
-    dateformatter.timeZone = TimeZone.current
-    
-    return dateformatter.string(from: date)
-  }
 }

@@ -50,7 +50,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     updateChart()
     
   }
-
+// MARK: - Get time period from UISegmented Control
   @IBAction func weekMonthToggled(_ sender: UISegmentedControl) {
     
     switch sender.selectedSegmentIndex {
@@ -78,12 +78,14 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
       break
       
     }
+    // setup data and chart
     zeroData()
     setupData(statistics: statistics)
     setupChart()
     updateChart()
   }
   
+  // MARK: - ChartView setup
   func setupChart() {
     chartView.delegate = self
     
@@ -146,6 +148,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     chartView.rightAxis.enabled = false
   }
   
+  // Update chart based on time period selected
   func updateChart() {
     
     // set up group spacing
@@ -156,7 +159,6 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     
     let groupCount = timePeriod.count
     let timeStart = 0
-//    let timeEnd = timeStart + groupCount
     
     var todoCompletedDataEntry: [BarChartDataEntry] = []
     var todoTotalDataEntry: [BarChartDataEntry] = []
@@ -243,6 +245,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     }
   }
   
+  // zero data when switching between time periods
   func zeroData() {
     
     timePeriod = [String]()

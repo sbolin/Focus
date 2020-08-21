@@ -9,9 +9,7 @@
 import UIKit
 
 protocol TodayGoalCellDelegate {
-  func todayGoalUpdated(_ cell: TodayGoalCell, updatedGoal: String)
-//  func todayGoalNew(_ cell: TodayGoalCell, newGoal goalText: String)
-  
+  func todayGoalUpdated(_ cell: TodayGoalCell, updatedGoal: String)  
 }
 
 class TodayGoalCell: UITableViewCell, UITextFieldDelegate {
