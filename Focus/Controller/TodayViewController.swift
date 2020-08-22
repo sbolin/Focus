@@ -9,8 +9,8 @@
 import UIKit
 import CoreData
 
-class TodayViewController: UIViewController {
-  
+class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
+
   //MARK: - Properties
   let todayViewdelegate = TodayViewDelegate()
   var dataSource: TodayViewDataSource<ToDo, TodayViewController>!
@@ -54,12 +54,12 @@ class TodayViewController: UIViewController {
     dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedResultsController, delegate: self)
   }
   
-//  func createFocusGoal() {
-//    let createFocusGoal = CreateNewGoalController()
-//    createFocusGoal.delegate = self
-//    let navController = UINavigationController(rootViewController: createFocusGoal)
-//    present(navController, animated: true, completion: nil)
-//  }
+  func createFocusGoal() {
+    let createFocusGoal = CreateNewGoalController()
+    createFocusGoal.delegate = self
+    let navController = UINavigationController(rootViewController: createFocusGoal)
+    present(navController, animated: true, completion: nil)
+  }
   
   
   //MARK:- Notification Functions for keyboard
@@ -94,11 +94,49 @@ extension TodayViewController: TodayViewDataSourceDelegate {
   }
 }
 
+//MARK: - UNUserNotificationCenterDelegate methods
 extension TodayViewController: UNUserNotificationCenterDelegate {
   
-  // MARK:- UNUserNotificationCenterDelegate
+  // Show notification when Focus.app is active
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     // To show the banner in-app
     completionHandler([.badge, .alert, .sound])
   }
+  
+  // handle notifications
+  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    
+    switch response.actionIdentifier {
+      
+    case UNNotificationDefaultActionIdentifier:
+      // the user swiped to unlock
+      print("Default identifier")
+      
+    case "New Goal":
+      createFocusGoal()
+      
+      // try to present controller instead
+//      let createFocusGoal = CreateNewGoalController()
+//      createFocusGoal.delegate = self
+//      let navController = UINavigationController(rootViewController: createFocusGoal)
+//      present(navController, animated: true, completion: nil)
+      
+    case "Previous Goal":
+      // user tapped "Use Previous Goal"
+      print("Use Previous Goal")
+      
+    default:
+      break
+    }
+    //    }
+    // call the completion handler
+    completionHandler()
+    UIApplication.shared.applicationIconBadgeNumber = 0
+  }
+  
+  //CreateNewGoalController Delegate method
+  func didAddGoal(success: Bool) {
+    print("Goal added: \(success)")
+  }
+  
 }

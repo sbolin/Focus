@@ -25,6 +25,7 @@ class CreateNewGoalController: UIViewController {
   //MARK: - Properties
   var delegate: CreateNewGoalControllerDelegate?
   var goal = String()
+  // TODO: Should be based on GlobalVariable not fixed number of todoItems
   var todoItem1 = String()
   var todoItem2 = String()
   var todoItem3 = String()

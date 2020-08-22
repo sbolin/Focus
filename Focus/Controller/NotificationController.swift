@@ -77,7 +77,6 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
 
     registerCategory(type: type)
     let center = UNUserNotificationCenter.current()
-    
     //remove previously scheduled notifications
     center.removeDeliveredNotifications(withIdentifiers: [identifier])
     center.removeAllPendingNotificationRequests()
@@ -124,6 +123,7 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
   func registerCategory(type: Int) {
     let center = UNUserNotificationCenter.current()
     center.delegate = self
+    
     if type == 0 {
       let newGoal = UNNotificationAction(identifier: "New Goal", title: "Enter New Goal", options: .foreground)
       let category = UNNotificationCategory(identifier: identifier, actions: [newGoal], intentIdentifiers: [], options: .customDismissAction)
@@ -136,36 +136,10 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
     }
   }
   
-  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+  // move UNUserNotificationCenterDelegate methods to TodayViewController
 
-      switch response.actionIdentifier {
-        
-      case UNNotificationDefaultActionIdentifier:
-        // the user swiped to unlock
-        print("Default identifier")
-        
-      case "New Goal":
-//        todayViewController?.createFocusGoal()
-        // try to present controller instead
-        let createFocusGoal = CreateNewGoalController()
-        createFocusGoal.delegate = self
-        let navController = UINavigationController(rootViewController: createFocusGoal)
-        present(navController, animated: true, completion: nil)
-        
-        
-        
-      case "Previous Goal":
-        // user tapped "Use Previous Goal"
-        print("Use Previous Goal")
-        
-      default:
-        break
-      }
-//    }
-    // you must call the completion handler when you're done
-    completionHandler()
-    UIApplication.shared.applicationIconBadgeNumber = 0
-  }
+  
+
   
   func didAddGoal(success: Bool) {
     print("New Goal Created")
