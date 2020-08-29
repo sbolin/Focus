@@ -54,7 +54,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedResultsController, delegate: self)
   }
   
-  func createFocusGoal() {
+  func createFocusGoalView() {
     let createFocusGoal = CreateNewGoalController()
     createFocusGoal.delegate = self
     let navController = UINavigationController(rootViewController: createFocusGoal)
@@ -113,7 +113,7 @@ extension TodayViewController: UNUserNotificationCenterDelegate {
       print("Default identifier")
       
     case "New Goal":
-      createFocusGoal()
+      createFocusGoalView()
       
       // try to present controller instead
 //      let createFocusGoal = CreateNewGoalController()
@@ -124,6 +124,7 @@ extension TodayViewController: UNUserNotificationCenterDelegate {
     case "Previous Goal":
       // user tapped "Use Previous Goal"
       print("Use Previous Goal")
+      todayTableView.reloadData()
       
     default:
       break
@@ -139,4 +140,7 @@ extension TodayViewController: UNUserNotificationCenterDelegate {
     print("Goal added: \(success)")
   }
   
+  func goalPassBack(goal: String, todo1: String, todo2: String, todo3: String) {
+    CoreDataController.shared.addNewGoal(goal: goal, firstTask: todo1, secondTask: todo2, thirdTask: todo3)
+  }
 }

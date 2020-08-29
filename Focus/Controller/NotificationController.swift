@@ -9,6 +9,11 @@
 import UIKit
 import UserNotifications
 
+enum NotificationType {
+  case completeGoal
+  case incompleteGoal
+}
+
 // original inherited from NSObject, change to UIViewController so can present new goal view
 class NotificationController: UIViewController, UNUserNotificationCenterDelegate, CreateNewGoalControllerDelegate {
  
@@ -34,48 +39,28 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
     var title = String()
     var subtitle = String()
     var body = String()
-    let type: Int
+    let type: NotificationType
     
     if todoIncomplete == 0 { // Focus goal completed
+      type = NotificationType.completeGoal
       title = "Focus Goal Complete 🎉"
       subtitle = "Today's Goal and Tasks completed"
       body = "Add a new Focus Goal and Tasks 🙂"
-      type = 0
+
     } else { // tasks remain
+      type = NotificationType.incompleteGoal
       title = "Focus Goal not complete"
       subtitle = "Add new Goal or Use Yesterday's?"
       body = "You have \(todoIncomplete) tasks out of \(todoTotal) to go!"
-      type = 1
     }
     // schedule (or remove) reminders
-    setupNotification(title: title, subtitle: subtitle, body: body, type: type)
-  }
-  
-  //MARK: - Check Notification Status, user could have changed it.
-  private func checkNotificationStatus() {
-    let center = UNUserNotificationCenter.current()
-    center.getNotificationSettings { (settings : UNNotificationSettings) in
-      if settings.authorizationStatus == .authorized {
-        // Still Authorized, no need to do anything
-        return
-      } else {
-        // Not Authorized anymore, request authorization again.
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-          if granted {
-            print("Please allow notifications for Focus. You can always change notification settings later in the Settings App.")
-          }
-          else {
-            print("Without Notifications Focus cannot send you reminders. You can always change notification settings later in the Settings App.")
-          }
-        }
-      }
-    }
+    setupNotification(title: title, subtitle: subtitle, body: body, notificationType: type)
   }
  
   //MARK: - Schedule Notification
-  private func setupNotification(title: String?, subtitle: String?, body: String?, type: Int) {
+  private func setupNotification(title: String?, subtitle: String?, body: String?, notificationType: NotificationType) {
 
-    registerCategory(type: type)
+    registerCategory(notificationType: notificationType)
     let center = UNUserNotificationCenter.current()
     //remove previously scheduled notifications
     center.removeDeliveredNotifications(withIdentifiers: [identifier])
@@ -88,6 +73,8 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
     
     // create trigger
     let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+
     
     // set up notification content
     if let newTitle = title, let newBody = body {
@@ -114,21 +101,23 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
       
       // create request
       let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-      
+      let request2 = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger2)
+
       // schedule notification
-      center.add(request, withCompletionHandler: nil)
+//      center.add(request, withCompletionHandler: nil)
+      center.add(request2, withCompletionHandler: nil)
     }
   }
   
-  func registerCategory(type: Int) {
+  func registerCategory(notificationType: NotificationType) {
     let center = UNUserNotificationCenter.current()
     center.delegate = self
-    
-    if type == 0 {
+    switch notificationType {
+    case .completeGoal:
       let newGoal = UNNotificationAction(identifier: "New Goal", title: "Enter New Goal", options: .foreground)
       let category = UNNotificationCategory(identifier: identifier, actions: [newGoal], intentIdentifiers: [], options: .customDismissAction)
       center.setNotificationCategories([category])
-    } else {
+    case .incompleteGoal:
       let newGoal = UNNotificationAction(identifier: "New Goal", title: "Enter Goal", options: .foreground)
       let oldGoal = UNNotificationAction(identifier: "Previous Goal", title: "Use Previous Goal", options: .foreground)
       let category = UNNotificationCategory(identifier: identifier, actions: [oldGoal, newGoal], intentIdentifiers: [], options: .customDismissAction)
@@ -136,11 +125,29 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
     }
   }
   
+  //MARK: - Check Notification Status, user could have changed it.
+  private func checkNotificationStatus() {
+    let center = UNUserNotificationCenter.current()
+    center.getNotificationSettings { (settings : UNNotificationSettings) in
+      if settings.authorizationStatus == .authorized {
+        // Still Authorized, no need to do anything
+        return
+      } else {
+        // Not Authorized anymore, request authorization again.
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+          if granted {
+            print("Please allow notifications for Focus. You can always change notification settings later in the Settings App.")
+          }
+          else {
+            print("Without Notifications Focus cannot send you reminders. You can always change notification settings later in the Settings App.")
+          }
+        }
+      }
+    }
+  }
+  
   // move UNUserNotificationCenterDelegate methods to TodayViewController
 
-  
-
-  
   func didAddGoal(success: Bool) {
     print("New Goal Created")
   }

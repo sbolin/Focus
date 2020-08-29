@@ -18,6 +18,7 @@ import UIKit
 // revised protocol
 protocol CreateNewGoalControllerDelegate {
   func didAddGoal(success: Bool)
+  func goalPassBack(goal: String, todo1: String, todo2: String, todo3: String)
 }
 
 class CreateNewGoalController: UIViewController {
@@ -26,14 +27,15 @@ class CreateNewGoalController: UIViewController {
   var delegate: CreateNewGoalControllerDelegate?
   var goal = String()
   // TODO: Should be based on GlobalVariable not fixed number of todoItems
+  var todoItem = [String]()
   var todoItem1 = String()
   var todoItem2 = String()
   var todoItem3 = String()
   
   let goalLabel: UILabel = {
     let label = UILabel()
-    label.textColor = .orange
-    label.text = "Focus Goal"
+    label.text = "Focus Goal:"
+    label.textColor = .darkGray
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
@@ -41,14 +43,15 @@ class CreateNewGoalController: UIViewController {
   let goalTextField: UITextField = {
     let textField = UITextField()
     textField.placeholder = "Enter today's goal"
+    textField.textColor = .orange
     textField.translatesAutoresizingMaskIntoConstraints = false
     return textField
   }()
   
   let todoOneLabel: UILabel = {
     let label = UILabel()
-    label.textColor = .orange
-    label.text = "Task #1"
+    label.text = "Task #1:"
+    label.textColor = .darkGray
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
@@ -56,14 +59,15 @@ class CreateNewGoalController: UIViewController {
   let todoOneTextField: UITextField = {
     let textField = UITextField()
     textField.placeholder = "First task"
+    textField.textColor = .orange
     textField.translatesAutoresizingMaskIntoConstraints = false
     return textField
   }()
   
   let todoTwoLabel: UILabel = {
     let label = UILabel()
-    label.textColor = .orange
-    label.text = "Task #2"
+    label.text = "Task #2:"
+    label.textColor = .darkGray
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
@@ -71,14 +75,15 @@ class CreateNewGoalController: UIViewController {
   let todoTwoTextField: UITextField = {
     let textField = UITextField()
     textField.placeholder = "Second task"
+    textField.textColor = .orange
     textField.translatesAutoresizingMaskIntoConstraints = false
     return textField
   }()
   
   let todoThreeLabel: UILabel = {
     let label = UILabel()
-    label.textColor = .orange
-    label.text = "Task #3"
+    label.text = "Task #3:"
+    label.textColor = .darkGray
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
@@ -86,6 +91,7 @@ class CreateNewGoalController: UIViewController {
   let todoThreeTextField: UITextField = {
     let textField = UITextField()
     textField.placeholder = "Third task"
+    textField.textColor = .orange
     textField.translatesAutoresizingMaskIntoConstraints = false
     return textField
   }()
@@ -93,26 +99,44 @@ class CreateNewGoalController: UIViewController {
   //MARK: - View Lifecycle
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    navigationItem.title = "Add Focus Goal and Tasks"
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    setupStyle()
+    setupNavBar()
+    navigationItem.title = "Add Focus Goal"
+    setupSaveButton()
+ //   setupStyle()
     setupUI()
+  }
+  
+  //MARK: - Set up the navigation bar
+  func setupNavBar() {
+    
+    UINavigationBar.appearance().tintColor = .white
+    UINavigationBar.appearance().prefersLargeTitles = true
+    
+    let appearance = UINavigationBarAppearance()
+    UINavigationBar.appearance().tintColor = .white
+    appearance.backgroundColor = .orange
+    appearance.largeTitleTextAttributes = [.foregroundColor : UIColor.white] //portrait title
+    appearance.titleTextAttributes = [.foregroundColor : UIColor.white] //landscape title
+    
+    UINavigationBar.appearance().tintColor = .white
+    UINavigationBar.appearance().standardAppearance = appearance //landscape
+    UINavigationBar.appearance().compactAppearance = appearance
+    UINavigationBar.appearance().scrollEdgeAppearance = appearance //portrait
   }
   
   //MARK: - Setup View style and UI elements
   private func setupStyle() {
-    view.backgroundColor = .white
-    navigationItem.title = "Create Focus Goal and Tasks"
     setupSaveButton()
   }
   
   //MARK: - Setup graphical UI programatically
   private func setupUI() {
     
-    _ = setupCreateBackground(height: 150)
+    _ = setupCreateBackground(height: 195)
     
     view.addSubview(goalLabel)
     goalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -166,17 +190,20 @@ class CreateNewGoalController: UIViewController {
   }
   
   func setupCreateBackground(height: CGFloat) -> UIView {
-    let headerBackgroundView = UIView()
-    headerBackgroundView.backgroundColor = UIColor.orange
-    headerBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+    let mainView = UIView()
+    mainView.backgroundColor = UIColor.orange
+    mainView.translatesAutoresizingMaskIntoConstraints = false
     
-    view.addSubview(headerBackgroundView)
-    headerBackgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-    headerBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-    headerBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    headerBackgroundView.heightAnchor.constraint(equalToConstant: height).isActive = true
+    view.addSubview(mainView)
+    mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+    mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    mainView.heightAnchor.constraint(equalToConstant: height).isActive = true
     
-    return headerBackgroundView
+    mainView.layer.cornerRadius = 12
+    mainView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+    
+    return mainView
   }
   
   
