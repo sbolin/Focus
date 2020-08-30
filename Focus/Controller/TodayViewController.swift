@@ -99,7 +99,7 @@ extension TodayViewController: UNUserNotificationCenterDelegate {
   
   // Show notification when Focus.app is active
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    // To show the banner in-app
+    // Show the banner in-app
     completionHandler([.badge, .alert, .sound])
   }
   

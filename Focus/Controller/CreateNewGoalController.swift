@@ -99,11 +99,18 @@ class CreateNewGoalController: UIViewController {
   //MARK: - View Lifecycle
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    goalTextField.becomeFirstResponder()
+  }
+  
+  override func viewWillLayoutSubviews() {
+    // prevent user from dismissing view
+    isModalInPresentation = true
+    setupNavBar()
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    setupNavBar()
+ //   setupNavBar()
     navigationItem.title = "Add Focus Goal"
     setupSaveButton()
  //   setupStyle()
