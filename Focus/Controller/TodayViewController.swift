@@ -57,6 +57,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   func createFocusGoalView() {
     let createFocusGoal = CreateNewGoalController()
     createFocusGoal.delegate = self
+    createFocusGoal.setupNavBar()
     let navController = UINavigationController(rootViewController: createFocusGoal)
     present(navController, animated: true, completion: nil)
   }
@@ -100,7 +101,7 @@ extension TodayViewController: UNUserNotificationCenterDelegate {
   // Show notification when Focus.app is active
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     // Show the banner in-app
-    completionHandler([.badge, .alert, .sound])
+    completionHandler([.alert, .sound])
   }
   
   // handle notifications
@@ -114,12 +115,6 @@ extension TodayViewController: UNUserNotificationCenterDelegate {
       
     case "New Goal":
       createFocusGoalView()
-      
-      // try to present controller instead
-//      let createFocusGoal = CreateNewGoalController()
-//      createFocusGoal.delegate = self
-//      let navController = UINavigationController(rootViewController: createFocusGoal)
-//      present(navController, animated: true, completion: nil)
       
     case "Previous Goal":
       // user tapped "Use Previous Goal"

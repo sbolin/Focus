@@ -15,7 +15,7 @@ enum NotificationType {
 }
 
 // original inherited from NSObject, change to UIViewController so can present new goal view
-class NotificationController: UIViewController, UNUserNotificationCenterDelegate, CreateNewGoalControllerDelegate {
+class NotificationController: UIViewController, UNUserNotificationCenterDelegate {
  
   //MARK: - Properties
   let identifier = "FocusNotification"
@@ -64,7 +64,7 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
     let center = UNUserNotificationCenter.current()
     //remove previously scheduled notifications
     center.removeDeliveredNotifications(withIdentifiers: [identifier])
-    center.removeAllPendingNotificationRequests()
+//    center.removeAllPendingNotificationRequests()
     
     // need to set so goes off at 8am each day
     var dateComponents = DateComponents()
@@ -73,8 +73,10 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
     
     // create trigger
     let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-
+    
+    #if DEBUG
+    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+    #endif
     
     // set up notification content
     if let newTitle = title, let newBody = body {
@@ -101,11 +103,17 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
       
       // create request
       let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+      
+      #if DEBUG
       let request2 = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger2)
-
+      #endif
+      
       // schedule notification
-//      center.add(request, withCompletionHandler: nil)
+      center.add(request, withCompletionHandler: nil)
+      
+      #if DEBUG
       center.add(request2, withCompletionHandler: nil)
+      #endif
     }
   }
   
@@ -128,6 +136,14 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
   //MARK: - Check Notification Status, user could have changed it.
   private func checkNotificationStatus() {
     let center = UNUserNotificationCenter.current()
+    
+    center.getPendingNotificationRequests { (notifications) in
+      print("Notification Count: \(notifications.count)")
+      for item in notifications {
+        print(item.content)
+      }
+    }
+    
     center.getNotificationSettings { (settings : UNNotificationSettings) in
       if settings.authorizationStatus == .authorized {
         // Still Authorized, no need to do anything
