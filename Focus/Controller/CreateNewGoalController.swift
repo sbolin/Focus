@@ -15,7 +15,7 @@ protocol CreateNewGoalControllerDelegate {
   func goalPassBack(goal: String, todo1: String, todo2: String, todo3: String)
 }
 
-class CreateNewGoalController: UIViewController {
+class CreateNewGoalController: UIViewController, UIAdaptivePresentationControllerDelegate {
   
   //MARK: - Properties
   var delegate: CreateNewGoalControllerDelegate?
@@ -99,19 +99,16 @@ class CreateNewGoalController: UIViewController {
   override func viewWillLayoutSubviews() {
     // prevent user from dismissing view
     isModalInPresentation = true
-    setupNavBar()
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
- //   setupNavBar()
     navigationItem.title = "Add Focus Goal"
     setupSaveButton()
- //   setupStyle()
     setupUI()
   }
   
-  //MARK: - Set up the navigation bar
+  //MARK: - Set up the navigation bar, called from TodayViewController
   func setupNavBar() {
     
     UINavigationBar.appearance().tintColor = .white
@@ -129,10 +126,6 @@ class CreateNewGoalController: UIViewController {
     UINavigationBar.appearance().scrollEdgeAppearance = appearance //portrait
   }
   
-  //MARK: - Setup View style and UI elements
-  private func setupStyle() {
-    setupSaveButton()
-  }
   
   //MARK: - Setup graphical UI programatically
   private func setupUI() {
@@ -192,7 +185,7 @@ class CreateNewGoalController: UIViewController {
   
   func setupCreateBackground(height: CGFloat) -> UIView {
     let mainView = UIView()
-    mainView.backgroundColor = UIColor.orange
+    mainView.backgroundColor = UIColor.white
     mainView.translatesAutoresizingMaskIntoConstraints = false
     
     view.addSubview(mainView)
@@ -241,18 +234,10 @@ class CreateNewGoalController: UIViewController {
       showError(title: "Empty Task Item", message: "Please enter a new Task 3", buttonTitle: "Got It!")
       return
     }
-    
-    // original call delegate to create new Focus item, and dismiss view
-//    delegate?.didAddGoal(goal: goalName, firstTask: todoItem1, secondTask: todoItem2, thirdTask: todoItem3)
- //   CoreDataController.shared.addNewGoal(goal: goalName, firstTask: todoItem1, secondTask: todoItem2, thirdTask: todoItem3)
 
-    
     delegate?.goalPassBack(goal: goalName, todo1: todoItem1, todo2: todoItem2, todo3: todoItem3)
     dismiss(animated: true, completion: nil)
-// new delegate method
-//    delegate?.didAddGoal(success: true)
  
-//  to dismiss to other view controller, not tried yet self.view.window!.rootViewController?.presentedViewController?.dismiss(animated: true, completion: nil)
   }
   
   // show dialog if goal/task are input improperly
