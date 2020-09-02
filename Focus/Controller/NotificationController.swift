@@ -124,7 +124,7 @@ print("NS: setupNotification")
       content.categoryIdentifier = identifier
 //      content.userInfo = ["customData": "Custom Data"] // not used
 
-      content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "Cheer.aiff"))
+      content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "Cheer.caf"))
 
       /*
       // Add logo image as attachment
