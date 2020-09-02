@@ -95,10 +95,21 @@
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="large" weight="bold"/>
                                                     </state>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 Sep 20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1y6-Eh-sYy">
+                                                    <rect key="frame" x="307" y="18" width="60" height="14.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="hnk-Eb-jpb"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="kRL-OA-d62" secondAttribute="trailing" constant="8" id="2Cf-dA-Txo"/>
                                                 <constraint firstItem="kRL-OA-d62" firstAttribute="centerY" secondItem="8Nt-8z-Sph" secondAttribute="centerY" id="3AZ-VG-RzT"/>
+                                                <constraint firstAttribute="trailing" secondItem="1y6-Eh-sYy" secondAttribute="trailing" constant="8" id="8PR-bc-t7y"/>
+                                                <constraint firstItem="1y6-Eh-sYy" firstAttribute="centerY" secondItem="8Nt-8z-Sph" secondAttribute="centerY" id="Hyv-8s-zQw"/>
                                                 <constraint firstItem="DK9-60-XEP" firstAttribute="leading" secondItem="8Nt-8z-Sph" secondAttribute="leading" constant="8" id="IVD-wI-yxx"/>
                                                 <constraint firstItem="DK9-60-XEP" firstAttribute="centerY" secondItem="8Nt-8z-Sph" secondAttribute="centerY" id="NKt-aZ-9un"/>
                                                 <constraint firstItem="kRL-OA-d62" firstAttribute="top" secondItem="8Nt-8z-Sph" secondAttribute="top" constant="5" id="Xs1-cs-JuP"/>
@@ -108,6 +119,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
+                                            <outlet property="dateCreated" destination="1y6-Eh-sYy" id="tvH-K9-Wkg"/>
                                             <outlet property="historyGoal" destination="kRL-OA-d62" id="y7D-bh-6vg"/>
                                             <outlet property="historyGoalCompleted" destination="DK9-60-XEP" id="3Nc-pf-A0n"/>
                                         </connections>
@@ -139,6 +151,18 @@
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="light"/>
                                                     </state>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 Sep 20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hha-SW-YzG">
+                                                    <rect key="frame" x="307" y="15" width="60" height="14.5"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
+                                                    </accessibility>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="1os-gJ-1CR"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="NFQ-sC-Def" firstAttribute="leading" secondItem="Vte-G2-7Hr" secondAttribute="trailing" constant="8" id="OMs-Vn-Bvv"/>
@@ -146,11 +170,14 @@
                                                 <constraint firstItem="Vte-G2-7Hr" firstAttribute="leading" secondItem="e3s-dD-Vcv" secondAttribute="leading" constant="24" id="ZXe-yZ-wRh"/>
                                                 <constraint firstItem="NFQ-sC-Def" firstAttribute="top" secondItem="e3s-dD-Vcv" secondAttribute="top" constant="4" id="eKj-6M-7kY"/>
                                                 <constraint firstItem="NFQ-sC-Def" firstAttribute="centerY" secondItem="e3s-dD-Vcv" secondAttribute="centerY" id="hHS-v6-zWk"/>
+                                                <constraint firstItem="Hha-SW-YzG" firstAttribute="centerY" secondItem="e3s-dD-Vcv" secondAttribute="centerY" id="s3Y-qA-MiZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="Hha-SW-YzG" secondAttribute="trailing" constant="8" id="udJ-4m-s99"/>
                                                 <constraint firstItem="Vte-G2-7Hr" firstAttribute="centerY" secondItem="e3s-dD-Vcv" secondAttribute="centerY" id="y1V-q9-sTw"/>
                                                 <constraint firstAttribute="trailing" secondItem="NFQ-sC-Def" secondAttribute="trailing" constant="8" id="zTG-px-bye"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="dateCreated" destination="Hha-SW-YzG" id="fel-fr-ksk"/>
                                             <outlet property="historyTask" destination="NFQ-sC-Def" id="bXh-CH-WSp"/>
                                             <outlet property="historyTaskCompleted" destination="Vte-G2-7Hr" id="W4n-QK-ZFd"/>
                                         </connections>
@@ -177,7 +204,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d5W-95-iTc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1037.5999999999999" y="-552.70935960591135"/>
+            <point key="canvasLocation" x="1037.5999999999999" y="-552.77361319340332"/>
         </scene>
         <!--Today-->
         <scene sceneID="tne-QT-ifu">

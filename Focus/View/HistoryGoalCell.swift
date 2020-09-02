@@ -12,10 +12,12 @@ class HistoryGoalCell: UITableViewCell {
   
   //MARK: - Properties
   public static let reuseIdentifier = "HistoryGoalCell"
+  var dateText = DateFormatter()
   
   //MARK: - IBOutlets
   @IBOutlet weak var historyGoal: UITextField!
   @IBOutlet weak var historyGoalCompleted: UIButton!
+  @IBOutlet weak var dateCreated: UILabel!
   
   //MARK: - View Life Cycle
   override func awakeFromNib() {
@@ -24,7 +26,9 @@ class HistoryGoalCell: UITableViewCell {
   }
   
   func configureHistoryGoalCell(at indexPath: IndexPath, for goal: Goal) {
+    dateText.dateFormat = "dd MMM yy"
     historyGoal.text = goal.goal
+    dateCreated.text = dateText.string(from: goal.goalDateCreated)
     historyGoalCompleted.isSelected = goal.goalCompleted
     toggleButtonColor()
   }
