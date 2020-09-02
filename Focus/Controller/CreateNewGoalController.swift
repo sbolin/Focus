@@ -10,14 +10,8 @@
 
 import UIKit
 
-// original protocol
-//protocol CreateNewGoalControllerDelegate {
-//  func didAddGoal(goal: String, firstTask: String, secondTask: String, thirdTask: String)
-//}
-
 // revised protocol
 protocol CreateNewGoalControllerDelegate {
-  func didAddGoal(success: Bool)
   func goalPassBack(goal: String, todo1: String, todo2: String, todo3: String)
 }
 
@@ -250,15 +244,15 @@ class CreateNewGoalController: UIViewController {
     
     // original call delegate to create new Focus item, and dismiss view
 //    delegate?.didAddGoal(goal: goalName, firstTask: todoItem1, secondTask: todoItem2, thirdTask: todoItem3)
-    CoreDataController.shared.addNewGoal(goal: goalName, firstTask: todoItem1, secondTask: todoItem2, thirdTask: todoItem3)
-
-    dismiss(animated: true, completion: nil)
-    // new delegate method
-    delegate?.didAddGoal(success: true)
- 
-    //  to dismiss to other view controller, not tried yet self.view.window!.rootViewController?.presentedViewController?.dismiss(animated: true, completion: nil)
+ //   CoreDataController.shared.addNewGoal(goal: goalName, firstTask: todoItem1, secondTask: todoItem2, thirdTask: todoItem3)
 
     
+    delegate?.goalPassBack(goal: goalName, todo1: todoItem1, todo2: todoItem2, todo3: todoItem3)
+    dismiss(animated: true, completion: nil)
+// new delegate method
+//    delegate?.didAddGoal(success: true)
+ 
+//  to dismiss to other view controller, not tried yet self.view.window!.rootViewController?.presentedViewController?.dismiss(animated: true, completion: nil)
   }
   
   // show dialog if goal/task are input improperly

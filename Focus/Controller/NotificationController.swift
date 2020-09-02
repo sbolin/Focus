@@ -15,13 +15,18 @@ enum NotificationType {
 }
 
 // original inherited from NSObject, change to UIViewController so can present new goal view
-class NotificationController: UIViewController, UNUserNotificationCenterDelegate {
+class NotificationController: NSObject, UNUserNotificationCenterDelegate {
  
   //MARK: - Properties
-  let identifier = "FocusNotification"
+  private let identifier = "FocusNotification"
+  
+  // closure for creating new Focus item
+//  typealias StateHandler = (Bool) -> Void
+  var handler: ((Bool) -> Void)?
   
   //MARK: - Notification when Tasks/Goal is completed
   func manageLocalNotification() {
+    print("NS: manageLocalNotification")
     
     // check if notifications are still authorized
     checkNotificationStatus()
@@ -56,87 +61,13 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
     // schedule (or remove) reminders
     setupNotification(title: title, subtitle: subtitle, body: body, notificationType: type)
   }
- 
-  //MARK: - Schedule Notification
-  private func setupNotification(title: String?, subtitle: String?, body: String?, notificationType: NotificationType) {
-
-    registerCategory(notificationType: notificationType)
-    let center = UNUserNotificationCenter.current()
-    //remove previously scheduled notifications
-    center.removeDeliveredNotifications(withIdentifiers: [identifier])
-//    center.removeAllPendingNotificationRequests()
-    
-    // need to set so goes off at 8am each day
-    var dateComponents = DateComponents()
-    dateComponents.hour = 8
-    dateComponents.minute = 00
-    
-    // create trigger
-    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-    
-    #if DEBUG
-    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-    #endif
-    
-    // set up notification content
-    if let newTitle = title, let newBody = body {
-      //create content
-      let content = UNMutableNotificationContent()
-      content.title = newTitle
-      content.subtitle = "Focus!"
-      content.body = newBody
-      content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber // Increment not specifically needed in this app (as only 1 notification exists at a time).
-      content.categoryIdentifier = identifier
-//      content.userInfo = ["customData": "Custom Data"] // not used
-      content.sound = UNNotificationSound.default
-      
-      // Add logo image as attachment
-      if let path = Bundle.main.path(forResource:"Icon", ofType:"png") {
-        let url = URL(fileURLWithPath: path)
-        do {
-          let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: .none)
-          content.attachments = [attachment]
-        } catch {
-          print("The attachment was not loaded.")
-        }
-      }
-      
-      // create request
-      let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-      
-      #if DEBUG
-      let request2 = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger2)
-      #endif
-      
-      // schedule notification
-      center.add(request, withCompletionHandler: nil)
-      
-      #if DEBUG
-      center.add(request2, withCompletionHandler: nil)
-      #endif
-    }
-  }
-  
-  func registerCategory(notificationType: NotificationType) {
-    let center = UNUserNotificationCenter.current()
-    center.delegate = self
-    switch notificationType {
-    case .completeGoal:
-      let newGoal = UNNotificationAction(identifier: "New Goal", title: "Enter New Goal", options: .foreground)
-      let category = UNNotificationCategory(identifier: identifier, actions: [newGoal], intentIdentifiers: [], options: .customDismissAction)
-      center.setNotificationCategories([category])
-    case .incompleteGoal:
-      let newGoal = UNNotificationAction(identifier: "New Goal", title: "Enter Goal", options: .foreground)
-      let oldGoal = UNNotificationAction(identifier: "Previous Goal", title: "Use Previous Goal", options: .foreground)
-      let category = UNNotificationCategory(identifier: identifier, actions: [oldGoal, newGoal], intentIdentifiers: [], options: .customDismissAction)
-      center.setNotificationCategories([category])
-    }
-  }
   
   //MARK: - Check Notification Status, user could have changed it.
   private func checkNotificationStatus() {
+    print("NS: checkNotificationStatus")
     let center = UNUserNotificationCenter.current()
     
+    // print any pending requests (for testing only - not needed)
     center.getPendingNotificationRequests { (notifications) in
       print("Notification Count: \(notifications.count)")
       for item in notifications {
@@ -152,7 +83,7 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
         // Not Authorized anymore, request authorization again.
         center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
           if granted {
-            print("Please allow notifications for Focus. You can always change notification settings later in the Settings App.")
+            print("Notifications Granted. You can always change notification settings later in the Settings App.")
           }
           else {
             print("Without Notifications Focus cannot send you reminders. You can always change notification settings later in the Settings App.")
@@ -161,10 +92,141 @@ class NotificationController: UIViewController, UNUserNotificationCenterDelegate
       }
     }
   }
-  
-  // move UNUserNotificationCenterDelegate methods to TodayViewController
+ 
+  //MARK: - Schedule Notification
+  private func setupNotification(title: String?, subtitle: String?, body: String?, notificationType: NotificationType) {
+print("NS: setupNotification")
+    registerCategory(notificationType: notificationType)
+    let center = UNUserNotificationCenter.current()
+    //remove previously scheduled notifications
+    center.removeDeliveredNotifications(withIdentifiers: [identifier])
+    
+    // need to set so goes off at 8am each day
+    var dateComponents = DateComponents()
+    dateComponents.hour = 8
+    dateComponents.minute = 00
+    
+    // create trigger
+    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+    
+    #if DEBUG
+    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+    #endif
+    
+    // set up notification content
+    if let newTitle = title, let newBody = body, let subtitle = subtitle {
+      //create content
+      let content = UNMutableNotificationContent()
+      content.title = newTitle
+      content.subtitle = subtitle
+      content.body = newBody
+      content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber // Increment not specifically needed in this app (as only 1 notification exists at a time).
+      content.categoryIdentifier = identifier
+//      content.userInfo = ["customData": "Custom Data"] // not used
 
-  func didAddGoal(success: Bool) {
-    print("New Goal Created")
+      content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "Cheer.aiff"))
+
+      /*
+      // Add logo image as attachment
+      if let path = Bundle.main.path(forResource:"Icon", ofType:"png") {
+        let url = URL(fileURLWithPath: path)
+        do {
+          let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: .none)
+          content.attachments = [attachment]
+        } catch {
+          print("The attachment was not loaded.")
+        }
+      }
+      */
+      
+      
+      // create request
+      let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+      
+      #if DEBUG
+      let request2 = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger2)
+      #endif
+      
+      // schedule notification
+      center.add(request) { (error) in
+        if let error = error {
+          print("Request 1 Error: \(error.localizedDescription)")
+        } else {
+          print("Request 1 Scheduled notification")
+        }
+      }
+      #if DEBUG
+      center.add(request2) { (error) in
+        if let error = error {
+          print("Request 2 Error: \(error.localizedDescription)")
+        } else {
+          print("Request 2 Scheduled notification")
+        }
+      }
+      #endif
+    }
+  }
+  
+  func registerCategory(notificationType: NotificationType) {
+    print("NS: registerCategory")
+    let center = UNUserNotificationCenter.current()
+    center.delegate = self
+    switch notificationType {
+    case .completeGoal:
+      let newGoal = UNNotificationAction(identifier: "CREATE_GOAL",
+                                         title: "Create New Focus Goal and Tasks",
+                                         options: .foreground)
+      let category = UNNotificationCategory(identifier: identifier,
+                                            actions: [newGoal],
+                                            intentIdentifiers: [],
+                                            options: .customDismissAction)
+      center.setNotificationCategories([category])
+    
+    case .incompleteGoal:
+      let newGoal = UNNotificationAction(identifier: "CREATE_GOAL",
+                                         title: "Create New Focus Goal and Tasks",
+                                         options: .foreground)
+      let oldGoal = UNNotificationAction(identifier: "USE_PREVIOUS",
+                                         title: "Contiue using previous Focus",
+                                         options: .foreground)
+      let category = UNNotificationCategory(identifier: identifier,
+                                            actions: [oldGoal, newGoal],
+                                            intentIdentifiers: [],
+                                            options: .customDismissAction)
+      center.setNotificationCategories([category])
+    }
+  }
+  // Show notification when Focus.app is active
+  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    // Show the banner in-app
+    completionHandler([.alert, .sound])
+  }
+  
+  // handle notifications
+  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    
+    switch response.actionIdentifier {
+      
+    case UNNotificationDefaultActionIdentifier:
+      // the user swiped to unlock
+      print("Default identifier")
+      
+    case "CREATE_GOAL":
+      // call closure handler to create goal
+      handler?(true)
+      print("Create new Goal")
+      break
+      
+    case "USE_PREVIOUS":
+      // user tapped "Use Previous Goal"
+      print("Use Previous Goal")
+      break
+      
+    default:
+      break
+    }
+    // call the completion handler
+    completionHandler()
+    UIApplication.shared.applicationIconBadgeNumber = 0
   }
 }

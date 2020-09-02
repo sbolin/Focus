@@ -15,7 +15,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   let todayViewdelegate = TodayViewDelegate()
   var dataSource: TodayViewDataSource<ToDo, TodayViewController>!
   var fetchedResultsController: NSFetchedResultsController<ToDo>!
-  let notification = NotificationController()
+  private let notification = NotificationController()
   
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
@@ -31,6 +31,18 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     setupToDoTableView()
     registerForKeyboardNotifications()
     notification.manageLocalNotification()
+    
+    // closure method:
+    notification.handler = { [weak self] bool in
+      print("in notification handler, \(bool)")
+      if bool {
+        let createFocusGoal = CreateNewGoalController()
+        createFocusGoal.delegate = self
+        createFocusGoal.setupNavBar()
+        let navController = UINavigationController(rootViewController: createFocusGoal)
+        self?.present(navController, animated: true, completion: nil)
+      }
+    }
   }
 
   //MARK: - Setup tableview to show last note
@@ -53,15 +65,6 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     }
     dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedResultsController, delegate: self)
   }
-  
-  func createFocusGoalView() {
-    let createFocusGoal = CreateNewGoalController()
-    createFocusGoal.delegate = self
-    createFocusGoal.setupNavBar()
-    let navController = UINavigationController(rootViewController: createFocusGoal)
-    present(navController, animated: true, completion: nil)
-  }
-  
   
   //MARK:- Notification Functions for keyboard
   func registerForKeyboardNotifications() {
@@ -97,45 +100,9 @@ extension TodayViewController: TodayViewDataSourceDelegate {
 
 //MARK: - UNUserNotificationCenterDelegate methods
 extension TodayViewController: UNUserNotificationCenterDelegate {
-  
-  // Show notification when Focus.app is active
-  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    // Show the banner in-app
-    completionHandler([.alert, .sound])
-  }
-  
-  // handle notifications
-  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    
-    switch response.actionIdentifier {
-      
-    case UNNotificationDefaultActionIdentifier:
-      // the user swiped to unlock
-      print("Default identifier")
-      
-    case "New Goal":
-      createFocusGoalView()
-      
-    case "Previous Goal":
-      // user tapped "Use Previous Goal"
-      print("Use Previous Goal")
-      todayTableView.reloadData()
-      
-    default:
-      break
-    }
-    //    }
-    // call the completion handler
-    completionHandler()
-    UIApplication.shared.applicationIconBadgeNumber = 0
-  }
-  
   //CreateNewGoalController Delegate method
-  func didAddGoal(success: Bool) {
-    print("Goal added: \(success)")
-  }
-  
   func goalPassBack(goal: String, todo1: String, todo2: String, todo3: String) {
     CoreDataController.shared.addNewGoal(goal: goal, firstTask: todo1, secondTask: todo2, thirdTask: todo3)
+    todayTableView.reloadData()
   }
 }
