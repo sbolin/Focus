@@ -118,12 +118,13 @@ final class FocusTests: XCTestCase {
     newGoal.goalCompleted = false
     newGoal.goalDateCreated = Date()
     
+    
     expectation(forNotification: .NSManagedObjectContextDidSave, object: mockStack.managedContext) { _ in
       return true
     }
     derivedContext.perform {
       // create goal
-      self.mockStack.addNewGoal(title: newGoal.goal)
+      self.mockStack.addNewGoal(goal: newGoal.goal, firstTask: "", secondTask: "", thirdTask: "")
       XCTAssertNotNil(newGoal)
     }
     waitForExpectations(timeout: 1.0) { error in
@@ -135,7 +136,7 @@ final class FocusTests: XCTestCase {
   func testAddNewGoal() {
     let goalTitle = "Goal 2"
     // create goal
-    MockCoreDataController.shared.addNewGoal(title: goalTitle)
+    MockCoreDataController.shared.addNewGoal(goal: goalTitle, firstTask: "", secondTask: "", thirdTask: "")
     
     // fetch same goal
     let allToDo = fetchedResultsController.fetchedObjects

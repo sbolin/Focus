@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Aaw-6S-f42">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Aaw-6S-f42">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -98,7 +99,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 Sep 20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1y6-Eh-sYy">
                                                     <rect key="frame" x="307" y="18" width="60" height="14.5"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="hnk-Eb-jpb"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="hnk-Eb-jpb"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -113,6 +114,7 @@
                                                 <constraint firstItem="DK9-60-XEP" firstAttribute="leading" secondItem="8Nt-8z-Sph" secondAttribute="leading" constant="8" id="IVD-wI-yxx"/>
                                                 <constraint firstItem="DK9-60-XEP" firstAttribute="centerY" secondItem="8Nt-8z-Sph" secondAttribute="centerY" id="NKt-aZ-9un"/>
                                                 <constraint firstItem="kRL-OA-d62" firstAttribute="top" secondItem="8Nt-8z-Sph" secondAttribute="top" constant="5" id="Xs1-cs-JuP"/>
+                                                <constraint firstItem="1y6-Eh-sYy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DK9-60-XEP" secondAttribute="trailing" constant="8" symbolic="YES" id="a0S-Hc-5zW"/>
                                                 <constraint firstAttribute="bottom" secondItem="kRL-OA-d62" secondAttribute="bottom" constant="5" id="fRz-aj-9DA"/>
                                                 <constraint firstItem="kRL-OA-d62" firstAttribute="leading" secondItem="DK9-60-XEP" secondAttribute="trailing" constant="8" id="nnM-Jw-3s0"/>
                                             </constraints>
@@ -146,7 +148,7 @@
                                                         <constraint firstAttribute="width" constant="32" id="yAy-tp-GZq"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="tintColor" name="AppOrange"/>
                                                     <state key="normal" image="fav_star">
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="light"/>
                                                     </state>
@@ -157,7 +159,7 @@
                                                         <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
                                                     </accessibility>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="1os-gJ-1CR"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="1os-gJ-1CR"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -167,6 +169,7 @@
                                             <constraints>
                                                 <constraint firstItem="NFQ-sC-Def" firstAttribute="leading" secondItem="Vte-G2-7Hr" secondAttribute="trailing" constant="8" id="OMs-Vn-Bvv"/>
                                                 <constraint firstAttribute="bottom" secondItem="NFQ-sC-Def" secondAttribute="bottom" constant="4" id="PHf-aI-pCX"/>
+                                                <constraint firstItem="Hha-SW-YzG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Vte-G2-7Hr" secondAttribute="trailing" constant="8" symbolic="YES" id="Sl3-5S-OMZ"/>
                                                 <constraint firstItem="Vte-G2-7Hr" firstAttribute="leading" secondItem="e3s-dD-Vcv" secondAttribute="leading" constant="24" id="ZXe-yZ-wRh"/>
                                                 <constraint firstItem="NFQ-sC-Def" firstAttribute="top" secondItem="e3s-dD-Vcv" secondAttribute="top" constant="4" id="eKj-6M-7kY"/>
                                                 <constraint firstItem="NFQ-sC-Def" firstAttribute="centerY" secondItem="e3s-dD-Vcv" secondAttribute="centerY" id="hHS-v6-zWk"/>
@@ -220,7 +223,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FocusOn! Today" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ApQ-2h-YrP">
                                         <rect key="frame" x="110" y="45" width="155" height="27"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                        <color key="textColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" name="AppOrange"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -259,7 +262,7 @@
                                                         <constraint firstAttribute="width" constant="44" id="SQZ-ZJ-1vb"/>
                                                         <constraint firstAttribute="height" constant="44" id="X5a-L0-dn0"/>
                                                     </constraints>
-                                                    <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="tintColor" name="LightOrange"/>
                                                     <state key="normal" image="fav_star">
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="semibold"/>
                                                     </state>
@@ -267,13 +270,13 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Goal for the day to focus on:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVi-EE-Fo0">
                                                     <rect key="frame" x="6" y="1" width="169" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
-                                                    <color key="textColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="AppOrange"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 Tasks to achieve your goal:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A1L-ht-h4V">
                                                     <rect key="frame" x="6" y="73" width="172" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
-                                                    <color key="textColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="AppOrange"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -306,7 +309,7 @@
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fNV-0u-nl3">
                                                     <rect key="frame" x="8" y="8.5" width="32" height="31"/>
-                                                    <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="tintColor" name="AppOrange"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="32" id="Ob0-nH-72h"/>
                                                         <constraint firstAttribute="width" constant="32" id="j06-4q-mS0"/>
@@ -326,7 +329,7 @@
                                                         <constraint firstAttribute="width" constant="32" id="4QD-Th-Xg7"/>
                                                         <constraint firstAttribute="height" constant="32" id="Nbk-RK-fNM"/>
                                                     </constraints>
-                                                    <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="tintColor" name="AppOrange"/>
                                                     <state key="normal" image="fav_star">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="light"/>
@@ -403,7 +406,7 @@
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yWA-fh-S7E">
                                 <rect key="frame" x="10.5" y="100" width="354" height="32"/>
-                                <color key="backgroundColor" red="1" green="0.92500000000000004" blue="0.84999999999999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" name="LightOrange"/>
                                 <segments>
                                     <segment title="Week" width="70"/>
                                     <segment title="Month" width="70"/>
@@ -431,7 +434,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Progress Summary" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rMk-Y3-Ee4">
                                 <rect key="frame" x="108" y="582" width="159" height="22"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
-                                <color key="textColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" name="AppOrange"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -472,7 +475,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="selectedImageTintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" name="AppOrange"/>
                     </tabBar>
                     <connections>
                         <outlet property="mainTabBar" destination="FdE-DZ-xTl" id="6Jw-Bx-iYp"/>
@@ -495,5 +498,11 @@
         <image name="fav_star" width="25" height="23.5"/>
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="list.dash" catalog="system" width="128" height="85"/>
+        <namedColor name="AppOrange">
+            <color red="1" green="0.58399999141693115" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="LightOrange">
+            <color red="1" green="0.83529411764705885" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

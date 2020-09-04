@@ -32,17 +32,25 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     registerForKeyboardNotifications()
     notification.manageLocalNotification()
     
-    // closure method:
-    notification.handler = { [weak self] bool in
-      print("in notification handler, \(bool)")
+    // Call CreateNewGoalController using closure:
+    notification.handleGoalTapped = { [weak self] bool in
       if bool {
+        // bool = true: create new goal
         let createFocusGoal = CreateNewGoalController()
         createFocusGoal.delegate = self
         createFocusGoal.setupNavBar()
         let navController = UINavigationController(rootViewController: createFocusGoal)
         self?.present(navController, animated: true, completion: nil)
+      } else {
+        // bool = false: reload todayTableView
+        self?.todayTableView.reloadData()
       }
     }
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    notification.manageLocalNotification()
   }
 
   //MARK: - Setup tableview to show last note

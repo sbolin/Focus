@@ -21,12 +21,10 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
   private let identifier = "FocusNotification"
   
   // closure for creating new Focus item
-//  typealias StateHandler = (Bool) -> Void
-  var handler: ((Bool) -> Void)?
+  var handleGoalTapped: ((Bool) -> Void)?
   
   //MARK: - Notification when Tasks/Goal is completed
   func manageLocalNotification() {
-    print("NS: manageLocalNotification")
     
     // check if notifications are still authorized
     checkNotificationStatus()
@@ -64,14 +62,13 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
   
   //MARK: - Check Notification Status, user could have changed it.
   private func checkNotificationStatus() {
-    print("NS: checkNotificationStatus")
     let center = UNUserNotificationCenter.current()
     
     // print any pending requests (for testing only - not needed)
     center.getPendingNotificationRequests { (notifications) in
       print("Notification Count: \(notifications.count)")
       for item in notifications {
-        print(item.content)
+        print("item: \(item), content: \(item.content)")
       }
     }
     
@@ -95,7 +92,6 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
  
   //MARK: - Schedule Notification
   private func setupNotification(title: String?, subtitle: String?, body: String?, notificationType: NotificationType) {
-print("NS: setupNotification")
     registerCategory(notificationType: notificationType)
     let center = UNUserNotificationCenter.current()
     //remove previously scheduled notifications
@@ -120,7 +116,7 @@ print("NS: setupNotification")
       content.title = newTitle
       content.subtitle = subtitle
       content.body = newBody
-      content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber // Increment not specifically needed in this app (as only 1 notification exists at a time).
+      content.badge = 1 as NSNumber // Increment not specifically needed in this app (as only 1 notification exists at a time).
       content.categoryIdentifier = identifier
 //      content.userInfo = ["customData": "Custom Data"] // not used
 
@@ -152,7 +148,7 @@ print("NS: setupNotification")
         if let error = error {
           print("Request 1 Error: \(error.localizedDescription)")
         } else {
-          print("Request 1 Scheduled notification")
+          print("Request 1 notification scheduled")
         }
       }
       #if DEBUG
@@ -160,7 +156,7 @@ print("NS: setupNotification")
         if let error = error {
           print("Request 2 Error: \(error.localizedDescription)")
         } else {
-          print("Request 2 Scheduled notification")
+          print("Request 2 notification scheduled")
         }
       }
       #endif
@@ -168,7 +164,6 @@ print("NS: setupNotification")
   }
   
   func registerCategory(notificationType: NotificationType) {
-    print("NS: registerCategory")
     let center = UNUserNotificationCenter.current()
     center.delegate = self
     switch notificationType {
@@ -209,17 +204,17 @@ print("NS: setupNotification")
       
     case UNNotificationDefaultActionIdentifier:
       // the user swiped to unlock
+      handleGoalTapped?(false)
       print("Default identifier")
       
     case "CREATE_GOAL":
       // call closure handler to create goal
-      handler?(true)
-      print("Create new Goal")
+      handleGoalTapped?(true)
       break
       
     case "USE_PREVIOUS":
       // user tapped "Use Previous Goal"
-      print("Use Previous Goal")
+      handleGoalTapped?(false)
       break
       
     default:
