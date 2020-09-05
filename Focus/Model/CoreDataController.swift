@@ -235,14 +235,14 @@ class CoreDataController {
     let taskName = [firstTask, secondTask, thirdTask]
     let newgoal = Goal(context: managedContext)
     newgoal.goal = goal
-    newgoal.goalDateCreated = Date().startOfDay(for: Date())
+    newgoal.goalDateCreated = Date() //.startOfDay(for: Date())
     newgoal.goalDateCompleted = nil
     newgoal.goalCompleted = false
     for i in 0...(globalState.numberofTasks - 1) {
       let associatedTodo = ToDo(context: managedContext)
       associatedTodo.todo = taskName[i]
       associatedTodo.id = UUID()
-      associatedTodo.todoDateCreated = Date().startOfDay(for: Date())
+      associatedTodo.todoDateCreated = Date() //.startOfDay(for: Date())
       associatedTodo.todoCompleted = false
       newgoal.todos.insert(associatedTodo)
     }

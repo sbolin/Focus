@@ -30,6 +30,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     todayTableView.delegate = todayViewdelegate
     setupToDoTableView()
     registerForKeyboardNotifications()
+    checkNotificationStatus()
     notification.manageLocalNotification()
     
     // Call CreateNewGoalController using closure:
@@ -112,5 +113,42 @@ extension TodayViewController: UNUserNotificationCenterDelegate {
   func goalPassBack(goal: String, todo1: String, todo2: String, todo3: String) {
     CoreDataController.shared.addNewGoal(goal: goal, firstTask: todo1, secondTask: todo2, thirdTask: todo3)
     todayTableView.reloadData()
+  }
+}
+
+//MARK: - Check Notification Status, user could have changed it.
+extension TodayViewController {
+  private func checkNotificationStatus() {
+    let center = UNUserNotificationCenter.current()
+    center.getNotificationSettings { (settings : UNNotificationSettings) in
+      if settings.authorizationStatus == .authorized {
+        // Still Authorized, no need to do anything
+        return
+      } else {
+        // Not Authorized anymore, request authorization again.
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+          if granted {
+            print("Notifications Granted. You can always change notification settings later in the Settings App.")
+          }
+          else {
+            let defaultAction = UIAlertAction(title: "OK",
+                                              style: .default) { (action) in
+                                                // Respond to user selection of the action.
+            }
+            
+            // Create and configure the alert controller.
+            let alert = UIAlertController(title: "User Notifications",
+                                          message: "Turn on notifications to unlock special superpowers.",
+                                          preferredStyle: .alert)
+            alert.addAction(defaultAction)
+            
+            self.present(alert, animated: true) {
+              // The alert was presented
+            }
+            print("Without Notifications Focus cannot send you reminders. You can always change notification settings later in the Settings App.")
+          }
+        }
+      }
+    }
   }
 }

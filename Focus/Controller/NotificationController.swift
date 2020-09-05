@@ -20,14 +20,11 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
   //MARK: - Properties
   private let identifier = "FocusNotification"
   
-  // closure for creating new Focus item
+  // closure for creating new Focus item (true) or presenting previous (false)
   var handleGoalTapped: ((Bool) -> Void)?
   
   //MARK: - Notification when Tasks/Goal is completed
   func manageLocalNotification() {
-    
-    // check if notifications are still authorized
-    checkNotificationStatus()
     
     // Get Goal statistics
     let statTimePeriod = StatTimePeriod.lastday
@@ -37,6 +34,7 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     // ToDo Statistics properties
     let todoTotal = statistics.todoCount[0]
     let todoIncomplete = statistics.todoIncomplete[0]
+    let todoComplete = todoTotal - todoIncomplete
     
     // notification setup
     var title = String()
@@ -47,47 +45,17 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     if todoIncomplete == 0 { // Focus goal completed
       type = NotificationType.completeGoal
       title = "Focus Goal Complete 🎉"
-      subtitle = "Today's Goal and Tasks completed"
+      subtitle = "Congratulations! Today's Focus Goal and Tasks were completed."
       body = "Add a new Focus Goal and Tasks 🙂"
 
     } else { // tasks remain
       type = NotificationType.incompleteGoal
-      title = "Focus Goal not complete"
-      subtitle = "Add new Goal or Use Yesterday's?"
-      body = "You have \(todoIncomplete) tasks out of \(todoTotal) to go!"
+      title = "Focus Goal not completed yet 🥺"
+      subtitle = "Keep trying 👊! Add a new Focus or use yesterdays?"
+      body = "You completed \(todoComplete) out of \(todoTotal) tasks!"
     }
     // schedule (or remove) reminders
     setupNotification(title: title, subtitle: subtitle, body: body, notificationType: type)
-  }
-  
-  //MARK: - Check Notification Status, user could have changed it.
-  private func checkNotificationStatus() {
-    let center = UNUserNotificationCenter.current()
-    
-    // print any pending requests (for testing only - not needed)
-    center.getPendingNotificationRequests { (notifications) in
-      print("Notification Count: \(notifications.count)")
-      for item in notifications {
-        print("item: \(item), content: \(item.content)")
-      }
-    }
-    
-    center.getNotificationSettings { (settings : UNNotificationSettings) in
-      if settings.authorizationStatus == .authorized {
-        // Still Authorized, no need to do anything
-        return
-      } else {
-        // Not Authorized anymore, request authorization again.
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-          if granted {
-            print("Notifications Granted. You can always change notification settings later in the Settings App.")
-          }
-          else {
-            print("Without Notifications Focus cannot send you reminders. You can always change notification settings later in the Settings App.")
-          }
-        }
-      }
-    }
   }
  
   //MARK: - Schedule Notification
