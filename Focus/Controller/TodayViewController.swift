@@ -25,13 +25,11 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   //MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    // for initial checks of App, will be deleted in final app.
-    CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
     todayTableView.delegate = todayViewdelegate
     setupToDoTableView()
     registerForKeyboardNotifications()
     checkNotificationStatus()
-    notification.manageLocalNotification()
+//    notification.manageLocalNotification()
     
     // Call CreateNewGoalController using closure:
     notification.handleGoalTapped = { [weak self] bool in
@@ -47,11 +45,6 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
         self?.todayTableView.reloadData()
       }
     }
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    notification.manageLocalNotification()
   }
 
   //MARK: - Setup tableview to show last note
@@ -100,10 +93,12 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
 extension TodayViewController: TodayViewDataSourceDelegate {
   func configureTodayTask(at indexPath: IndexPath, _ cell: TodayToDoCell, for object: ToDo) {
     cell.configureTodayTaskCell(at: indexPath, for: object)
+    notification.manageLocalNotification()
   }
   
   func configureTodayGoal(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal) {
     cell.configureTodayGoalCell(at: indexPath, for: object)
+    notification.manageLocalNotification()
   }
 }
 
@@ -113,6 +108,7 @@ extension TodayViewController: UNUserNotificationCenterDelegate {
   func goalPassBack(goal: String, todo1: String, todo2: String, todo3: String) {
     CoreDataController.shared.addNewGoal(goal: goal, firstTask: todo1, secondTask: todo2, thirdTask: todo3)
     todayTableView.reloadData()
+    notification.manageLocalNotification()
   }
 }
 

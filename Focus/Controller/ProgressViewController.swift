@@ -44,7 +44,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     statTimePeriod = StatTimePeriod.lastweek
-    statistics = statFactory.stats(statType: statTimePeriod)
+    statistics = getStats(timePeriod: statTimePeriod)
     setupData(statistics: statistics)
     setupChart()
     updateChart()
@@ -56,29 +56,30 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     switch sender.selectedSegmentIndex {
     case 0:
       statTimePeriod = StatTimePeriod.lastweek
-      statistics = statFactory.stats(statType: statTimePeriod)
+//      statistics = statFactory.stats(statType: statTimePeriod)
       
     case 1:
       statTimePeriod = StatTimePeriod.lastmonth
-      statistics = statFactory.stats(statType: statTimePeriod)
+ //     statistics = statFactory.stats(statType: statTimePeriod)
       
     case 2:
       statTimePeriod = StatTimePeriod.lastSixMonths
-      statistics = statFactory.stats(statType: statTimePeriod)
+//      statistics = statFactory.stats(statType: statTimePeriod)
 
     case 3:
       statTimePeriod = StatTimePeriod.lastYear
-      statistics = statFactory.stats(statType: statTimePeriod)
+//      statistics = statFactory.stats(statType: statTimePeriod)
       
     case 4:
       statTimePeriod = StatTimePeriod.all
-      statistics = statFactory.stats(statType: statTimePeriod)
+//      statistics = statFactory.stats(statType: statTimePeriod)
 
     default:
       break
-      
+
     }
     // setup data and chart
+    statistics = getStats(timePeriod: statTimePeriod)
     zeroData()
     setupData(statistics: statistics)
     setupChart()
@@ -258,5 +259,9 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     goalIncompleteData = [Double]()
     goalDurationData = [Double]()
 
+  }
+  // get statistics for given timePeriod
+  func getStats(timePeriod: StatTimePeriod) -> Statistics {
+    return statFactory.stats(statType: statTimePeriod)
   }
 }

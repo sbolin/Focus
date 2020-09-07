@@ -20,7 +20,24 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
   //MARK: - Properties
   private let identifier = "FocusNotification"
   
-  // closure for creating new Focus item (true) or presenting previous (false)
+// Get Goal statistics
+//  let statTimePeriod = StatTimePeriod.lastday
+//  let statFactory = StatisticsFactory()
+//  var statistics: Statistics = {
+//    StatisticsFactory().stats(statType: StatTimePeriod.lastday)
+//  }()
+//
+//  // ToDo Statistics properties
+//  var todoTotal: Int = {
+//    StatisticsFactory().stats(statType: StatTimePeriod.lastday).todoCount[0]
+//  }()
+//
+//  var todoIncomplete: Int = {
+//    StatisticsFactory().stats(statType: StatTimePeriod.lastday).todoIncomplete[0]
+//  }()
+//
+  
+// closure for creating new Focus item (true) or presenting previous (false)
   var handleGoalTapped: ((Bool) -> Void)?
   
   //MARK: - Notification when Tasks/Goal is completed
@@ -56,6 +73,13 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     }
     // schedule (or remove) reminders
     setupNotification(title: title, subtitle: subtitle, body: body, notificationType: type)
+    //
+    print("NotificationManager Fired")
+    print("Title: \(title)")
+    print("Subtitle: \(subtitle)")
+    print("Body: \(body)")
+    print("Type: \(type)")
+    //
   }
  
   //MARK: - Schedule Notification

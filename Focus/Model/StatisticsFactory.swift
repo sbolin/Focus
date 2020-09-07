@@ -129,7 +129,6 @@ class StatisticsFactory {
     } catch {
       print("Fetch frc2 failed")
     }
-    
     let todoSections = frc1.sections?.count ?? 0
     for section in 0...(todoSections - 1) {
       let sectionName = frc1.sections?[section].name ?? "No Section"
