@@ -238,7 +238,7 @@ class CoreDataController {
     newgoal.goalDateCreated = Date() //.startOfDay(for: Date())
     newgoal.goalDateCompleted = nil
     newgoal.goalCompleted = false
-    for i in 0...(globalState.numberofTasks - 1) {
+    for i in 0...(globalState.numberOfTasks - 1) {
       let associatedTodo = ToDo(context: managedContext)
       associatedTodo.todo = taskName[i]
       associatedTodo.id = UUID()

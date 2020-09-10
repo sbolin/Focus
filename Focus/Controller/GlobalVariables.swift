@@ -11,8 +11,8 @@
 import Foundation
 
 struct globalState {
-  static let numberofTasks: Int = 3
+  static let numberOfTasks: Int = 3
   static let numberOfGoals: Int = 1
-  static let numberofSummaryCells: Int = 1
+  static let numberOfSummaryCells: Int = 1
 }
 

@@ -26,6 +26,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     todayTableView.delegate = todayViewdelegate
+    checkFirstRun()
     setupToDoTableView()
     registerForKeyboardNotifications()
     checkNotificationStatus()
@@ -46,6 +47,23 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
       }
     }
   }
+  //MARK: - Check first run status
+  func checkFirstRun() {
+    let launchedBefore = UserDefaults.standard.bool(forKey: "First Launch")
+    if launchedBefore  {
+      print("Previously launched, do nothing.")
+    } else {
+      print("First launch, setting default Focus items.")
+      UserDefaults.standard.set(true, forKey: "First Launch")
+      // for now, create tasks. Later,
+      CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
+      // create Focus Goal/Tasks on first lauch:
+      let createFocusGoal = CreateNewGoalController()
+      createFocusGoal.setupNavBar()
+      let navController = UINavigationController(rootViewController: createFocusGoal)
+      self.present(navController, animated: true, completion: nil)
+    }
+  }
 
   //MARK: - Setup tableview to show last note
   func setupToDoTableView() {
@@ -57,7 +75,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     let todoCreatedAtDescriptor = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
     let todoDescriptor = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
     fetchedResultsController.fetchRequest.sortDescriptors = [todoCreatedAtDescriptor, todoDescriptor]
-    fetchedResultsController.fetchRequest.fetchLimit = globalState.numberofTasks
+    fetchedResultsController.fetchRequest.fetchLimit = globalState.numberOfTasks
     
     do {
       try fetchedResultsController.performFetch()

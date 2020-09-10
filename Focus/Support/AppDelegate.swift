@@ -14,16 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     
-    let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
-    if launchedBefore  {
-      print("Previously launched, do nothing.")
-    } else {
-      print("First launch, setting default Focus items.")
-      UserDefaults.standard.set(true, forKey: "launchedBefore")
-      // for now, create tasks. Later,
-      CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
-    }
-    
     return true
   }
   
