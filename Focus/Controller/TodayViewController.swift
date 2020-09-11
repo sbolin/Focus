@@ -19,7 +19,8 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
-  @IBOutlet weak var taskToAchieveLabel: UILabel!
+//  @IBOutlet weak var taskToAchieveLabel: UILabel!
+  @IBOutlet weak var createFocus: UIButton!
   
   
   //MARK: - View Life Cycle
@@ -49,19 +50,20 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   }
   //MARK: - Check first run status
   func checkFirstRun() {
-    let launchedBefore = UserDefaults.standard.bool(forKey: "First Launch")
+    let launchedBefore = UserDefaults.standard.bool(forKey: "Launched Before")
     if launchedBefore  {
       print("Previously launched, do nothing.")
     } else {
       print("First launch, setting default Focus items.")
-      UserDefaults.standard.set(true, forKey: "First Launch")
-      // for now, create tasks. Later,
-      CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
-      // create Focus Goal/Tasks on first lauch:
-      let createFocusGoal = CreateNewGoalController()
-      createFocusGoal.setupNavBar()
-      let navController = UINavigationController(rootViewController: createFocusGoal)
-      self.present(navController, animated: true, completion: nil)
+      // set user defaults to true (Launched Before = true)
+      UserDefaults.standard.set(true, forKey: "Launched Before")
+      // create blank todo to start:
+      let goal = "New Focus Goal"
+      let task1 = "First Task"
+      let task2 = "Second Task"
+      let task3 = "Third Task"
+      CoreDataController.shared.addNewGoal(goal: goal, firstTask: task1, secondTask: task2, thirdTask: task3)
+      todayTableView.reloadData()
     }
   }
 
@@ -105,6 +107,12 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
 //    no need to adjust keyboard in TodayView, enough space below table
 //    todayTableView.contentInset.bottom = targetHeight
   }
+  
+  @IBAction func createFocusTapped(_ sender: UIButton) {
+    CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
+    todayTableView.reloadData()
+  }
+  
 }
 
 //MARK: - Delegate Methods

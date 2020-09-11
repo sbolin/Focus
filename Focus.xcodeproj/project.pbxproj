@@ -14,6 +14,7 @@
 		1509A1552466700400FF01A1 /* UIButton+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A1542466700400FF01A1 /* UIButton+Actions.swift */; };
 		1509A18D246EA70700FF01A1 /* HistorySummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A18C246EA70700FF01A1 /* HistorySummaryCell.swift */; };
 		1509A197246F011C00FF01A1 /* TodayViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509A196246F011C00FF01A1 /* TodayViewDataSource.swift */; };
+		1511BBD9250BA32500F48C6B /* FirstRunController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1511BBD8250BA32500F48C6B /* FirstRunController.swift */; };
 		1537413924EBEC7000D9B2EE /* StatisticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1537413824EBEC7000D9B2EE /* StatisticsTests.swift */; };
 		1537413F24EE1BC800D9B2EE /* ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1537413E24EE1BC800D9B2EE /* ValidationTests.swift */; };
 		1537414124EE9BE300D9B2EE /* ToDo.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1537414024EE9BE300D9B2EE /* ToDo.rtf */; };
@@ -84,6 +85,7 @@
 		1509A1542466700400FF01A1 /* UIButton+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Actions.swift"; sourceTree = "<group>"; };
 		1509A18C246EA70700FF01A1 /* HistorySummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistorySummaryCell.swift; sourceTree = "<group>"; };
 		1509A196246F011C00FF01A1 /* TodayViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewDataSource.swift; sourceTree = "<group>"; };
+		1511BBD8250BA32500F48C6B /* FirstRunController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRunController.swift; sourceTree = "<group>"; };
 		1537413824EBEC7000D9B2EE /* StatisticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsTests.swift; sourceTree = "<group>"; };
 		1537413E24EE1BC800D9B2EE /* ValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationTests.swift; sourceTree = "<group>"; };
 		1537414024EE9BE300D9B2EE /* ToDo.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ToDo.rtf; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				15A76625247053E900B90B3B /* NotificationController.swift */,
 				1537414224EED86A00D9B2EE /* CreateNewGoalController.swift */,
 				1558EFE824E5B23D0095661F /* GlobalVariables.swift */,
+				1511BBD8250BA32500F48C6B /* FirstRunController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				15F48AAF245AB8310012C415 /* ProgressViewController.swift in Sources */,
 				157A9570247706E30010AD9C /* UITableViewCell+ReturnUITableView.swift in Sources */,
 				15F48AB9245ADBB20012C415 /* MainTabBarController.swift in Sources */,
+				1511BBD9250BA32500F48C6B /* FirstRunController.swift in Sources */,
 				15F48A76245A7CAB0012C415 /* AppDelegate.swift in Sources */,
 				15F48A80245A7CAB0012C415 /* Focus.xcdatamodeld in Sources */,
 				15F48A78245A7CAB0012C415 /* SceneDelegate.swift in Sources */,
