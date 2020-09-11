@@ -388,7 +388,37 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1047.2" y="137.4384236453202"/>
+            <point key="canvasLocation" x="1046" y="124"/>
+        </scene>
+        <!--First Run Controller-->
+        <scene sceneID="y15-Vb-31X">
+            <objects>
+                <viewController storyboardIdentifier="firstRun" id="ZQb-Z0-G0G" customClass="FirstRunController" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lf4-fG-uxu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="udl-l7-8v0">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="yK2-h6-xb1" firstAttribute="bottom" secondItem="udl-l7-8v0" secondAttribute="bottom" id="16H-qf-Kkj"/>
+                            <constraint firstItem="udl-l7-8v0" firstAttribute="top" secondItem="yK2-h6-xb1" secondAttribute="top" id="2vS-jL-u4z"/>
+                            <constraint firstItem="yK2-h6-xb1" firstAttribute="trailing" secondItem="udl-l7-8v0" secondAttribute="trailing" id="FlJ-gV-VDj"/>
+                            <constraint firstItem="udl-l7-8v0" firstAttribute="leading" secondItem="yK2-h6-xb1" secondAttribute="leading" id="NAg-zk-hTg"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="yK2-h6-xb1"/>
+                    </view>
+                    <connections>
+                        <outlet property="viewHolder" destination="udl-l7-8v0" id="ozL-uU-feR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AZX-A7-LNG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2108" y="138"/>
         </scene>
         <!--Progress-->
         <scene sceneID="NvN-sY-r9s">
