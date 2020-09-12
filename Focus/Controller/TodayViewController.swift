@@ -28,7 +28,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     super.viewDidLoad()
     todayTableView.delegate = todayViewdelegate
 //    checkFirstRun()
-//    setupToDoTableView()
+    setupToDoTableView()
     registerForKeyboardNotifications()
 //    notification.manageLocalNotification()
     
@@ -51,7 +51,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   override func viewWillLayoutSubviews() {
     super .viewWillLayoutSubviews()
     checkFirstRun()
-    setupToDoTableView()
+//    setupToDoTableView()
   }
   //MARK: - Check first run status
   func checkFirstRun() {
@@ -130,6 +130,10 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   
   @IBAction func createFocusTapped(_ sender: UIButton) {
     CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
+    todayTableView.reloadData()
+  }
+  
+  @IBAction override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
     todayTableView.reloadData()
   }
   

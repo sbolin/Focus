@@ -45,7 +45,7 @@ class FirstRunController: UIViewController {
       // Title, image, description, button
       let title = UILabel(frame: CGRect(x: 10, y: 10, width: pageWidth - 20, height: 120))
       let imageView = UIImageView(frame: CGRect(x: 10, y: 10 + 120 + 10, width: pageWidth - 20, height: pageHeight - 60 - 130 - 160 - 15))
-      let description = UILabel(frame: CGRect(x: 10, y: 10, width: pageWidth - 20, height: 150))
+      let description = UILabel(frame: CGRect(x: 10, y: pageHeight - 60 - 160, width: pageWidth - 20, height: 150))
       let button = UIButton(frame: CGRect(x: 10, y: pageHeight - 60, width: pageWidth - 20, height: 50))
 
       title.textAlignment = .center
@@ -85,7 +85,8 @@ class FirstRunController: UIViewController {
     guard button.tag < 3 else {
       // dismiss view and continue
       // set user default pref to has read
-      dismiss(animated: true, completion: nil)
+      self.performSegue(withIdentifier: "unwindToTodayView", sender: self)
+//      dismiss(animated: true, completion: nil)
       return
     }
     // scroll to next page

@@ -414,11 +414,13 @@
                     </view>
                     <connections>
                         <outlet property="viewHolder" destination="udl-l7-8v0" id="ozL-uU-feR"/>
+                        <segue destination="PyH-Yw-lsi" kind="unwind" identifier="unwindToTodayView" unwindAction="unwindFor:towards:" id="Bxz-TJ-0e2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AZX-A7-LNG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="PyH-Yw-lsi" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2108" y="138"/>
+            <point key="canvasLocation" x="2081" y="166"/>
         </scene>
         <!--Progress-->
         <scene sceneID="NvN-sY-r9s">
