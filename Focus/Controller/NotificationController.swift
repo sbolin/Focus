@@ -73,13 +73,6 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     }
     // schedule (or remove) reminders
     setupNotification(title: title, subtitle: subtitle, body: body, notificationType: type)
-    //
-    print("NotificationManager Fired")
-    print("Title: \(title)")
-    print("Subtitle: \(subtitle)")
-    print("Body: \(body)")
-    print("Type: \(type)")
-    //
   }
  
   //MARK: - Schedule Notification
@@ -110,24 +103,8 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
       content.body = newBody
       content.badge = 1 as NSNumber // Increment not specifically needed in this app (as only 1 notification exists at a time).
       content.categoryIdentifier = identifier
-//      content.userInfo = ["customData": "Custom Data"] // not used
-
       content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "Cheer.caf"))
-
-      /*
-      // Add logo image as attachment
-      if let path = Bundle.main.path(forResource:"Icon", ofType:"png") {
-        let url = URL(fileURLWithPath: path)
-        do {
-          let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: .none)
-          content.attachments = [attachment]
-        } catch {
-          print("The attachment was not loaded.")
-        }
-      }
-      */
-      
-      
+  
       // create request
       let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
       

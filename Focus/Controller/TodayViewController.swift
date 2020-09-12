@@ -27,10 +27,9 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     todayTableView.delegate = todayViewdelegate
-    checkFirstRun()
-    setupToDoTableView()
+//    checkFirstRun()
+//    setupToDoTableView()
     registerForKeyboardNotifications()
-    checkNotificationStatus()
 //    notification.manageLocalNotification()
     
     // Call CreateNewGoalController using closure:
@@ -48,16 +47,37 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
       }
     }
   }
+  
+  override func viewWillLayoutSubviews() {
+    super .viewWillLayoutSubviews()
+    checkFirstRun()
+    setupToDoTableView()
+  }
   //MARK: - Check first run status
   func checkFirstRun() {
     let launchedBefore = UserDefaults.standard.bool(forKey: "Launched Before")
     if launchedBefore  {
+      // check notification status, possibly changed
+      checkNotificationStatus()
       print("Previously launched, do nothing.")
     } else {
       print("First launch, setting default Focus items.")
       // set user defaults to true (Launched Before = true)
       UserDefaults.standard.set(true, forKey: "Launched Before")
-      // create blank todo to start:
+      
+      // run thru onboarding first, then automatically create today's Focus
+      // try here, but may need to be called from viewWillLayoutSubviews
+      guard let topViewController = UIApplication.shared.keyWindow?.rootViewController else { return }
+      let vc = (storyboard?.instantiateViewController(identifier: "firstRun"))! as FirstRunController
+      vc.modalPresentationStyle = .fullScreen
+      topViewController.present(vc, animated: true)
+      //
+      
+      // check notification status, as to present notifications after first run completed
+      checkNotificationStatus()
+      
+
+      // Now create blank Focus goal and tasks to start:
       let goal = "New Focus Goal"
       let task1 = "First Task"
       let task2 = "Second Task"
