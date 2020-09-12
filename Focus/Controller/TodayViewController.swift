@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
-
+  
   //MARK: - Properties
   let todayViewdelegate = TodayViewDelegate()
   var dataSource: TodayViewDataSource<ToDo, TodayViewController>!
@@ -19,7 +19,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
-//  @IBOutlet weak var taskToAchieveLabel: UILabel!
+  //  @IBOutlet weak var taskToAchieveLabel: UILabel!
   @IBOutlet weak var createFocus: UIButton!
   
   
@@ -27,10 +27,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     todayTableView.delegate = todayViewdelegate
-//    checkFirstRun()
-    setupToDoTableView()
     registerForKeyboardNotifications()
-//    notification.manageLocalNotification()
     
     // Call CreateNewGoalController using closure:
     notification.handleGoalTapped = { [weak self] bool in
@@ -48,36 +45,32 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     }
   }
   
-  override func viewWillLayoutSubviews() {
-    super .viewWillLayoutSubviews()
+  override func viewDidAppear(_ animated: Bool) {
+    super .viewDidAppear(animated)
     checkFirstRun()
-//    setupToDoTableView()
+    setupToDoTableView()
+    checkNotificationStatus()
   }
+  
   //MARK: - Check first run status
   func checkFirstRun() {
     let launchedBefore = UserDefaults.standard.bool(forKey: "Launched Before")
     if launchedBefore  {
       // check notification status, possibly changed
-      checkNotificationStatus()
       print("Previously launched, do nothing.")
+      
     } else {
       print("First launch, setting default Focus items.")
       // set user defaults to true (Launched Before = true)
       UserDefaults.standard.set(true, forKey: "Launched Before")
       
-      // run thru onboarding first, then automatically create today's Focus
-      // try here, but may need to be called from viewWillLayoutSubviews
-      guard let topViewController = UIApplication.shared.keyWindow?.rootViewController else { return }
+      // run thru onboarding first then automatically create today's Focus
       let vc = (storyboard?.instantiateViewController(identifier: "firstRun"))! as FirstRunController
       vc.modalPresentationStyle = .fullScreen
-      topViewController.present(vc, animated: true)
+      present(vc, animated: true)
       //
       
-      // check notification status, as to present notifications after first run completed
-      checkNotificationStatus()
-      
-
-      // Now create blank Focus goal and tasks to start:
+      // Now create blank Focus goal and tasks to start: - make in model!
       let goal = "New Focus Goal"
       let task1 = "First Task"
       let task2 = "Second Task"
@@ -86,7 +79,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
       todayTableView.reloadData()
     }
   }
-
+  
   //MARK: - Setup tableview to show last note
   func setupToDoTableView() {
     // setup fetchrequest
@@ -108,62 +101,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedResultsController, delegate: self)
   }
   
-  //MARK:- Notification Functions for keyboard
-  func registerForKeyboardNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-  }
-  
-  @objc func keyboardWillShow(notification: NSNotification) {
-    let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-    adjustLayoutForKeyboard(targetHeight: keyboardFrame.size.height)
-  }
-  
-  @objc func keyboardWillHide(notification: NSNotification) {
-    adjustLayoutForKeyboard(targetHeight: 0)
-  }
-  
-  func adjustLayoutForKeyboard(targetHeight: CGFloat) {
-//    no need to adjust keyboard in TodayView, enough space below table
-//    todayTableView.contentInset.bottom = targetHeight
-  }
-  
-  @IBAction func createFocusTapped(_ sender: UIButton) {
-    CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
-    todayTableView.reloadData()
-  }
-  
-  @IBAction override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
-    todayTableView.reloadData()
-  }
-  
-}
-
-//MARK: - Delegate Methods
-extension TodayViewController: TodayViewDataSourceDelegate {
-  func configureTodayTask(at indexPath: IndexPath, _ cell: TodayToDoCell, for object: ToDo) {
-    cell.configureTodayTaskCell(at: indexPath, for: object)
-    notification.manageLocalNotification()
-  }
-  
-  func configureTodayGoal(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal) {
-    cell.configureTodayGoalCell(at: indexPath, for: object)
-    notification.manageLocalNotification()
-  }
-}
-
-//MARK: - UNUserNotificationCenterDelegate methods
-extension TodayViewController: UNUserNotificationCenterDelegate {
-  //CreateNewGoalController Delegate method
-  func goalPassBack(goal: String, todo1: String, todo2: String, todo3: String) {
-    CoreDataController.shared.addNewGoal(goal: goal, firstTask: todo1, secondTask: todo2, thirdTask: todo3)
-    todayTableView.reloadData()
-    notification.manageLocalNotification()
-  }
-}
-
-//MARK: - Check Notification Status, user could have changed it.
-extension TodayViewController {
+  //MARK: - Check Notification Status, user could have changed it.
   private func checkNotificationStatus() {
     let center = UNUserNotificationCenter.current()
     center.getNotificationSettings { (settings : UNNotificationSettings) in
@@ -196,5 +134,53 @@ extension TodayViewController {
         }
       }
     }
+  }
+  
+  //MARK:- Notification Functions for keyboard
+  func registerForKeyboardNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+  
+  @objc func keyboardWillShow(notification: NSNotification) {
+    let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+    adjustLayoutForKeyboard(targetHeight: keyboardFrame.size.height)
+  }
+  
+  @objc func keyboardWillHide(notification: NSNotification) {
+    adjustLayoutForKeyboard(targetHeight: 0)
+  }
+  
+  func adjustLayoutForKeyboard(targetHeight: CGFloat) {
+    //    no need to adjust keyboard in TodayView, enough space below table
+    //    todayTableView.contentInset.bottom = targetHeight
+  }
+  
+  @IBAction func createFocusTapped(_ sender: UIButton) {
+    CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
+    todayTableView.reloadData()
+  }
+}
+
+//MARK: - Delegate Methods
+extension TodayViewController: TodayViewDataSourceDelegate {
+  func configureTodayTask(at indexPath: IndexPath, _ cell: TodayToDoCell, for object: ToDo) {
+    cell.configureTodayTaskCell(at: indexPath, for: object)
+    notification.manageLocalNotification()
+  }
+  
+  func configureTodayGoal(at indexPath: IndexPath, _ cell: TodayGoalCell, for object: Goal) {
+    cell.configureTodayGoalCell(at: indexPath, for: object)
+    notification.manageLocalNotification()
+  }
+}
+
+//MARK: - UNUserNotificationCenterDelegate methods
+extension TodayViewController: UNUserNotificationCenterDelegate {
+  //CreateNewGoalController Delegate method
+  func goalPassBack(goal: String, todo1: String, todo2: String, todo3: String) {
+    CoreDataController.shared.addNewGoal(goal: goal, firstTask: todo1, secondTask: todo2, thirdTask: todo3)
+    todayTableView.reloadData()
+    notification.manageLocalNotification()
   }
 }

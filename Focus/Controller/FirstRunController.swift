@@ -30,9 +30,11 @@ class FirstRunController: UIViewController {
     
     let titles = ["Welcome to Focus!", "Get Started Quick", "Let's Go!"]
     let descriptions = [
-    "Simple steps to make the most out of Focus App.",
-    "Create a new Focus Goal each morning, along with 3 key tasks needed to complete the goal.\n Click the star once a task is completed, or click again if you find it isn't finished. After your three daily tasks are complete, your Focus is completed.\n Each morning, you are presented with an option to continue using the previous days Focus (if you didn't finish), or create a new Focus for the day. Notifications are required, so when asked please let Focus present notifications. Thats it!",
-    "Once you click Let's Go below, your first Focus will be created for you - just edit the Goal and tasks. Lets get started!"
+    "Simple steps to get the most out of Focus App.",
+    "1. Create a Focus Goal and 3 key tasks each day. " +
+    "2. Click the star once a task is completed, or click again if unfinished. " +
+    "3. After your three tasks are complete, your Focus is complete!",
+    "Each morning, you can continue using the previous days Focus (if you didn't finish), or create a new Focus. Notifications are required. Click Let's Go below, and your first Focus will be created for you - just edit the Goal and tasks. Lets get started!"
     ]
     
     for page in 0...2 {
@@ -85,8 +87,7 @@ class FirstRunController: UIViewController {
     guard button.tag < 3 else {
       // dismiss view and continue
       // set user default pref to has read
-      self.performSegue(withIdentifier: "unwindToTodayView", sender: self)
-//      dismiss(animated: true, completion: nil)
+      dismiss(animated: true, completion: nil)
       return
     }
     // scroll to next page
