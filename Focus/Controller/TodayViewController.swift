@@ -19,7 +19,6 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   
   //MARK:- IBOutlets
   @IBOutlet weak var todayTableView: UITableView!
-  //  @IBOutlet weak var taskToAchieveLabel: UILabel!
   @IBOutlet weak var createFocus: UIButton!
   
   
@@ -49,7 +48,10 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     super .viewDidAppear(animated)
     checkFirstRun()
     setupToDoTableView()
-    checkNotificationStatus()
+    // wait 20 seconds before throwing up the request authorization, so user has time to orient to the Focus list
+    DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
+      self.checkNotificationStatus()
+    }
   }
   
   //MARK: - Check first run status
@@ -104,32 +106,17 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   //MARK: - Check Notification Status, user could have changed it.
   private func checkNotificationStatus() {
     let center = UNUserNotificationCenter.current()
-    center.getNotificationSettings { (settings : UNNotificationSettings) in
+    center.getNotificationSettings { settings in
       if settings.authorizationStatus == .authorized {
         // Still Authorized, no need to do anything
         return
       } else {
-        // Not Authorized anymore, request authorization again.
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-          if granted {
+        // Not Authorized, request authorization.
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+          if let error = error {
+            print("Error granting notifications, \(error), \(error.localizedDescription)")
+          } else if granted {
             print("Notifications Granted. You can always change notification settings later in the Settings App.")
-          }
-          else {
-            let defaultAction = UIAlertAction(title: "OK",
-                                              style: .default) { (action) in
-                                                // Respond to user selection of the action.
-            }
-            
-            // Create and configure the alert controller.
-            let alert = UIAlertController(title: "User Notifications",
-                                          message: "Turn on notifications to unlock special superpowers.",
-                                          preferredStyle: .alert)
-            alert.addAction(defaultAction)
-            
-            self.present(alert, animated: true) {
-              // The alert was presented
-            }
-            print("Without Notifications Focus cannot send you reminders. You can always change notification settings later in the Settings App.")
           }
         }
       }
@@ -156,10 +143,14 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     //    todayTableView.contentInset.bottom = targetHeight
   }
   
+  
   @IBAction func createFocusTapped(_ sender: UIButton) {
+    print("createFocusTapped - should create 100 new Focus items")
     CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
     todayTableView.reloadData()
   }
+  
+  
 }
 
 //MARK: - Delegate Methods

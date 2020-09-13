@@ -32,8 +32,8 @@ class FirstRunController: UIViewController {
     let descriptions = [
     "Simple steps to get the most out of Focus App.",
     "1. Create a Focus Goal and 3 key tasks each day. " +
-    "2. Click the star once a task is completed, or click again if unfinished. " +
-    "3. After your three tasks are complete, your Focus is complete!",
+    "\n2. Click the star once a task is completed, or click again if unfinished. " +
+    "\n3. After your three tasks are complete, your Focus is complete!\n",
     "Each morning, you can continue using the previous days Focus (if you didn't finish), or create a new Focus. Notifications are required. Click Let's Go below, and your first Focus will be created for you - just edit the Goal and tasks. Lets get started!"
     ]
     

@@ -279,15 +279,16 @@ class CoreDataController {
   //MARK: - create default todos, to be deleted in final app
 
   func createToDosIfNeeded(managedContext: NSManagedObjectContext) {
-    
-    // check if todos exist, if so return
+    print("createToDosIfNeeded")
+    // check if < 100 todos exist, if so return
     let fetchRequest = ToDo.todoFetchRequest()
     let count = try! managedContext.count(for: fetchRequest)
-    guard count == 0 else { return }
+    print("count: \(count)")
+    guard count < 303 else { return }
     
     // automatically create (goalCount+1) goals and associated todos
     
-    let goalCount = 99 // # total number of goals (+1)
+    let goalCount = 100 // # total number of goals (+1)
     let intermediateGoalCount1 = (goalCount - 1) / 2 // extent of daily goals
     let intermediateGoalCount2 = goalCount - 10 // extent of every other day goals
     let intermediateGoalCount3 = goalCount - 5 // extent of every 3rd day goals
@@ -296,7 +297,10 @@ class CoreDataController {
     var dateCompleted = Date()
     var goalComplete: Bool = true
     
-    for goalNumber in 0...goalCount {  // create
+    print("goalCount: \(goalCount)")
+    
+    for goalNumber in 1...goalCount {  // create
+      print("goalNumber: \(goalNumber)")
       let goalTitle = "Goal #\(goalNumber + 1)"
       if goalNumber <= intermediateGoalCount1 {
         dateCreated = Date(timeIntervalSinceNow: TimeInterval(-86400 * goalNumber))
@@ -337,6 +341,8 @@ class CoreDataController {
       }
       goalComplete = true
     }
+    let count2 = try! managedContext.count(for: fetchRequest)
+    print("after creation: count = \(count2)")
     saveContext(managedContext: managedContext)
   }
 }

@@ -18,6 +18,7 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
   
   //MARK:- IBOutlets
   @IBOutlet weak var historyTableView: UITableView!
+
   
   //MARK: - View Life Cycle
   override func viewDidLoad() {

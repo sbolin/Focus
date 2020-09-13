@@ -91,7 +91,7 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
     
     #if DEBUG
-    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
     #endif
     
     // set up notification content

@@ -202,6 +202,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="History" image="list.bullet" catalog="system" selectedImage="list.dash" id="Drf-Hy-8TZ"/>
                     <connections>
+                        <outlet property="createFocus" destination="wDJ-TN-XMB" id="Op7-2h-JDY"/>
                         <outlet property="historyTableView" destination="Vm8-kQ-8sl" id="9ve-pf-qTY"/>
                     </connections>
                 </viewController>
@@ -231,7 +232,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="💯"/>
                                         <connections>
-                                            <action selector="createFocusTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="B4l-U4-koa"/>
+                                            <action selector="createFocusTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="W4D-sD-uzM"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -240,8 +241,8 @@
                                     <constraint firstItem="ApQ-2h-YrP" firstAttribute="centerX" secondItem="GZs-ci-Gkz" secondAttribute="centerX" id="FWS-Eu-aSs"/>
                                     <constraint firstAttribute="height" constant="80" id="XNR-Hp-a2T"/>
                                     <constraint firstAttribute="bottom" secondItem="ApQ-2h-YrP" secondAttribute="bottom" constant="8" id="aWt-pH-RG3"/>
-                                    <constraint firstItem="wDJ-TN-XMB" firstAttribute="leading" secondItem="GZs-ci-Gkz" secondAttribute="leading" constant="8" id="eNT-Gi-Pyr"/>
-                                    <constraint firstItem="wDJ-TN-XMB" firstAttribute="centerY" secondItem="ApQ-2h-YrP" secondAttribute="centerY" id="jhb-dA-Eg0"/>
+                                    <constraint firstItem="wDJ-TN-XMB" firstAttribute="centerY" secondItem="ApQ-2h-YrP" secondAttribute="centerY" id="fgq-lR-3BY"/>
+                                    <constraint firstItem="wDJ-TN-XMB" firstAttribute="leading" secondItem="GZs-ci-Gkz" secondAttribute="leading" constant="8" id="vPv-ar-gA8"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="EjD-CW-V88">
@@ -382,7 +383,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Today" image="checkmark.circle" catalog="system" selectedImage="checkmark.circle.fill" id="JCZ-iW-pdu"/>
                     <connections>
-                        <outlet property="createFocus" destination="wDJ-TN-XMB" id="ncz-Sx-1fY"/>
+                        <outlet property="createFocus" destination="wDJ-TN-XMB" id="Dx2-q9-Eca"/>
                         <outlet property="todayTableView" destination="EjD-CW-V88" id="5zt-ZR-sOu"/>
                     </connections>
                 </viewController>
