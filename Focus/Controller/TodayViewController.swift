@@ -57,22 +57,16 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
   //MARK: - Check first run status
   func checkFirstRun() {
     let launchedBefore = UserDefaults.standard.bool(forKey: "Launched Before")
-    if launchedBefore  {
-      // check notification status, possibly changed
-      print("Previously launched, do nothing.")
-      
-    } else {
-      print("First launch, setting default Focus items.")
-      // set user defaults to true (Launched Before = true)
+    if !launchedBefore  {
+      // First launch, set user defaults to true (Launched Before = true)
       UserDefaults.standard.set(true, forKey: "Launched Before")
       
-      // run thru onboarding first then automatically create today's Focus
+      // run thru onboarding
       let vc = (storyboard?.instantiateViewController(identifier: "firstRun"))! as FirstRunController
       vc.modalPresentationStyle = .fullScreen
       present(vc, animated: true)
-      //
       
-      // Now create blank Focus goal and tasks to start: - make in model!
+      // Create blank Focus goal and tasks to start: - make in model!
       let goal = "New Focus Goal"
       let task1 = "First Task"
       let task2 = "Second Task"
@@ -108,15 +102,13 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     let center = UNUserNotificationCenter.current()
     center.getNotificationSettings { settings in
       if settings.authorizationStatus == .authorized {
-        // Still Authorized, no need to do anything
+        // Authorized, no need to do anything
         return
       } else {
         // Not Authorized, request authorization.
         center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
           if let error = error {
             print("Error granting notifications, \(error), \(error.localizedDescription)")
-          } else if granted {
-            print("Notifications Granted. You can always change notification settings later in the Settings App.")
           }
         }
       }
@@ -143,14 +135,10 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
     //    todayTableView.contentInset.bottom = targetHeight
   }
   
-  
   @IBAction func createFocusTapped(_ sender: UIButton) {
-    print("createFocusTapped - should create 100 new Focus items")
     CoreDataController.shared.createToDosIfNeeded(managedContext: CoreDataController.shared.managedContext)
     todayTableView.reloadData()
   }
-  
-  
 }
 
 //MARK: - Delegate Methods

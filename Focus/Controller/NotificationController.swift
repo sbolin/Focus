@@ -20,23 +20,6 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
   //MARK: - Properties
   private let identifier = "FocusNotification"
   
-// Get Goal statistics
-//  let statTimePeriod = StatTimePeriod.lastday
-//  let statFactory = StatisticsFactory()
-//  var statistics: Statistics = {
-//    StatisticsFactory().stats(statType: StatTimePeriod.lastday)
-//  }()
-//
-//  // ToDo Statistics properties
-//  var todoTotal: Int = {
-//    StatisticsFactory().stats(statType: StatTimePeriod.lastday).todoCount[0]
-//  }()
-//
-//  var todoIncomplete: Int = {
-//    StatisticsFactory().stats(statType: StatTimePeriod.lastday).todoIncomplete[0]
-//  }()
-//
-  
 // closure for creating new Focus item (true) or presenting previous (false)
   var handleGoalTapped: ((Bool) -> Void)?
   
@@ -91,7 +74,7 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
     
     #if DEBUG
-    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
+    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 20, repeats: false)
     #endif
     
     // set up notification content
@@ -101,7 +84,7 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
       content.title = newTitle
       content.subtitle = subtitle
       content.body = newBody
-      content.badge = 1 as NSNumber // Increment not specifically needed in this app (as only 1 notification exists at a time).
+      content.badge = 1 as NSNumber // Increment not needed in this app, only 1 notification exists at a time
       content.categoryIdentifier = identifier
       content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "Cheer.caf"))
   
@@ -116,16 +99,12 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
       center.add(request) { (error) in
         if let error = error {
           print("Request 1 Error: \(error.localizedDescription)")
-        } else {
-          print("Request 1 notification scheduled")
         }
       }
       #if DEBUG
       center.add(request2) { (error) in
         if let error = error {
           print("Request 2 Error: \(error.localizedDescription)")
-        } else {
-          print("Request 2 notification scheduled")
         }
       }
       #endif
@@ -174,7 +153,6 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     case UNNotificationDefaultActionIdentifier:
       // the user swiped to unlock
       handleGoalTapped?(false)
-      print("Default identifier")
       
     case "CREATE_GOAL":
       // call closure handler to create goal
