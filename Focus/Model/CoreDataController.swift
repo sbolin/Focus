@@ -110,10 +110,11 @@ class CoreDataController {
   // used in HistoryView for main results
   lazy var fetchedToDoByMonthController: NSFetchedResultsController<ToDo> = {
     let request = ToDo.todoFetchRequest()
-    let createdSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+//    let goalCreatedSort = NSSortDescriptor(keyPath: \ToDo.goal.goalDateCreated, ascending: false)
+    let todoCreatedSort = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false) //
     let nameSort = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
     let idSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true)
-    request.sortDescriptors = [createdSort, nameSort, idSort]
+    request.sortDescriptors = [todoCreatedSort, idSort, nameSort] // [goalCreatedSort, todoCreatedSort, nameSort, idSort]
     
     let fetchedResultsController = NSFetchedResultsController(
       fetchRequest: request,

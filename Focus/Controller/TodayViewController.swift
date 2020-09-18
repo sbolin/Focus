@@ -73,6 +73,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
       let task3 = "Third Task"
       CoreDataController.shared.addNewGoal(goal: goal, firstTask: task1, secondTask: task2, thirdTask: task3)
       todayTableView.reloadData()
+//      setupToDoTableView()
     }
   }
   
@@ -83,9 +84,10 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
       fetchedResultsController = CoreDataController.shared.fetchedToDoResultsController
     }
     fetchedResultsController.fetchRequest.fetchLimit = 0
-    let todoCreatedAtDescriptor = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: false)
+    let todoCreatedAtDescriptor = NSSortDescriptor(keyPath: \ToDo.todoDateCreated, ascending: true) //
     let todoDescriptor = NSSortDescriptor(keyPath: \ToDo.todo, ascending: true)
-    fetchedResultsController.fetchRequest.sortDescriptors = [todoCreatedAtDescriptor, todoDescriptor]
+    let todoIDSort = NSSortDescriptor(keyPath: \ToDo.id, ascending: true) //
+    fetchedResultsController.fetchRequest.sortDescriptors = [todoCreatedAtDescriptor, todoIDSort, todoDescriptor] //
     fetchedResultsController.fetchRequest.fetchLimit = globalState.numberOfTasks
     
     do {
