@@ -73,9 +73,9 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
     // create trigger
     let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
     
-    #if DEBUG
-    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 20, repeats: false)
-    #endif
+//    #if DEBUG
+//    let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: 20, repeats: false)
+//    #endif
     
     // set up notification content
     if let newTitle = title, let newBody = body, let subtitle = subtitle {
@@ -91,9 +91,9 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
       // create request
       let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
       
-      #if DEBUG
-      let request2 = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger2)
-      #endif
+//      #if DEBUG
+//      let request2 = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger2)
+//      #endif
       
       // schedule notification
       center.add(request) { (error) in
@@ -101,13 +101,13 @@ class NotificationController: NSObject, UNUserNotificationCenterDelegate {
           print("Request 1 Error: \(error.localizedDescription)")
         }
       }
-      #if DEBUG
-      center.add(request2) { (error) in
-        if let error = error {
-          print("Request 2 Error: \(error.localizedDescription)")
-        }
-      }
-      #endif
+//      #if DEBUG
+//      center.add(request2) { (error) in
+//        if let error = error {
+//          print("Request 2 Error: \(error.localizedDescription)")
+//        }
+//      }
+//      #endif
     }
   }
   

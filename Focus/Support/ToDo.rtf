@@ -44,6 +44,24 @@ Final:\
 	b. delete or comment out test of auto-generated data (func testCreateToDos())\
 \
 Notification properly picking up changes to task/goal status when status changes TODO: \
-1. Re-factor, clean up \
-2. Trial without creating Focus Goals/Tasks at startup (so, actual app conditions) \
-3. Check for UI bugs, general stability}
+
+\f1 \uc0\u55356 \u57225 
+\f0 1. Re-factor, clean up \
+
+\f1 \uc0\u55356 \u57225 
+\f0 2. Trial without creating Focus Goals/Tasks at startup (so, actual app conditions) \
+
+\f1 \uc0\u55356 \u57225 
+\f0 3. Check for UI bugs, general stability\
+\
+Version 2 To Do List:\
+1. Refactor code - try to clean up classes/structs so cleaner (SOLID principles)\
+	a. No need to 100 default Focus items, can now be deleted (maybe keep code, in case want to check later?)\
+2. User preferences:\
+	a. Number of Tasks (not 3)\
+	b. Color sets(?)\
+	c. Reset database\
+3. Bugs:\
+	a. TodayView - if new Focus goal, old one shows up(? not sure at this point, showed up in case where more than one Focus goals created in one day, which should not happen.\
+	b. HistoryView - Overall sort by goal (current first/old last), but tasks should be sorted by ID, so in order.\
+}

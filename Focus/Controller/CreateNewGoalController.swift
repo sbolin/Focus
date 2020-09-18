@@ -200,7 +200,6 @@ class CreateNewGoalController: UIViewController, UIAdaptivePresentationControlle
     return mainView
   }
   
-  
   //MARK: - Class methods
   // no cancel - user must save new Focus item before proceeding
   private func setupSaveButton() {

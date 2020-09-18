@@ -33,7 +33,7 @@ class HistoryViewController: UIViewController, NSFetchedResultsControllerDelegat
     }
     do {
       try fetchedResultsController.performFetch()
-      // set expanded section to true as default
+      // set expanded section to false as default
       for _ in fetchedResultsController.sections! {
         CoreDataController.shared.sectionExpanded.append(false) // true = summary + show todos, false = summary only
       }

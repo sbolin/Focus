@@ -34,7 +34,9 @@ class HistoryViewDelegate: NSObject, UITableViewDelegate {
 
     let view = UITableViewHeaderFooterView()
     let button = UIButton(type: .custom)
-    button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+    button.setImage(UIImage(systemName: "chevron.forward.circle"), for: .normal)
+    button.setImage(UIImage(systemName: "chevron.down.circle"), for: .selected)
+
     button.translatesAutoresizingMaskIntoConstraints = false
     button.tintColor = .systemOrange
     button.tag = section

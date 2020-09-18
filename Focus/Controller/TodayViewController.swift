@@ -73,7 +73,6 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
       let task3 = "Third Task"
       CoreDataController.shared.addNewGoal(goal: goal, firstTask: task1, secondTask: task2, thirdTask: task3)
       todayTableView.reloadData()
-//      setupToDoTableView()
     }
   }
   
@@ -97,6 +96,7 @@ class TodayViewController: UIViewController, CreateNewGoalControllerDelegate {
       print("Fetch failed")
     }
     dataSource = TodayViewDataSource(tableView: todayTableView, fetchedResultsController: fetchedResultsController, delegate: self)
+    todayTableView.reloadData()
   }
   
   //MARK: - Check Notification Status, user could have changed it.

@@ -33,12 +33,10 @@ class HistorySummaryCell: UITableViewCell {
     let section = indexPath.section
     let goalCount = statistics.goalCount[section]
     let goalCompleted = statistics.goalComplete[section]
-    //      let goalIncompleted = statistics.goalIncomplete[section]
     let goalDuration = statistics.goalDuration[section]
     
     let todoCount = statistics.todoCount[section]
     let todoCompleted = statistics.todoComplete[section]
-    //      let todoIncompleted = statistics.todoIncomplete[section]
     let todoDuration = statistics.todoDuration[section]
     
     historySummaryCellLabel.text = "\(goalCompleted) out of \(goalCount) goals completed in \(goalDuration) days"

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Aaw-6S-f42">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Aaw-6S-f42">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,11 +24,11 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Focus History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZV8-5N-3n2">
                                         <rect key="frame" x="122" y="45" width="131" height="27"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                        <color key="textColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" systemColor="systemOrangeColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="63b-vj-ov7"/>
                                     <constraint firstItem="ZV8-5N-3n2" firstAttribute="centerX" secondItem="N4q-Oh-Qmd" secondAttribute="centerX" id="ILQ-9s-fT7"/>
@@ -35,7 +37,7 @@
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vm8-kQ-8sl">
                                 <rect key="frame" x="0.0" y="80" width="375" height="538"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="HistorySummaryCell" rowHeight="45" id="Kxj-Vw-OqU" customClass="HistorySummaryCell" customModule="Focus" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="45"/>
@@ -45,7 +47,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18 out of 22 goals completed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4n-Qg-mDa">
-                                                    <rect key="frame" x="81.5" y="4" width="212" height="20"/>
+                                                    <rect key="frame" x="82" y="4" width="211" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -91,7 +93,7 @@
                                                         <constraint firstAttribute="height" constant="44" id="BSR-Xo-OmT"/>
                                                         <constraint firstAttribute="width" constant="44" id="CKt-9g-UQR"/>
                                                     </constraints>
-                                                    <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="tintColor" systemColor="systemRedColor"/>
                                                     <state key="normal" image="fav_star">
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="large" weight="bold"/>
                                                     </state>
@@ -102,7 +104,7 @@
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="hnk-Eb-jpb"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" systemColor="systemGray4Color"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -119,7 +121,7 @@
                                                 <constraint firstItem="kRL-OA-d62" firstAttribute="leading" secondItem="DK9-60-XEP" secondAttribute="trailing" constant="8" id="nnM-Jw-3s0"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
                                         <connections>
                                             <outlet property="dateCreated" destination="1y6-Eh-sYy" id="tvH-K9-Wkg"/>
                                             <outlet property="historyGoal" destination="kRL-OA-d62" id="y7D-bh-6vg"/>
@@ -162,7 +164,7 @@
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="1os-gJ-1CR"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" systemColor="systemGray4Color"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -188,6 +190,7 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="JYX-X0-tW6"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Vm8-kQ-8sl" firstAttribute="trailing" secondItem="Sub-bb-MCX" secondAttribute="trailing" id="2xi-ff-TyM"/>
@@ -198,7 +201,6 @@
                             <constraint firstItem="Vm8-kQ-8sl" firstAttribute="bottom" secondItem="JYX-X0-tW6" secondAttribute="bottom" id="cJg-n1-CL3"/>
                             <constraint firstItem="Vm8-kQ-8sl" firstAttribute="leading" secondItem="Sub-bb-MCX" secondAttribute="leading" id="hys-e7-hJZ"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="JYX-X0-tW6"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="History" image="list.bullet" catalog="system" selectedImage="list.dash" id="Drf-Hy-8TZ"/>
                     <connections>
@@ -227,7 +229,7 @@
                                         <color key="textColor" name="AppOrange"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDJ-TN-XMB">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDJ-TN-XMB">
                                         <rect key="frame" x="8" y="42.5" width="30" height="32"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="💯"/>
@@ -236,7 +238,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
                                     <constraint firstItem="ApQ-2h-YrP" firstAttribute="centerX" secondItem="GZs-ci-Gkz" secondAttribute="centerX" id="FWS-Eu-aSs"/>
                                     <constraint firstAttribute="height" constant="80" id="XNR-Hp-a2T"/>
@@ -260,7 +262,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Define Goal..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Niu-7A-cig">
-                                                    <rect key="frame" x="27" y="21" width="288" height="48"/>
+                                                    <rect key="frame" x="28" y="21" width="287" height="48"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                                     <connections>
@@ -370,6 +372,7 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="EjD-CW-V88" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="5aY-FY-N6G"/>
@@ -379,7 +382,6 @@
                             <constraint firstItem="GZs-ci-Gkz" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="fz8-U8-hO7"/>
                             <constraint firstAttribute="trailing" secondItem="EjD-CW-V88" secondAttribute="trailing" id="xla-NT-99g"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Today" image="checkmark.circle" catalog="system" selectedImage="checkmark.circle.fill" id="JCZ-iW-pdu"/>
                     <connections>
@@ -401,17 +403,17 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="udl-l7-8v0">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="yK2-h6-xb1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="yK2-h6-xb1" firstAttribute="bottom" secondItem="udl-l7-8v0" secondAttribute="bottom" id="16H-qf-Kkj"/>
                             <constraint firstItem="udl-l7-8v0" firstAttribute="top" secondItem="yK2-h6-xb1" secondAttribute="top" id="2vS-jL-u4z"/>
                             <constraint firstItem="yK2-h6-xb1" firstAttribute="trailing" secondItem="udl-l7-8v0" secondAttribute="trailing" id="FlJ-gV-VDj"/>
                             <constraint firstItem="udl-l7-8v0" firstAttribute="leading" secondItem="yK2-h6-xb1" secondAttribute="leading" id="NAg-zk-hTg"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="yK2-h6-xb1"/>
                     </view>
                     <connections>
                         <outlet property="viewHolder" destination="udl-l7-8v0" id="ozL-uU-feR"/>
@@ -435,11 +437,11 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Focus Progress" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G6n-6G-bbl">
                                         <rect key="frame" x="114.5" y="45" width="146" height="27"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                        <color key="textColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" systemColor="systemOrangeColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="TRm-Bl-tCN"/>
                                     <constraint firstItem="G6n-6G-bbl" firstAttribute="centerX" secondItem="45w-Na-oUC" secondAttribute="centerX" id="bBx-3r-0b4"/>
@@ -462,7 +464,7 @@
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="euc-9X-YfC" customClass="BarChartView" customModule="Charts">
                                 <rect key="frame" x="8" y="143" width="359" height="431"/>
-                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="euc-9X-YfC" secondAttribute="height" multiplier="1:1.2" id="nac-VK-TRS"/>
                                 </constraints>
@@ -480,6 +482,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="kal-7c-0ef"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="kal-7c-0ef" firstAttribute="trailing" secondItem="euc-9X-YfC" secondAttribute="trailing" constant="8" id="DAo-Ip-Exy"/>
@@ -496,7 +499,6 @@
                             <constraint firstItem="v4W-38-uon" firstAttribute="leading" secondItem="yWA-fh-S7E" secondAttribute="leading" id="rx0-3c-hyb"/>
                             <constraint firstItem="euc-9X-YfC" firstAttribute="top" secondItem="yWA-fh-S7E" secondAttribute="bottom" constant="12" id="tWu-yK-TS1"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="kal-7c-0ef"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Progress" image="chart.bar" catalog="system" selectedImage="chart.bar.fill" id="IrN-MO-CwB"/>
                     <connections>
@@ -516,7 +518,7 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" itemPositioning="fill" id="FdE-DZ-xTl">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" systemColor="systemGray6Color"/>
                         <color key="selectedImageTintColor" name="AppOrange"/>
                     </tabBar>
                     <connections>
@@ -534,7 +536,7 @@
     <resources>
         <image name="1.circle.fill" catalog="system" width="128" height="121"/>
         <image name="chart.bar" catalog="system" width="128" height="90"/>
-        <image name="chart.bar.fill" catalog="system" width="128" height="89"/>
+        <image name="chart.bar.fill" catalog="system" width="128" height="92"/>
         <image name="checkmark.circle" catalog="system" width="128" height="121"/>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="fav_star" width="25" height="23.5"/>
@@ -546,5 +548,20 @@
         <namedColor name="LightOrange">
             <color red="1" green="0.83529411764705885" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

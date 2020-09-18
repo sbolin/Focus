@@ -56,23 +56,18 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
     switch sender.selectedSegmentIndex {
     case 0:
       statTimePeriod = StatTimePeriod.lastweek
-//      statistics = statFactory.stats(statType: statTimePeriod)
       
     case 1:
       statTimePeriod = StatTimePeriod.lastmonth
- //     statistics = statFactory.stats(statType: statTimePeriod)
       
     case 2:
       statTimePeriod = StatTimePeriod.lastSixMonths
-//      statistics = statFactory.stats(statType: statTimePeriod)
 
     case 3:
       statTimePeriod = StatTimePeriod.lastYear
-//      statistics = statFactory.stats(statType: statTimePeriod)
       
     case 4:
       statTimePeriod = StatTimePeriod.all
-//      statistics = statFactory.stats(statType: statTimePeriod)
 
     default:
       break
@@ -225,13 +220,7 @@ class ProgressViewController: UIViewController, ChartViewDelegate {
   func setupData(statistics: Statistics) {
     
     let sectionCount = statistics.goalCount.count
- 
-//    let totalGoals = (statistics.goalCount).reduce(0, +)
-//    let totalToDos = (statistics.todoCount).reduce(0, +)
-
     for section in 0..<sectionCount {
-//      let goalsInSection = statistics.goalCount[section]
-//      let todosInSection = statistics.todoCount[section]
       
       timePeriod.append(statistics.sectionName[section])
       todoTotalData.append(Double(statistics.todoCount[section]))
